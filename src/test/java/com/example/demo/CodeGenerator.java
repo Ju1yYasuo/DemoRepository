@@ -1,21 +1,22 @@
 package com.example.demo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -25,16 +26,25 @@ import java.util.Scanner;
  * @date 2021/6/25
  */
 
-// 演示例子，执行 main 方法控制台输入模块表名回车自动生成对应项目目录中
+@SpringBootTest
 public class CodeGenerator {
 
+//    @Value只有在springboot配置注解下的配置类才可以使用
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+    @Value("${spring.datasource.driverClassName}")
+    private String driverClassName;
 
     /**
      * <p>
      * 读取控制台内容
      * </p>
      */
-    public static String scanner(String tip) {
+    public String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
         StringBuilder help = new StringBuilder();
         help.append("请输入" + tip + "：");
@@ -48,7 +58,8 @@ public class CodeGenerator {
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }
 
-    public static void main(String[] args) {
+    @Test
+    public void codeGenerator() {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -61,24 +72,27 @@ public class CodeGenerator {
         // 重新生成文件时是否覆盖，false 表示不覆盖（可选）
         gc.setFileOverride(false);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
+        // 配置日期类型，此处为 ONLY_DATE（可选）
+        gc.setDateType(DateType.ONLY_DATE);
+        // 默认生成的 service 会有 I 前缀
+        gc.setServiceName("%sService");
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://172.16.2.11:3306/bim_center_dev?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false");
+        dsc.setUrl(url);
         // dsc.setSchemaName("bim_center_dev"); // 可以直接在 url 中指定数据库名
-        // 配置数据库驱动
-        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setDriverName(driverClassName);
         // 配置数据库连接用户名
-        dsc.setUsername("root");
+        dsc.setUsername(username);
         // 配置数据库连接密码
-        dsc.setPassword("9Tg($<77x+N.");
+        dsc.setPassword(password);
         mpg.setDataSource(dsc);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.example.demo");
+        pc.setParent("com.example.demo.modules");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -128,7 +142,8 @@ public class CodeGenerator {
 
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        // templateConfig.setEntity("templates/entity2.java");
+//         templateConfig.setEntity(projectPath + "/src/main/resources/templates/entity.java");
+         templateConfig.setEntity("templates/entity.java");
         // templateConfig.setService();
         // templateConfig.setController();
 
@@ -139,16 +154,21 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
-        // 公共父类
-//        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
-        // 写于父类中的公共字段
-//        strategy.setSuperEntityColumns("id");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
+
+        strategy.setSuperEntityClass("com.example.demo.common.entity.BaseEntity");
+        strategy.setSuperEntityColumns("id","delete_flag","remarks","create_time","update_time");
+        strategy.setLogicDeleteFieldName("delete_flag");
+        List<TableFill> tableFillList = new ArrayList<>();
+        tableFillList.add(new TableFill("delete_flag", FieldFill.INSERT));
+        tableFillList.add(new TableFill("create_time", FieldFill.INSERT));
+        tableFillList.add(new TableFill("update_time", FieldFill.INSERT_UPDATE));
+        strategy.setTableFillList(tableFillList);
+
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

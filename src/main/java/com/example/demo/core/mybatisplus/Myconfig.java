@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * 自定义一个配置类，mapper 扫描也可在此写上
  */
 @Configuration
-//@MapperScan("com.example.demo.test.mapper")
+//@MapperScan("com.example.demo.modules.test.mapper")
 public class Myconfig {
     // 旧版
 

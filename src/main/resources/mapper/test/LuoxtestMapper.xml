@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.test.mapper.LuoxtestMapper">
-    <resultMap id="BaseResultMap" type="com.example.demo.test.entity.Luoxtest">
+<mapper namespace="com.example.demo.modules.test.mapper.LuoxtestMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.modules.test.entity.Luoxtest">
         <result column="id" property="id" jdbcType="BIGINT" />
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="age" property="age" jdbcType="INTEGER" />
@@ -19,7 +19,7 @@
 
 
     <select id="getLuoxtestByName" resultMap="BaseResultMap">
-<!--    <select id="getLuoxtestByName" resultType="com.example.demo.test.entity.Luoxtest">-->
+<!--    <select id="getLuoxtestByName" resultType="com.example.demo.modules.test.entity.Luoxtest">-->
         select * from luoxtest
         where name = #{name}
     </select>

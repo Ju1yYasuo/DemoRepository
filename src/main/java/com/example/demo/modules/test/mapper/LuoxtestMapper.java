@@ -1,8 +1,8 @@
-package com.example.demo.test.mapper;
+package com.example.demo.modules.test.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.test.entity.Luoxtest;
+import com.example.demo.modules.test.entity.Luoxtest;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;

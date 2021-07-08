@@ -1,10 +1,9 @@
-package com.example.demo.test.controller;
+package com.example.demo.modules.test.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.test.entity.Luoxtest;
-import com.example.demo.test.service.LuoxtestService;
-import io.swagger.annotations.Api;
+import com.example.demo.modules.test.entity.Luoxtest;
+import com.example.demo.modules.test.service.LuoxtestService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

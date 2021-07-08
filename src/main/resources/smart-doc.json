@@ -1,6 +1,6 @@
 {
   "outPath": "J:\\smartDoc\\Demo",
-  "serverUrl": "http://192.168.100.141:7777/first",
+  "serverUrl": "http://localhost:7777/july",
   "allInOne": true,
   "projectName": "Demo",
   "customResponseFields": [
@@ -27,7 +27,7 @@
   "appToken": "deb01f2b49764f779857fe20bae76995",
   "appKey": "20210625858039573882601472",
   "secret": "fEsvFwAor%@YW%QRVFjYBL#&0,Htm-rj",
-  "openUrl": "http://172.16.2.11:7707/api",
+  "openUrl": "http://172.16.2.22:7777/api",
   "debugEnvName":"本地环境",
-  "debugEnvUrl":"http://192.168.100.141:7777/first"
+  "debugEnvUrl":"http://localhost:7777/july"
 }

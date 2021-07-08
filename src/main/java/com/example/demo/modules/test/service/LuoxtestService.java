@@ -1,7 +1,7 @@
-package com.example.demo.test.service;
+package com.example.demo.modules.test.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.test.entity.Luoxtest;
+import com.example.demo.modules.test.entity.Luoxtest;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

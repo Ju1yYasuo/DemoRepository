@@ -1,10 +1,10 @@
-package com.example.demo.test.service.impl;
+package com.example.demo.modules.test.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.test.entity.Luoxtest;
-import com.example.demo.test.mapper.LuoxtestMapper;
-import com.example.demo.test.service.LuoxtestService;
+import com.example.demo.modules.test.entity.Luoxtest;
+import com.example.demo.modules.test.mapper.LuoxtestMapper;
+import com.example.demo.modules.test.service.LuoxtestService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
