@@ -20,6 +20,7 @@ import java.util.List;
 @SpringBootTest
 class TestApplicationTests {
 
+//	@Value只有在springboot配置注解下的配置类才可以使用
 	@Value("${spring.datasource.url}")
 	private String url;
 	@Value("${spring.datasource.username}")
@@ -28,17 +29,6 @@ class TestApplicationTests {
 	private String password;
 	@Value("${spring.datasource.driverClassName}")
 	private String driverClassName;
-
-
-
-
-	@Test
-	void contextLoads() throws ClassNotFoundException {
-
-		Class clazz = Class.forName("Luoxtest");
-
-
-	}
 
 	@Test
 	public void autoGenerator(){

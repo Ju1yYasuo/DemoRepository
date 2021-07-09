@@ -1,6 +1,8 @@
-package com.example.demo.modules.system.service;
+package com.example.demo.modules.sys.service;
 
-import com.example.demo.modules.system.entity.User;
+import com.example.demo.common.entity.QueryVoEntity;
+import com.example.demo.common.entity.ResponseEntity;
+import com.example.demo.modules.sys.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public interface UserService extends IService<User> {
 
-    List<User> getAllUser();
+    ResponseEntity<List<User>> getAllUser(QueryVoEntity<User> queryVoEntity);
 
     List<User> getUserBySex(Integer sex);
 

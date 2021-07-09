@@ -1,5 +1,6 @@
 package com.example.demo.core.exception;
 
+import com.example.demo.common.entity.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,9 +14,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalDefaultExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public String exceptionHandler(Exception e) {
-//        e.printStackTrace();
-        return "GlobalDefaultExceptionHandler : " + e.getMessage();
+    public ResponseEntity<Boolean> exceptionHandler(Exception e) {
+        return new ResponseEntity<Boolean>(ResponseEntity.SERVER_ERROR,e.getMessage(),false);
     }
+
+//    /**
+//     * 应用到所有被@RequestMapping注解的方法，在其执行之前初始化数据绑定器
+//     * @param binder
+//     */
+//    @InitBinder
+//    public void initBinder(WebDataBinder binder) {}
+//
+//    /**
+//     * 把值绑定到Model中，使全局@RequestMapping可以获取到该值
+//     * @param model
+//     */
+//    @ModelAttribute
+//    public void addAttributes(Model model) {
+//        model.addAttribute("words", "hello world");
+//    }
 
 }

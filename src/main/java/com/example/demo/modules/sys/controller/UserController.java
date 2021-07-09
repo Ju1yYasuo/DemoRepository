@@ -1,8 +1,12 @@
-package com.example.demo.modules.system.controller;
+package com.example.demo.modules.sys.controller;
 
 
-import com.example.demo.modules.system.entity.User;
-import com.example.demo.modules.system.service.UserService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.common.entity.QueryVoEntity;
+import com.example.demo.common.entity.ResponseEntity;
+import com.example.demo.modules.sys.entity.User;
+import com.example.demo.modules.sys.service.UserService;
+import com.example.demo.modules.sys.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +31,14 @@ public class UserController {
     /**
      * 获取所有员工信息
      *
-     * @return {@link String }
+     * @param queryVoEntity 查询签证官的实体
+     * @return {@link ResponseEntity<List<User>> }
      * @author luox
-     * @date 2021/07/08
+     * @date 2021/07/09
      */
-    @GetMapping("/getAllUser")
-    public String getAllUser(){
-        return userService.getAllUser().toString();
+    @PostMapping("/getAllUser")
+    public ResponseEntity<List<User>> getAllUser(@RequestBody QueryVoEntity<User> queryVoEntity){
+        return userService.getAllUser(queryVoEntity);
     }
 
     /**
@@ -88,7 +93,7 @@ public class UserController {
     @DeleteMapping("/deleteUser")
     @Transactional
     public boolean deleteUser(@RequestParam("id") Long id){
-        return userService.removeById(id);
+        return userService.deleteUser(id);
     }
 
 }

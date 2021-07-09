@@ -12,11 +12,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,29 +22,27 @@ import java.util.Scanner;
  * @date 2021/6/25
  */
 
-@SpringBootTest
 public class CodeGenerator {
 
-//    @Value只有在springboot配置注解下的配置类才可以使用
-    @Value("${spring.datasource.url}")
-    private String url;
-    @Value("${spring.datasource.username}")
-    private String username;
-    @Value("${spring.datasource.password}")
-    private String password;
-    @Value("${spring.datasource.driverClassName}")
-    private String driverClassName;
+    private static final String url = "jdbc:mysql://172.16.2.11:3306/china_aero_engine?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
+    private static final String username = "root";
+    private static final String password = "9Tg($<77x+N.";
+    private static final String driverClassName = "com.mysql.jdbc.Driver";
+
+    public static void main(String[] args) {
+        codeGenerator();
+    }
 
     /**
      * <p>
      * 读取控制台内容
      * </p>
      */
-    public String scanner(String tip) {
+    public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
         StringBuilder help = new StringBuilder();
         help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
+        System.out.println(help);
         if (scanner.hasNext()) {
             String ipt = scanner.next();
             if (StringUtils.isNotBlank(ipt)) {
@@ -58,8 +52,7 @@ public class CodeGenerator {
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }
 
-    @Test
-    public void codeGenerator() {
+    public static void codeGenerator() {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -76,12 +69,14 @@ public class CodeGenerator {
         gc.setDateType(DateType.ONLY_DATE);
         // 默认生成的 service 会有 I 前缀
         gc.setServiceName("%sService");
+//        mapper 配置
+        gc.setBaseColumnList(true);
+        gc.setBaseResultMap(true);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl(url);
-        // dsc.setSchemaName("bim_center_dev"); // 可以直接在 url 中指定数据库名
         dsc.setDriverName(driverClassName);
         // 配置数据库连接用户名
         dsc.setUsername(username);
@@ -105,8 +100,6 @@ public class CodeGenerator {
 
         // 如果模板引擎是 freemarker
         String templatePath = "/templates/mapper.xml.ftl";
-        // 如果模板引擎是 velocity
-        // String templatePath = "/templates/mapper.xml.vm";
 
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
@@ -119,21 +112,6 @@ public class CodeGenerator {
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
-        /*
-        cfg.setFileCreate(new IFileCreate() {
-            @Override
-            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-                // 判断自定义文件夹是否需要创建
-                checkDir("调用默认方法创建的目录，自定义目录用");
-                if (fileType == FileType.MAPPER) {
-                    // 已经生成 mapper 文件判断存在，不想重新生成返回 false
-                    return !new File(filePath).exists();
-                }
-                // 允许生成模板文件
-                return true;
-            }
-        });
-        */
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -142,11 +120,8 @@ public class CodeGenerator {
 
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-//         templateConfig.setEntity(projectPath + "/src/main/resources/templates/entity.java");
-         templateConfig.setEntity("templates/entity.java");
-        // templateConfig.setService();
-        // templateConfig.setController();
-
+        templateConfig.setEntity("templates/entity.java");
+        templateConfig.setMapper("templates/mapper.xml.ftl");
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
 
@@ -168,7 +143,6 @@ public class CodeGenerator {
         tableFillList.add(new TableFill("create_time", FieldFill.INSERT));
         tableFillList.add(new TableFill("update_time", FieldFill.INSERT_UPDATE));
         strategy.setTableFillList(tableFillList);
-
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

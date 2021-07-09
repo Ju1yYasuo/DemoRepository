@@ -1,4 +1,4 @@
-package com.example.demo.modules.system.entity;
+package com.example.demo.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("system_user")
+@TableName("sys_user")
 @ToString(callSuper = true)
 public class User extends BaseEntity implements Serializable {
 
@@ -61,14 +61,24 @@ public class User extends BaseEntity implements Serializable {
     private Long department;
 
     /**
-     * 岗位
+     * 岗位id
      */
-    private String position;
+    private Long position;
+
+    /**
+     * 角色id
+     */
+    private String role;
 
     /**
      * 电话号码
      */
     private String phoneNumber;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     /**
      * 身份证号码

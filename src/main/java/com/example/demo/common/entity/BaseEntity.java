@@ -28,7 +28,6 @@ public class BaseEntity {
 
     /**
      * 备注
-     * @ignore
      */
     private String remarks;
 
