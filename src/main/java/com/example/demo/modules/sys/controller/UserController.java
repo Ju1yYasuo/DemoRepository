@@ -1,12 +1,9 @@
 package com.example.demo.modules.sys.controller;
 
-
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.common.entity.QueryVoEntity;
+import com.example.demo.common.entity.QueryEntity;
 import com.example.demo.common.entity.ResponseEntity;
 import com.example.demo.modules.sys.entity.User;
 import com.example.demo.modules.sys.service.UserService;
-import com.example.demo.modules.sys.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -31,14 +28,14 @@ public class UserController {
     /**
      * 获取所有员工信息
      *
-     * @param queryVoEntity 查询签证官的实体
+     * @param queryEntity 查询实体
      * @return {@link ResponseEntity<List<User>> }
      * @author luox
      * @date 2021/07/09
      */
-    @PostMapping("/getAllUser")
-    public ResponseEntity<List<User>> getAllUser(@RequestBody QueryVoEntity<User> queryVoEntity){
-        return userService.getAllUser(queryVoEntity);
+    @PostMapping("/getUser")
+    public ResponseEntity<List<User>> getUser(@RequestBody QueryEntity<User> queryEntity) {
+        return userService.getUser(queryEntity);
     }
 
     /**
@@ -58,42 +55,42 @@ public class UserController {
      * 保存员工信息
      *
      * @param list 列表
-     * @return boolean
+     * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021/07/08
+     * @date 2021/07/12
      */
     @PostMapping("/saveUser")
     @Transactional
-    public boolean saveUser(@RequestBody List<User> list){
-        return userService.saveUsers(list);
+    public ResponseEntity<Boolean> saveUser(@RequestBody List<User> list){
+        return userService.saveUser(list);
     }
 
     /**
      * 更新员工信息
      *
-     * @param user 员工信息
-     * @return boolean
+     * @param list 列表
+     * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021/07/08
+     * @date 2021/07/12
      */
     @PutMapping("/updateUser")
     @Transactional
-    public boolean updateUser(@RequestBody User user){
-        return userService.updateUser(user);
+    public ResponseEntity<Boolean> updateUser(@RequestBody List<User> list){
+        return userService.updateUser(list);
     }
 
     /**
      * 删除员工信息
      *
-     * @param id id
-     * @return boolean
+     * @param idList id列表
+     * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021/07/08
+     * @date 2021/07/12
      */
     @DeleteMapping("/deleteUser")
     @Transactional
-    public boolean deleteUser(@RequestParam("id") Long id){
-        return userService.deleteUser(id);
+    public ResponseEntity<Boolean> deleteUser(@RequestBody List<Long> idList){
+        return userService.deleteUser(idList);
     }
 
 }

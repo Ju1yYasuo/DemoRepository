@@ -1,6 +1,6 @@
 package com.example.demo.modules.sys.service;
 
-import com.example.demo.common.entity.QueryVoEntity;
+import com.example.demo.common.entity.QueryEntity;
 import com.example.demo.common.entity.ResponseEntity;
 import com.example.demo.modules.sys.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -17,13 +17,14 @@ import java.util.List;
  */
 public interface UserService extends IService<User> {
 
-    ResponseEntity<List<User>> getAllUser(QueryVoEntity<User> queryVoEntity);
+    ResponseEntity<List<User>> getUser(QueryEntity<User> queryEntity);
+    ResponseEntity<List<User>> getUser2(QueryEntity<User> queryEntity) throws Exception;
 
     List<User> getUserBySex(Integer sex);
 
-    boolean saveUsers(List<User> list);
+    ResponseEntity<Boolean> saveUser(List<User> list);
 
-    boolean updateUser(User user);
+    ResponseEntity<Boolean> updateUser(List<User> list);
 
-    boolean deleteUser(Long id);
+    ResponseEntity<Boolean> deleteUser(List<Long> idList);
 }

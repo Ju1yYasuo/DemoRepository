@@ -41,7 +41,7 @@ public class User extends BaseEntity implements Serializable {
     private String name;
 
     /**
-     * 性别（1为男，2为女）
+     * 性别（枚举型，1为男，2为女）
      */
     private String sex;
 
