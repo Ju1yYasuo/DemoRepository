@@ -7,31 +7,30 @@ import com.example.demo.modules.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
  * <p>
- * 员工信息 前端控制器
+ * 人员信息 前端控制器
  * </p>
  *
  * @author luox
- * @since 2021-07-08
+ * @since 2021-07-13
  */
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/sys/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     /**
-     * 获取所有员工信息
+     * 获取人员信息
      *
      * @param queryEntity 查询实体
      * @return {@link ResponseEntity<List<User>> }
      * @author luox
-     * @date 2021/07/09
+     * @date 2021-07-13
      */
     @PostMapping("/getUser")
     public ResponseEntity<List<User>> getUser(@RequestBody QueryEntity<User> queryEntity) {
@@ -39,25 +38,26 @@ public class UserController {
     }
 
     /**
-     * 通过性别获取员工信息
+     * 获取人员信息，自由字段过滤
      *
-     * @param sex 性别
-     * @return {@link String }
+     * @param queryEntity 查询实体
+     * @return {@link ResponseEntity<List<User>> }
+     * @throws Exception 异常
      * @author luox
-     * @date 2021/07/08
+     * @date 2021/07/13
      */
-    @GetMapping("/getUserBySex")
-    public String getUserBySex(@RequestParam("sex") Integer sex){
-        return userService.getUserBySex(sex).toString();
+    @PostMapping("/getUserByCommon")
+    public ResponseEntity<List<User>> getUserByCommon(@RequestBody QueryEntity<User> queryEntity) throws Exception{
+        return userService.getUserByCommon(queryEntity);
     }
 
     /**
-     * 保存员工信息
+     * 保存人员信息
      *
      * @param list 列表
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021/07/12
+     * @date 2021-07-13
      */
     @PostMapping("/saveUser")
     @Transactional
@@ -66,12 +66,12 @@ public class UserController {
     }
 
     /**
-     * 更新员工信息
+     * 更新人员信息
      *
      * @param list 列表
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021/07/12
+     * @date 2021-07-13
      */
     @PutMapping("/updateUser")
     @Transactional
@@ -80,16 +80,16 @@ public class UserController {
     }
 
     /**
-     * 删除员工信息
+     * 删除人员信息
      *
      * @param idList id列表
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021/07/12
+     * @date 2021-07-13
      */
     @DeleteMapping("/deleteUser")
     @Transactional
-    public ResponseEntity<Boolean> deleteUser(@RequestBody List<Long> idList){
+    public ResponseEntity<Boolean> deleteUser(@RequestBody List<Integer> idList){
         return userService.deleteUser(idList);
     }
 

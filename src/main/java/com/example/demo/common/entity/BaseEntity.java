@@ -13,10 +13,10 @@ import java.util.Date;
 public class BaseEntity {
 
     /**
-     * id
+     * ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 逻辑删除（0 未删除、1 已删除）
@@ -24,7 +24,7 @@ public class BaseEntity {
      */
     @TableLogic(value = "0", delval = "1")
     @TableField(fill = FieldFill.INSERT)
-    private Integer deleteFlag;
+    private Integer deleted;
 
     /**
      * 备注

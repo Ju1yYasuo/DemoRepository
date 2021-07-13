@@ -26,7 +26,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
     ResponseEntity<Boolean> update${entity}(List<${entity}> list);
 
-    ResponseEntity<Boolean> delete${entity}(List<Long> idList);
+    ResponseEntity<Boolean> delete${entity}(List<Integer> idList);
 
 }
 </#if>

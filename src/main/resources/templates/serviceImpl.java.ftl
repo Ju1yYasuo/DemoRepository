@@ -57,7 +57,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     @Override
-    public ResponseEntity<Boolean> delete${entity}(List<Long> idList) {
+    public ResponseEntity<Boolean> delete${entity}(List<Integer> idList) {
         boolean result = removeByIds(idList);
         return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
     }

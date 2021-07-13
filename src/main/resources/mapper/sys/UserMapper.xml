@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.demo.modules.sys.entity.User">
         <id column="id" property="id"/>
-        <result column="delete_flag" property="deleteFlag"/>
+        <result column="delete" property="delete"/>
         <result column="remarks" property="remarks"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -17,7 +17,6 @@
         <result column="card_number" property="cardNumber"/>
         <result column="department" property="department"/>
         <result column="position" property="position"/>
-        <result column="role" property="role"/>
         <result column="phone_number" property="phoneNumber"/>
         <result column="email" property="email"/>
         <result column="id_number" property="idNumber"/>
@@ -25,21 +24,19 @@
         <result column="emergency_contact" property="emergencyContact"/>
         <result column="emergency_contact_phone" property="emergencyContactPhone"/>
         <result column="face_picture" property="facePicture"/>
-        <result column="status" property="status"/>
-        <result column="log_in_time" property="logInTime"/>
+        <result column="log_status" property="logStatus"/>
+        <result column="log_last_time" property="logLastTime"/>
+        <result column="log_error_number" property="logErrorNumber"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        delete_flag,
+        delete,
         remarks,
         create_time,
         update_time,
-        user_name, password, name, sex, age, card_number, department, position, role, phone_number, email, id_number, birthday, emergency_contact, emergency_contact_phone, face_picture, status, log_in_time
+        user_name, password, name, sex, age, card_number, department, position, phone_number, email, id_number, birthday, emergency_contact, emergency_contact_phone, face_picture, log_status, log_last_time, log_error_number
     </sql>
 
-    <select id="getUserBySex" parameterType="Integer" resultMap="BaseResultMap">
-        select * from sys_user where sex = #{sex}
-    </select>
 </mapper>

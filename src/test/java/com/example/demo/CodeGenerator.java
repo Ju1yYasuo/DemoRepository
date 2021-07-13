@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.example.demo.core.mybatisplus.MySqlTypeConvertCustom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,9 @@ public class CodeGenerator {
         dsc.setUsername(username);
         // 配置数据库连接密码
         dsc.setPassword(password);
+        // 配置字段生成风格
+//        暂用默认******
+//        dsc.setTypeConvert(new MySqlTypeConvertCustom());
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -99,7 +103,7 @@ public class CodeGenerator {
         };
 
         // 如果模板引擎是 freemarker
-        String templatePath = "/templates/mapper.xml.ftl";
+        String templatePath = "templates/mapper.xml.ftl";
 
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
@@ -124,7 +128,8 @@ public class CodeGenerator {
         templateConfig.setController("templates/controller.java");
         templateConfig.setService("templates/service.java");
         templateConfig.setServiceImpl("templates/serviceImpl.java");
-        templateConfig.setXml("templates/mapper.xml");
+        //取消设置xml，上面已自定义配置xml自定义模板输出路径
+        templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
 
         // 策略配置
@@ -138,10 +143,10 @@ public class CodeGenerator {
         strategy.setTablePrefix(pc.getModuleName() + "_");
 
         strategy.setSuperEntityClass("com.example.demo.common.entity.BaseEntity");
-        strategy.setSuperEntityColumns("id","delete_flag","remarks","create_time","update_time");
-        strategy.setLogicDeleteFieldName("delete_flag");
+        strategy.setSuperEntityColumns("id","deleted","remarks","create_time","update_time");
+        strategy.setLogicDeleteFieldName("delete");
         List<TableFill> tableFillList = new ArrayList<>();
-        tableFillList.add(new TableFill("delete_flag", FieldFill.INSERT));
+        tableFillList.add(new TableFill("deleted", FieldFill.INSERT));
         tableFillList.add(new TableFill("create_time", FieldFill.INSERT));
         tableFillList.add(new TableFill("update_time", FieldFill.INSERT_UPDATE));
         strategy.setTableFillList(tableFillList);

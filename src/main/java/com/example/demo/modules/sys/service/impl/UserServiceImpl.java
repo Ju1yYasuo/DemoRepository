@@ -1,6 +1,7 @@
 package com.example.demo.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.entity.QueryEntity;
 import com.example.demo.common.entity.ResponseEntity;
@@ -21,15 +22,15 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * 员工信息 服务实现类
+ * 人员信息 服务实现类
  * </p>
  *
  * @author luox
- * @since 2021-07-08
+ * @since 2021-07-13
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
+    
     @Autowired
     private UserMapper userMapper;
 
@@ -46,20 +47,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public ResponseEntity<List<User>> getUser2(QueryEntity<User> queryEntity) throws Exception{
+    public ResponseEntity<List<User>> getUserByCommon(QueryEntity<User> queryEntity) throws Exception{
         Page<User> page = new Page<>();
         page.setCurrent(queryEntity.getCurrent());
         page.setSize(queryEntity.getSize());
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 //        QueryWrapper queryWrapper2 = Wrappers.query();
-
-//        ===============
         User user = queryEntity.getEntity();
-
-//        Class<User> userClass = User.class;
         Class userClass = User.class;
-
-        List fieldsList = new ArrayList<Field>();
+        List<Field> fieldsList = new ArrayList<>();
         while (userClass != null) {  // 遍历所有父类字节码对象
             Field[] declaredFields = userClass.getDeclaredFields();
             fieldsList.addAll(Arrays.asList(declaredFields));  //将`Filed[]`数组转换为`List<>`然后再将其拼接至`ArrayList`上
@@ -67,30 +63,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             userClass = userClass.getSuperclass();  // 获得父类的字节码对象
         }
 
-        for (Object field : fieldsList) {  // 打印当前类以及其父类的多有属性对象
-            System.out.println(field);
-        }
-
-
-        Field[] fields = userClass.getDeclaredFields();
-        for(Field field : fields){
+        for(Field field : fieldsList){
             if(field.getName().equals("serialVersionUID")) continue;
 
-
             Object v = invokeMethod(user, field.getName());
-            //sex 为字符串，数据库枚举型需要int
-            if(field.getName().equals("sex")){
-                v = Integer.parseInt(v.toString());
-            }
+            //sex 为字符串，数据库枚举型需要 int / String
+//            if(field.getName().equals("sex")){
+//                v = Integer.parseInt(v.toString());
+//            }
             System.out.println(field.getName() + "\t" + v + "\t" + field.getType());
 
             if(v != null){
                 queryWrapper.eq(humpToLine2(field.getName()),v);
             }
         }
-
         return new ResponseEntity<>(ResponseEntity.OK,"success",userMapper.selectPage(page,queryWrapper).getRecords());
-//        return userMapper.selectList(null);
 
     }
 
@@ -113,18 +100,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         matcher.appendTail(sb);
         return sb.toString();
     }
-
-
+    
     @Override
-    public List<User> getUserBySex(Integer sex) {
-//        return userMapper.selectList(new QueryWrapper<User>().eq("sex",sex));
-//        QueryWrapper queryWrapper = new QueryWrapper<User>().eq("sex",sex);
-//        return list(queryWrapper);
-        return userMapper.getUserBySex(sex);
-    }
-
-    @Override
-    public ResponseEntity<Boolean>saveUser(List<User> list) {
+    public ResponseEntity<Boolean> saveUser(List<User> list) {
         boolean result = saveBatch(list);
         return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
     }
@@ -136,8 +114,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public ResponseEntity<Boolean> deleteUser(List<Long> idList) {
+    public ResponseEntity<Boolean> deleteUser(List<Integer> idList) {
         boolean result = removeByIds(idList);
         return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
     }
+    
 }

@@ -6,16 +6,15 @@ import com.example.demo.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 import java.io.Serializable;
 
 /**
  * <p>
- * 员工信息
+ * 人员信息
  * </p>
  *
  * @author luox
- * @since 2021-07-08
+ * @since 2021-07-13
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -58,17 +57,12 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 部门id
      */
-    private Long department;
+    private Integer department;
 
     /**
      * 岗位id
      */
-    private Long position;
-
-    /**
-     * 角色id
-     */
-    private String role;
+    private Integer position;
 
     /**
      * 电话号码
@@ -106,14 +100,19 @@ public class User extends BaseEntity implements Serializable {
     private String facePicture;
 
     /**
-     * 状态（0未登录，1已登录，2锁定）
+     * 登录状态（0未登录，1已登录，2锁定）
      */
-    private Integer status;
+    private Integer logStatus;
 
     /**
-     * 登录时间
+     * 上次登录时间
      */
-    private Date logInTime;
+    private Date logLastTime;
+
+    /**
+     * 登录错误次数
+     */
+    private Integer logErrorNumber;
 
 
 }

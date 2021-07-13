@@ -93,7 +93,7 @@ public class ${table.controllerName} {
      */
     @DeleteMapping("/delete${entity}")
     @Transactional
-    public ResponseEntity<Boolean> delete${entity}(@RequestBody List<Long> idList){
+    public ResponseEntity<Boolean> delete${entity}(@RequestBody List<Integer> idList){
         return ${table.serviceName?uncap_first}.delete${entity}(idList);
     }
 

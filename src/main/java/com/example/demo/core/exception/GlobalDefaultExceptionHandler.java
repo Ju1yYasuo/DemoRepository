@@ -15,7 +15,7 @@ public class GlobalDefaultExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Boolean> exceptionHandler(Exception e) {
-        return new ResponseEntity<Boolean>(ResponseEntity.SERVER_ERROR,e.getMessage(),false);
+        return new ResponseEntity<>(ResponseEntity.SERVER_ERROR,e.getMessage(),false);
     }
 
 //    /**

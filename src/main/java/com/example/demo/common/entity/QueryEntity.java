@@ -12,12 +12,12 @@ public class QueryEntity<T> {
     /**
      * 当前页码
      */
-    private Long current;
+    private int current;
 
     /**
      * 分页大小
      */
-    private Long size;
+    private int size;
 
     /**
      * 查询实体
