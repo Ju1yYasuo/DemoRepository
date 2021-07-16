@@ -1,12 +1,12 @@
-package ${package.ServiceImpl};
+package com.example.demo.service.${package.ModuleName}.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.common.entity.QueryEntity;
-import com.example.demo.common.entity.ResponseEntity;
-import ${package.Entity}.${entity};
-import ${package.Mapper}.${table.mapperName};
-import ${package.Service}.${table.serviceName};
+import com.example.demo.utils.entity.QueryEntity;
+import com.example.demo.utils.entity.ResponseEntity;
+import com.example.demo.entity.${package.ModuleName}.${entity};
+import com.example.demo.mapper.${package.ModuleName}.${table.mapperName};
+import com.example.demo.service.${package.ModuleName}.${table.serviceName};
 import ${superServiceImplClassPackage};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,19 +40,19 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
 
-        List<${entity}> list = ${table.mapperName?uncap_first}.selectPage(page,queryWrapper).getRecords();
+        List<${entity}> list = page(page,queryWrapper).getRecords();
         return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,list);
     }
     
     @Override
-    public ResponseEntity<Boolean> save${entity}(List<${entity}> list) {
-        boolean result = saveBatch(list);
+    public ResponseEntity<Boolean> save${entity}(${entity} ${entity?uncap_first}) {
+        boolean result = save(${entity?uncap_first});
         return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
     }
 
     @Override
-    public ResponseEntity<Boolean> update${entity}(List<${entity}> list) {
-        boolean result = updateBatchById(list);
+    public ResponseEntity<Boolean> update${entity}(${entity} ${entity?uncap_first}) {
+        boolean result = updateById(${entity?uncap_first});
         return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
     }
 

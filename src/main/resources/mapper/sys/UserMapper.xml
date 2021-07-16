@@ -39,4 +39,8 @@
         user_name, password, name, sex, age, card_number, department, position, phone_number, email, id_number, birthday, emergency_contact, emergency_contact_phone, face_picture, log_status, log_last_time, log_error_number
     </sql>
 
+    <select id="test" resultType="Integer">
+        select count(0) from sys_user
+    </select>
+
 </mapper>

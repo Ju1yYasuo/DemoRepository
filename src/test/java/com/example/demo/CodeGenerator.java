@@ -12,7 +12,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.example.demo.core.mybatisplus.MySqlTypeConvertCustom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +90,16 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.example.demo.modules");
+        pc.setParent("com.example.demo");
+        // 配置 entity 包名
+        //pc.setEntity("entity");
+        // 配置 mapper 包名
+        //pc.setMapper("mapper");
+        // 配置 service 包名
+        //pc.setService("service");
+        //pc.setServiceImpl("service");
+        // 配置 controller 包名
+        //pc.setController("controller");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -103,12 +111,17 @@ public class CodeGenerator {
         };
 
         // 如果模板引擎是 freemarker
-        String templatePath = "templates/mapper.xml.ftl";
+        String xmlTemplatePath = "templates/mapper.xml.ftl";
+        String entityTemplatePath = "templates/entity.java.ftl";
+        String controllerTemplatePath = "templates/controller.java.ftl";
+        String mapperTemplatePath = "templates/mapper.java.ftl";
+        String serviceTemplatePath = "templates/service.java.ftl";
+        String serviceImplTemplatePath = "templates/serviceImpl.java.ftl";
 
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(templatePath) {
+        focList.add(new FileOutConfig(xmlTemplatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
@@ -116,6 +129,42 @@ public class CodeGenerator {
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
+        focList.add(new FileOutConfig(entityTemplatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/java/com/example/demo/entity/" + pc.getModuleName()
+                        + "/" + tableInfo.getEntityName() + StringPool.DOT_JAVA;
+            }
+        });
+        focList.add(new FileOutConfig(controllerTemplatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/java/com/example/demo/controller/" + pc.getModuleName()
+                        + "/" + tableInfo.getEntityName() + "Controller" + StringPool.DOT_JAVA;
+            }
+        });
+        focList.add(new FileOutConfig(mapperTemplatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/java/com/example/demo/mapper/" + pc.getModuleName()
+                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_JAVA;
+            }
+        });
+        focList.add(new FileOutConfig(serviceTemplatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/java/com/example/demo/service/" + pc.getModuleName()
+                        + "/" + tableInfo.getEntityName() + "Service" + StringPool.DOT_JAVA;
+            }
+        });
+        focList.add(new FileOutConfig(serviceImplTemplatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/java/com/example/demo/service/" + pc.getModuleName()
+                        + "/impl/" + tableInfo.getEntityName() + "ServiceImpl" + StringPool.DOT_JAVA;
+            }
+        });
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -124,10 +173,15 @@ public class CodeGenerator {
 
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        templateConfig.setEntity("templates/entity.java");
-        templateConfig.setController("templates/controller.java");
-        templateConfig.setService("templates/service.java");
-        templateConfig.setServiceImpl("templates/serviceImpl.java");
+        templateConfig.setEntity(null);
+        templateConfig.setController(null);
+        templateConfig.setService(null);
+        templateConfig.setServiceImpl(null);
+        templateConfig.setMapper(null);
+        //templateConfig.setEntity("templates/entity.java");
+        //templateConfig.setController("templates/controller.java");
+        //templateConfig.setService("templates/service.java");
+        //templateConfig.setServiceImpl("templates/serviceImpl.java");
         //取消设置xml，上面已自定义配置xml自定义模板输出路径
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
@@ -142,7 +196,7 @@ public class CodeGenerator {
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
 
-        strategy.setSuperEntityClass("com.example.demo.common.entity.BaseEntity");
+        strategy.setSuperEntityClass("com.example.demo.utils.entity.BaseEntity");
         strategy.setSuperEntityColumns("id","deleted","remarks","create_time","update_time");
         strategy.setLogicDeleteFieldName("delete");
         List<TableFill> tableFillList = new ArrayList<>();

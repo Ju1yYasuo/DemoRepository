@@ -1,8 +1,8 @@
-package ${package.Service};
+package com.example.demo.service.${package.ModuleName};
 
-import com.example.demo.common.entity.QueryEntity;
-import com.example.demo.common.entity.ResponseEntity;
-import ${package.Entity}.${entity};
+import com.example.demo.utils.entity.QueryEntity;
+import com.example.demo.utils.entity.ResponseEntity;
+import com.example.demo.entity.${package.ModuleName}.${entity};
 import ${superServiceClassPackage};
 
 import java.util.List;
@@ -20,12 +20,44 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 <#else>
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
+    /**
+     * 获取${table.comment}
+     *
+     * @param queryEntity 查询实体
+     * @return {@link ResponseEntity<List<${entity}>> }
+     * @author ${author}
+     * @date ${date}
+     */
     ResponseEntity<List<${entity}>> get${entity}(QueryEntity<${entity}> queryEntity);
 
-    ResponseEntity<Boolean> save${entity}(List<${entity}> list);
+    /**
+     * 保存${table.comment}
+     *
+     * @param ${entity?uncap_first} ${table.comment}
+     * @return {@link ResponseEntity<Boolean> }
+     * @author ${author}
+     * @date ${date}
+     */
+    ResponseEntity<Boolean> save${entity}(${entity} ${entity?uncap_first});
 
-    ResponseEntity<Boolean> update${entity}(List<${entity}> list);
+    /**
+     * 更新${table.comment}
+     *
+     * @param ${entity?uncap_first} ${table.comment}
+     * @return {@link ResponseEntity<Boolean> }
+     * @author ${author}
+     * @date ${date}
+     */
+    ResponseEntity<Boolean> update${entity}(${entity} ${entity?uncap_first});
 
+    /**
+     * 删除${table.comment}
+     *
+     * @param idList id列表
+     * @return {@link ResponseEntity<Boolean> }
+     * @author ${author}
+     * @date ${date}
+     */
     ResponseEntity<Boolean> delete${entity}(List<Integer> idList);
 
 }

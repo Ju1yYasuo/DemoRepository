@@ -1,4 +1,4 @@
-package ${package.Entity};
+package com.example.demo.entity.${package.ModuleName};
 
 <#list table.importPackages as pkg>
 import ${pkg};

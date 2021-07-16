@@ -1,11 +1,10 @@
-package ${package.Controller};
+package com.example.demo.controller.${package.ModuleName};
 
-import com.example.demo.common.entity.QueryEntity;
-import com.example.demo.common.entity.ResponseEntity;
-import ${package.Entity}.${entity};
-import ${package.Service}.${table.serviceName};
+import com.example.demo.utils.entity.QueryEntity;
+import com.example.demo.utils.entity.ResponseEntity;
+import com.example.demo.entity.${package.ModuleName}.${entity};
+import com.example.demo.service.${package.ModuleName}.${table.serviceName};
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.*;
 <#else>
@@ -58,29 +57,27 @@ public class ${table.controllerName} {
     /**
      * 保存${table.comment}
      *
-     * @param list 列表
+     * @param ${entity?uncap_first} ${table.comment}
      * @return {@link ResponseEntity<Boolean> }
      * @author ${author}
      * @date ${date}
      */
     @PostMapping("/save${entity}")
-    @Transactional
-    public ResponseEntity<Boolean> save${entity}(@RequestBody List<${entity}> list){
-        return ${table.serviceName?uncap_first}.save${entity}(list);
+    public ResponseEntity<Boolean> save${entity}(@RequestBody ${entity} ${entity?uncap_first}){
+        return ${table.serviceName?uncap_first}.save${entity}(${entity?uncap_first});
     }
 
     /**
      * 更新${table.comment}
      *
-     * @param list 列表
+     * @param ${entity?uncap_first} ${table.comment}
      * @return {@link ResponseEntity<Boolean> }
      * @author ${author}
      * @date ${date}
      */
-    @PutMapping("/update${entity}")
-    @Transactional
-    public ResponseEntity<Boolean> update${entity}(@RequestBody List<${entity}> list){
-        return ${table.serviceName?uncap_first}.update${entity}(list);
+    @PostMapping("/update${entity}")
+    public ResponseEntity<Boolean> update${entity}(@RequestBody ${entity} ${entity?uncap_first}){
+        return ${table.serviceName?uncap_first}.update${entity}(${entity?uncap_first});
     }
 
     /**
@@ -91,8 +88,7 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
-    @DeleteMapping("/delete${entity}")
-    @Transactional
+    @PostMapping("/delete${entity}")
     public ResponseEntity<Boolean> delete${entity}(@RequestBody List<Integer> idList){
         return ${table.serviceName?uncap_first}.delete${entity}(idList);
     }
