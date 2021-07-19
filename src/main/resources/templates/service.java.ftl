@@ -1,7 +1,7 @@
 package com.example.demo.service.${package.ModuleName};
 
-import com.example.demo.utils.entity.QueryEntity;
-import com.example.demo.utils.entity.ResponseEntity;
+import com.example.demo.util.entity.QueryEntity;
+import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.${package.ModuleName}.${entity};
 import ${superServiceClassPackage};
 

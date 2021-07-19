@@ -24,7 +24,7 @@ import java.util.Scanner;
 
 public class CodeGenerator {
 
-    private static final String url = "jdbc:mysql://172.16.2.11:3306/china_aero_engine?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
+    private static final String url = "jdbc:mysql://172.16.2.11:3306/zhf-gkpt?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
     private static final String username = "root";
     private static final String password = "9Tg($<77x+N.";
     private static final String driverClassName = "com.mysql.jdbc.Driver";
@@ -196,7 +196,7 @@ public class CodeGenerator {
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
 
-        strategy.setSuperEntityClass("com.example.demo.utils.entity.BaseEntity");
+        strategy.setSuperEntityClass("com.example.demo.util.entity.BaseEntity");
         strategy.setSuperEntityColumns("id","deleted","remarks","create_time","update_time");
         strategy.setLogicDeleteFieldName("delete");
         List<TableFill> tableFillList = new ArrayList<>();

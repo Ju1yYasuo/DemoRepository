@@ -1,7 +1,7 @@
 package com.example.demo.controller.sys;
 
-import com.example.demo.utils.entity.QueryEntity;
-import com.example.demo.utils.entity.ResponseEntity;
+import com.example.demo.util.entity.QueryEntity;
+import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.sys.User;
 import com.example.demo.service.sys.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

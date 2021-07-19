@@ -1,6 +1,6 @@
 package com.example.demo.config.exception;
 
-import com.example.demo.utils.entity.ResponseEntity;
+import com.example.demo.util.entity.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

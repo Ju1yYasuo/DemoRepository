@@ -1,7 +1,7 @@
 package com.example.demo.entity.sys;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.example.demo.utils.entity.BaseEntity;
+import com.example.demo.util.entity.BaseEntity;
 import java.util.Date;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

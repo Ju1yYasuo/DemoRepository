@@ -9,7 +9,7 @@
 </#if>
 <#if baseResultMap>
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="${package.Entity}.${entity}">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.${package.ModuleName}.${entity}">
 <#list table.fields as field>
 <#if field.keyFlag><#--生成主键排在第一位-->
         <id column="${field.name}" property="${field.propertyName}" jdbcType="${field.type}/>

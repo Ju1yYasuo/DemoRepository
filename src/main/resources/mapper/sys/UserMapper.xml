@@ -3,7 +3,7 @@
 <mapper namespace="com.example.demo.modules.sys.mapper.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.demo.modules.sys.entity.User">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.sys.User">
         <id column="id" property="id"/>
         <result column="delete" property="delete"/>
         <result column="remarks" property="remarks"/>
