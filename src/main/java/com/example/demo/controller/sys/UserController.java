@@ -1,12 +1,13 @@
 package com.example.demo.controller.sys;
 
-import com.example.demo.util.entity.QueryEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.sys.User;
 import com.example.demo.service.sys.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,7 +15,7 @@ import java.util.List;
  * </p>
  *
  * @author luox
- * @since 2021-07-16
+ * @since 2021-07-26
  */
 @RestController
 @RequestMapping("/sys/user")
@@ -26,15 +27,25 @@ public class UserController {
     /**
      * 获取人员信息
      *
-     * @param queryEntity 查询实体
+     * @param map map
      * @return {@link ResponseEntity<List<User>> }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021/07/26
      */
     @PostMapping("/getUser")
-    public ResponseEntity<List<User>> getUser(@RequestBody QueryEntity<User> queryEntity) {
-        return userService.getUser(queryEntity);
-    }
+    public ResponseEntity<List<User>> getUser(@RequestBody Map<String,Object> map) {
+            Page<User> page = null;
+            String fuzzySearch = null;
+            if(map.containsKey("current") && map.containsKey("size")){
+                page = new Page<>();
+                page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
+                page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
+            }
+            if(map.containsKey("fuzzySearch")){
+                fuzzySearch = (String) map.get("fuzzySearch");
+            }
+            return ResponseEntity.success(userService.getUser(page,fuzzySearch));
+        }
 
     /**
      * 保存人员信息
@@ -42,11 +53,11 @@ public class UserController {
      * @param user 人员信息
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021-07-26
      */
     @PostMapping("/saveUser")
     public ResponseEntity<Boolean> saveUser(@RequestBody User user){
-        return userService.saveUser(user);
+        return ResponseEntity.success(userService.saveUser(user));
     }
 
     /**
@@ -55,11 +66,11 @@ public class UserController {
      * @param user 人员信息
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021-07-26
      */
     @PostMapping("/updateUser")
     public ResponseEntity<Boolean> updateUser(@RequestBody User user){
-        return userService.updateUser(user);
+        return ResponseEntity.success(userService.updateUser(user));
     }
 
     /**
@@ -68,11 +79,11 @@ public class UserController {
      * @param idList id列表
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021-07-26
      */
     @PostMapping("/deleteUser")
     public ResponseEntity<Boolean> deleteUser(@RequestBody List<Integer> idList){
-        return userService.deleteUser(idList);
+        return ResponseEntity.success(userService.deleteUser(idList));
     }
 
 }

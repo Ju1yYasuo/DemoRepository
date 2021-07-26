@@ -1,7 +1,6 @@
 package com.example.demo.service.bi;
 
-import com.example.demo.util.entity.QueryEntity;
-import com.example.demo.util.entity.ResponseEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.bi.EnvironmentInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,48 +12,49 @@ import java.util.List;
  * </p>
  *
  * @author luox
- * @since 2021-07-19
+ * @since 2021-07-26
  */
 public interface EnvironmentInfoService extends IService<EnvironmentInfo> {
 
     /**
      * 获取环境信息
      *
-     * @param queryEntity 查询实体
-     * @return {@link ResponseEntity<List<EnvironmentInfo>> }
+     * @param page        页面
+     * @param fuzzySearch 模糊搜索
+     * @return {@link List<EnvironmentInfo> }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
-    ResponseEntity<List<EnvironmentInfo>> getEnvironmentInfo(QueryEntity<EnvironmentInfo> queryEntity);
+    List<EnvironmentInfo> getEnvironmentInfo(Page<EnvironmentInfo> page, String fuzzySearch);
 
     /**
      * 保存环境信息
      *
      * @param environmentInfo 环境信息
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
-    ResponseEntity<Boolean> saveEnvironmentInfo(EnvironmentInfo environmentInfo);
+    Boolean saveEnvironmentInfo(EnvironmentInfo environmentInfo);
 
     /**
      * 更新环境信息
      *
      * @param environmentInfo 环境信息
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
-    ResponseEntity<Boolean> updateEnvironmentInfo(EnvironmentInfo environmentInfo);
+    Boolean updateEnvironmentInfo(EnvironmentInfo environmentInfo);
 
     /**
      * 删除环境信息
      *
      * @param idList id列表
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
-    ResponseEntity<Boolean> deleteEnvironmentInfo(List<Integer> idList);
+    Boolean deleteEnvironmentInfo(List<Integer> idList);
 
 }

@@ -2,8 +2,6 @@ package com.example.demo.service.${package.ModuleName}.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.util.entity.QueryEntity;
-import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.${package.ModuleName}.${entity};
 import com.example.demo.mapper.${package.ModuleName}.${table.mapperName};
 import com.example.demo.service.${package.ModuleName}.${table.serviceName};
@@ -33,33 +31,32 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     private ${table.mapperName} ${table.mapperName?uncap_first};
 
     @Override
-    public ResponseEntity<List<${entity}>> get${entity}(QueryEntity<${entity}> queryEntity){
-        Page<${entity}> page = new Page<>();
-        page.setCurrent(queryEntity.getCurrent());
-        page.setSize(queryEntity.getSize());
+    public List<${entity}> get${entity}(Page<${entity}> page, String fuzzySearch){
+        List<${entity}> list;
 
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
 
-        List<${entity}> list = page(page,queryWrapper).getRecords();
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,list);
+        if(page != null){
+            list = page(page,queryWrapper).getRecords();
+        }else{
+            list = list(queryWrapper);
+        }
+        return list;
     }
     
     @Override
-    public ResponseEntity<Boolean> save${entity}(${entity} ${entity?uncap_first}) {
-        boolean result = save(${entity?uncap_first});
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
+    public Boolean save${entity}(${entity} ${entity?uncap_first}) {
+        return save(${entity?uncap_first});
     }
 
     @Override
-    public ResponseEntity<Boolean> update${entity}(${entity} ${entity?uncap_first}) {
-        boolean result = updateById(${entity?uncap_first});
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
+    public Boolean update${entity}(${entity} ${entity?uncap_first}) {
+        return updateById(${entity?uncap_first});
     }
 
     @Override
-    public ResponseEntity<Boolean> delete${entity}(List<Integer> idList) {
-        boolean result = removeByIds(idList);
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
+    public Boolean delete${entity}(List<Integer> idList) {
+        return removeByIds(idList);
     }
     
 }

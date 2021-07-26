@@ -2,8 +2,6 @@ package com.example.demo.service.bi.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.util.entity.QueryEntity;
-import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.bi.EnvironmentInfo;
 import com.example.demo.mapper.bi.EnvironmentInfoMapper;
 import com.example.demo.service.bi.EnvironmentInfoService;
@@ -19,7 +17,7 @@ import java.util.List;
  * </p>
  *
  * @author luox
- * @since 2021-07-19
+ * @since 2021-07-26
  */
 @Service
 public class EnvironmentInfoServiceImpl extends ServiceImpl<EnvironmentInfoMapper, EnvironmentInfo> implements EnvironmentInfoService {
@@ -28,33 +26,32 @@ public class EnvironmentInfoServiceImpl extends ServiceImpl<EnvironmentInfoMappe
     private EnvironmentInfoMapper environmentInfoMapper;
 
     @Override
-    public ResponseEntity<List<EnvironmentInfo>> getEnvironmentInfo(QueryEntity<EnvironmentInfo> queryEntity){
-        Page<EnvironmentInfo> page = new Page<>();
-        page.setCurrent(queryEntity.getCurrent());
-        page.setSize(queryEntity.getSize());
+    public List<EnvironmentInfo> getEnvironmentInfo(Page<EnvironmentInfo> page, String fuzzySearch){
+        List<EnvironmentInfo> list;
 
         QueryWrapper<EnvironmentInfo> queryWrapper = new QueryWrapper<>();
 
-        List<EnvironmentInfo> list = page(page,queryWrapper).getRecords();
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,list);
+        if(page != null){
+            list = page(page,queryWrapper).getRecords();
+        }else{
+            list = list(queryWrapper);
+        }
+        return list;
     }
     
     @Override
-    public ResponseEntity<Boolean> saveEnvironmentInfo(EnvironmentInfo environmentInfo) {
-        boolean result = save(environmentInfo);
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
+    public Boolean saveEnvironmentInfo(EnvironmentInfo environmentInfo) {
+        return save(environmentInfo);
     }
 
     @Override
-    public ResponseEntity<Boolean> updateEnvironmentInfo(EnvironmentInfo environmentInfo) {
-        boolean result = updateById(environmentInfo);
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
+    public Boolean updateEnvironmentInfo(EnvironmentInfo environmentInfo) {
+        return updateById(environmentInfo);
     }
 
     @Override
-    public ResponseEntity<Boolean> deleteEnvironmentInfo(List<Integer> idList) {
-        boolean result = removeByIds(idList);
-        return new ResponseEntity<>(ResponseEntity.OK,ResponseEntity.success,result);
+    public Boolean deleteEnvironmentInfo(List<Integer> idList) {
+        return removeByIds(idList);
     }
     
 }

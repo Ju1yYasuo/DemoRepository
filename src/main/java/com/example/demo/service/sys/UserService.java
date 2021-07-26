@@ -1,7 +1,6 @@
 package com.example.demo.service.sys;
 
-import com.example.demo.util.entity.QueryEntity;
-import com.example.demo.util.entity.ResponseEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.sys.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,48 +12,49 @@ import java.util.List;
  * </p>
  *
  * @author luox
- * @since 2021-07-16
+ * @since 2021-07-26
  */
 public interface UserService extends IService<User> {
 
     /**
      * 获取人员信息
      *
-     * @param queryEntity 查询实体
-     * @return {@link ResponseEntity<List<User>> }
+     * @param page        页面
+     * @param fuzzySearch 模糊搜索
+     * @return {@link List<User> }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021-07-26
      */
-    ResponseEntity<List<User>> getUser(QueryEntity<User> queryEntity);
+    List<User> getUser(Page<User> page, String fuzzySearch);
 
     /**
      * 保存人员信息
      *
      * @param user 人员信息
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021-07-26
      */
-    ResponseEntity<Boolean> saveUser(User user);
+    Boolean saveUser(User user);
 
     /**
      * 更新人员信息
      *
      * @param user 人员信息
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021-07-26
      */
-    ResponseEntity<Boolean> updateUser(User user);
+    Boolean updateUser(User user);
 
     /**
      * 删除人员信息
      *
      * @param idList id列表
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
-     * @date 2021-07-16
+     * @date 2021-07-26
      */
-    ResponseEntity<Boolean> deleteUser(List<Integer> idList);
+    Boolean deleteUser(List<Integer> idList);
 
 }

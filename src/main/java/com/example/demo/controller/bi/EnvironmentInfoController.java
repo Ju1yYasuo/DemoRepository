@@ -1,12 +1,13 @@
 package com.example.demo.controller.bi;
 
-import com.example.demo.util.entity.QueryEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.bi.EnvironmentInfo;
 import com.example.demo.service.bi.EnvironmentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,7 +15,7 @@ import java.util.List;
  * </p>
  *
  * @author luox
- * @since 2021-07-19
+ * @since 2021-07-26
  */
 @RestController
 @RequestMapping("/bi/environment-info")
@@ -26,15 +27,25 @@ public class EnvironmentInfoController {
     /**
      * 获取环境信息
      *
-     * @param queryEntity 查询实体
+     * @param map map
      * @return {@link ResponseEntity<List<EnvironmentInfo>> }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
     @PostMapping("/getEnvironmentInfo")
-    public ResponseEntity<List<EnvironmentInfo>> getEnvironmentInfo(@RequestBody QueryEntity<EnvironmentInfo> queryEntity) {
-        return environmentInfoService.getEnvironmentInfo(queryEntity);
-    }
+    public ResponseEntity<List<EnvironmentInfo>> getEnvironmentInfo(@RequestBody Map<String,Object> map) {
+            Page<EnvironmentInfo> page = null;
+            String fuzzySearch = null;
+            if(map.containsKey("current") && map.containsKey("size")){
+                page = new Page<>();
+                page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
+                page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
+            }
+            if(map.containsKey("fuzzySearch")){
+                fuzzySearch = (String) map.get("fuzzySearch");
+            }
+            return ResponseEntity.success(environmentInfoService.getEnvironmentInfo(page,fuzzySearch));
+        }
 
     /**
      * 保存环境信息
@@ -42,11 +53,11 @@ public class EnvironmentInfoController {
      * @param environmentInfo 环境信息
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
     @PostMapping("/saveEnvironmentInfo")
     public ResponseEntity<Boolean> saveEnvironmentInfo(@RequestBody EnvironmentInfo environmentInfo){
-        return environmentInfoService.saveEnvironmentInfo(environmentInfo);
+        return ResponseEntity.success(environmentInfoService.saveEnvironmentInfo(environmentInfo));
     }
 
     /**
@@ -55,11 +66,11 @@ public class EnvironmentInfoController {
      * @param environmentInfo 环境信息
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
     @PostMapping("/updateEnvironmentInfo")
     public ResponseEntity<Boolean> updateEnvironmentInfo(@RequestBody EnvironmentInfo environmentInfo){
-        return environmentInfoService.updateEnvironmentInfo(environmentInfo);
+        return ResponseEntity.success(environmentInfoService.updateEnvironmentInfo(environmentInfo));
     }
 
     /**
@@ -68,11 +79,11 @@ public class EnvironmentInfoController {
      * @param idList id列表
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-19
+     * @date 2021-07-26
      */
     @PostMapping("/deleteEnvironmentInfo")
     public ResponseEntity<Boolean> deleteEnvironmentInfo(@RequestBody List<Integer> idList){
-        return environmentInfoService.deleteEnvironmentInfo(idList);
+        return ResponseEntity.success(environmentInfoService.deleteEnvironmentInfo(idList));
     }
 
 }

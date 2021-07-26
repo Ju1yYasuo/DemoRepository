@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author luox
- * @since 2021-07-16
+ * @since 2021-07-26
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -65,6 +65,41 @@ public class User extends BaseEntity implements Serializable {
     private Integer position;
 
     /**
+     * 工种
+     */
+    private Integer workType;
+
+    /**
+     * 职业代码
+     */
+    private String jobCode;
+
+    /**
+     * 职业等级
+     */
+    private Integer jobLevel;
+
+    /**
+     * 安全帽等级
+     */
+    private Integer helmetType;
+
+    /**
+     * 绑定安全帽
+     */
+    private String boundHelmet;
+
+    /**
+     * 人员编号
+     */
+    private String userNumber;
+
+    /**
+     * 是否进入大屏id
+     */
+    private Integer whetherScreen;
+
+    /**
      * 电话号码
      */
     private String phoneNumber;
@@ -98,6 +133,11 @@ public class User extends BaseEntity implements Serializable {
      * 脸图文件名
      */
     private String facePicture;
+
+    /**
+     * 账号到期时间
+     */
+    private Date accountExpirationDate;
 
     /**
      * 登录状态（0未登录，1已登录，2锁定）

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author luox
- * @since 2021-07-19
+ * @since 2021-07-26
  */
 public interface EnvironmentInfoMapper extends BaseMapper<EnvironmentInfo> {
 

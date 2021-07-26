@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author luox
- * @since 2021-07-19
+ * @since 2021-07-26
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -45,7 +45,7 @@ public class EnvironmentInfo extends BaseEntity implements Serializable {
     private BigDecimal noise;
 
     /**
-     * 湿度(%rh)
+     * 湿度(%)
      */
     private BigDecimal humidity;
 

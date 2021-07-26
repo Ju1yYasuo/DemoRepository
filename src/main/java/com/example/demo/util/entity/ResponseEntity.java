@@ -2,6 +2,7 @@ package com.example.demo.util.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author luox
@@ -9,10 +10,11 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ResponseEntity<T> {
 
-    public static final String success = "success";
-    public static final String fail = "fail";
+    public static final String SUCCESS = "success";
+    public static final String FAIL = "fail";
 
     public static final int OK = 200;
     public static final int REQUEST_ERROR = 404;
@@ -32,5 +34,18 @@ public class ResponseEntity<T> {
      * 数据
      */
     private T data;
+
+    public static <T> ResponseEntity<T> success(T data) {
+        ResponseEntity<T> result = success();
+        result.setData(data);
+        return result;
+    }
+
+    public static <T> ResponseEntity<T> success() {
+        ResponseEntity<T> ret = new ResponseEntity<>();
+        ret.setCode(OK);
+        ret.setMessage(SUCCESS);
+        return ret;
+    }
 
 }

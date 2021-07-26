@@ -1,6 +1,6 @@
 package com.example.demo.controller.${package.ModuleName};
 
-import com.example.demo.util.entity.QueryEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.${package.ModuleName}.${entity};
 import com.example.demo.service.${package.ModuleName}.${table.serviceName};
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import ${superControllerClassPackage};
 </#if>
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -44,15 +45,25 @@ public class ${table.controllerName} {
     /**
      * 获取${table.comment}
      *
-     * @param queryEntity 查询实体
+     * @param map map
      * @return {@link ResponseEntity<List<${entity}>> }
      * @author ${author}
      * @date ${date}
      */
     @PostMapping("/get${entity}")
-    public ResponseEntity<List<${entity}>> get${entity}(@RequestBody QueryEntity<${entity}> queryEntity) {
-        return ${table.serviceName?uncap_first}.get${entity}(queryEntity);
-    }
+    public ResponseEntity<List<${entity}>> get${entity}(@RequestBody Map<String,Object> map) {
+            Page<${entity}> page = null;
+            String fuzzySearch = null;
+            if(map.containsKey("current") && map.containsKey("size")){
+                page = new Page<>();
+                page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
+                page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
+            }
+            if(map.containsKey("fuzzySearch")){
+                fuzzySearch = (String) map.get("fuzzySearch");
+            }
+            return ResponseEntity.success(${table.serviceName?uncap_first}.get${entity}(page,fuzzySearch));
+        }
 
     /**
      * 保存${table.comment}
@@ -64,7 +75,7 @@ public class ${table.controllerName} {
      */
     @PostMapping("/save${entity}")
     public ResponseEntity<Boolean> save${entity}(@RequestBody ${entity} ${entity?uncap_first}){
-        return ${table.serviceName?uncap_first}.save${entity}(${entity?uncap_first});
+        return ResponseEntity.success(${table.serviceName?uncap_first}.save${entity}(${entity?uncap_first}));
     }
 
     /**
@@ -77,7 +88,7 @@ public class ${table.controllerName} {
      */
     @PostMapping("/update${entity}")
     public ResponseEntity<Boolean> update${entity}(@RequestBody ${entity} ${entity?uncap_first}){
-        return ${table.serviceName?uncap_first}.update${entity}(${entity?uncap_first});
+        return ResponseEntity.success(${table.serviceName?uncap_first}.update${entity}(${entity?uncap_first}));
     }
 
     /**
@@ -90,7 +101,7 @@ public class ${table.controllerName} {
      */
     @PostMapping("/delete${entity}")
     public ResponseEntity<Boolean> delete${entity}(@RequestBody List<Integer> idList){
-        return ${table.serviceName?uncap_first}.delete${entity}(idList);
+        return ResponseEntity.success(${table.serviceName?uncap_first}.delete${entity}(idList));
     }
 
 }

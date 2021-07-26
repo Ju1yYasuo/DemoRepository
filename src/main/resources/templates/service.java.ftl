@@ -1,7 +1,6 @@
 package com.example.demo.service.${package.ModuleName};
 
-import com.example.demo.util.entity.QueryEntity;
-import com.example.demo.util.entity.ResponseEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.${package.ModuleName}.${entity};
 import ${superServiceClassPackage};
 
@@ -23,42 +22,43 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     /**
      * 获取${table.comment}
      *
-     * @param queryEntity 查询实体
-     * @return {@link ResponseEntity<List<${entity}>> }
+     * @param page        页面
+     * @param fuzzySearch 模糊搜索
+     * @return {@link List<${entity}> }
      * @author ${author}
      * @date ${date}
      */
-    ResponseEntity<List<${entity}>> get${entity}(QueryEntity<${entity}> queryEntity);
+    List<${entity}> get${entity}(Page<${entity}> page, String fuzzySearch);
 
     /**
      * 保存${table.comment}
      *
      * @param ${entity?uncap_first} ${table.comment}
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author ${author}
      * @date ${date}
      */
-    ResponseEntity<Boolean> save${entity}(${entity} ${entity?uncap_first});
+    Boolean save${entity}(${entity} ${entity?uncap_first});
 
     /**
      * 更新${table.comment}
      *
      * @param ${entity?uncap_first} ${table.comment}
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author ${author}
      * @date ${date}
      */
-    ResponseEntity<Boolean> update${entity}(${entity} ${entity?uncap_first});
+    Boolean update${entity}(${entity} ${entity?uncap_first});
 
     /**
      * 删除${table.comment}
      *
      * @param idList id列表
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author ${author}
      * @date ${date}
      */
-    ResponseEntity<Boolean> delete${entity}(List<Integer> idList);
+    Boolean delete${entity}(List<Integer> idList);
 
 }
 </#if>
