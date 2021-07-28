@@ -19,9 +19,9 @@ public class MySqlTypeConvertCustom extends MySqlTypeConvert implements ITypeCon
     public IColumnType processTypeConvert(GlobalConfig config, String fieldType) {
 //        因为fieldName(M) zerofill ,数子型字段使用zerofill才会使M生效，位数不够左边填0 ，
 //        而tinyint(1)为仅有一位二进制码所以 在各个框架被认为boolean
-        if (fieldType.contains("tinyint") && !fieldType.equals("tinyint(1)")) {
-            return DbColumnType.BYTE;
-        }
+//        if (fieldType.contains("tinyint") && !fieldType.equals("tinyint(1)")) {
+//            return DbColumnType.BYTE;
+//        }
         return super.processTypeConvert(config, fieldType);
     }
 }

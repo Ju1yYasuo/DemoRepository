@@ -48,4 +48,20 @@ public class ResponseEntity<T> {
         return ret;
     }
 
+    public static <T> ResponseEntity<T> error() {
+        return error(REQUEST_ERROR, FAIL, null);
+    }
+
+    public static <T> ResponseEntity<T> errorMessage(String msg) {
+        return error(REQUEST_ERROR, msg, null);
+    }
+
+    public static <T> ResponseEntity<T> error(int code, String message, T data) {
+        ResponseEntity<T> ret = new ResponseEntity<>();
+        ret.setCode(code);
+        ret.setMessage(message);
+        ret.setData(data);
+        return ret;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.demo.entity.sys;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.demo.util.entity.BaseEntity;
 import java.util.Date;
@@ -25,13 +27,14 @@ public class User extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户名
+     * 账号
      */
     private String userName;
 
     /**
      * 密码
      */
+    @TableField(fill = FieldFill.INSERT)
     private String password;
 
     /**
@@ -80,7 +83,7 @@ public class User extends BaseEntity implements Serializable {
     private Integer jobLevel;
 
     /**
-     * 安全帽等级
+     * 安全帽类型
      */
     private Integer helmetType;
 
@@ -90,7 +93,7 @@ public class User extends BaseEntity implements Serializable {
     private String boundHelmet;
 
     /**
-     * 人员编号
+     * 用户编号
      */
     private String userNumber;
 
@@ -105,19 +108,9 @@ public class User extends BaseEntity implements Serializable {
     private String phoneNumber;
 
     /**
-     * 邮箱
-     */
-    private String email;
-
-    /**
      * 身份证号码
      */
     private String idNumber;
-
-    /**
-     * 生日
-     */
-    private Date birthday;
 
     /**
      * 紧急联系人
@@ -135,8 +128,9 @@ public class User extends BaseEntity implements Serializable {
     private String facePicture;
 
     /**
-     * 账号到期时间
+     * 账户有效期
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date accountExpirationDate;
 
     /**
@@ -152,6 +146,7 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 登录错误次数
      */
+    @TableField(fill = FieldFill.INSERT)
     private Integer logErrorNumber;
 
 

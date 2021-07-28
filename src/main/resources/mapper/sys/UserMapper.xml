@@ -25,9 +25,7 @@
         <result column="user_number" property="userNumber"/>
         <result column="whether_screen" property="whetherScreen"/>
         <result column="phone_number" property="phoneNumber"/>
-        <result column="email" property="email"/>
         <result column="id_number" property="idNumber"/>
-        <result column="birthday" property="birthday"/>
         <result column="emergency_contact" property="emergencyContact"/>
         <result column="emergency_contact_phone" property="emergencyContactPhone"/>
         <result column="face_picture" property="facePicture"/>

@@ -17,9 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
  * ${table.comment!} 前端控制器
- * </p>
  *
  * @author ${author}
  * @since ${date}

@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>
  * ${table.comment!} 服务实现类
- * </p>
  *
  * @author ${author}
  * @since ${date}
@@ -45,17 +43,17 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
     
     @Override
-    public Boolean save${entity}(${entity} ${entity?uncap_first}) {
+    public boolean save${entity}(${entity} ${entity?uncap_first}) {
         return save(${entity?uncap_first});
     }
 
     @Override
-    public Boolean update${entity}(${entity} ${entity?uncap_first}) {
+    public boolean update${entity}(${entity} ${entity?uncap_first}) {
         return updateById(${entity?uncap_first});
     }
 
     @Override
-    public Boolean delete${entity}(List<Integer> idList) {
+    public boolean delete${entity}(List<Integer> idList) {
         return removeByIds(idList);
     }
     

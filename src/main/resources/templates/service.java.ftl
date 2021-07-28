@@ -7,9 +7,7 @@ import ${superServiceClassPackage};
 import java.util.List;
 
 /**
- * <p>
  * ${table.comment!} 服务类
- * </p>
  *
  * @author ${author}
  * @since ${date}
@@ -34,31 +32,31 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * 保存${table.comment}
      *
      * @param ${entity?uncap_first} ${table.comment}
-     * @return {@link Boolean }
+     * @return boolean
      * @author ${author}
      * @date ${date}
      */
-    Boolean save${entity}(${entity} ${entity?uncap_first});
+    boolean save${entity}(${entity} ${entity?uncap_first});
 
     /**
      * 更新${table.comment}
      *
      * @param ${entity?uncap_first} ${table.comment}
-     * @return {@link Boolean }
+     * @return boolean
      * @author ${author}
      * @date ${date}
      */
-    Boolean update${entity}(${entity} ${entity?uncap_first});
+    boolean update${entity}(${entity} ${entity?uncap_first});
 
     /**
      * 删除${table.comment}
      *
      * @param idList id列表
-     * @return {@link Boolean }
+     * @return boolean
      * @author ${author}
      * @date ${date}
      */
-    Boolean delete${entity}(List<Integer> idList);
+    boolean delete${entity}(List<Integer> idList);
 
 }
 </#if>

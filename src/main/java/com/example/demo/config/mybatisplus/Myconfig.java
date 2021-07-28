@@ -8,9 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 分页插件
- * @author luox
- * @date 2021/6/24
  * 自定义一个配置类，mapper 扫描也可在此写上
+ *
+ * @author luox
+ * @date 2021/06/24
  */
 @Configuration
 //@MapperScan("com.example.demo.modules.test.mapper")
