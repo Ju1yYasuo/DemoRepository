@@ -10,12 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
  * 环境信息 前端控制器
- * </p>
  *
  * @author luox
- * @since 2021-07-26
+ * @since 2021-07-29
  */
 @RestController
 @RequestMapping("/bi/environment-info")
@@ -30,7 +28,7 @@ public class EnvironmentInfoController {
      * @param map map
      * @return {@link ResponseEntity<List<EnvironmentInfo>> }
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
     @PostMapping("/getEnvironmentInfo")
     public ResponseEntity<List<EnvironmentInfo>> getEnvironmentInfo(@RequestBody Map<String,Object> map) {
@@ -53,7 +51,7 @@ public class EnvironmentInfoController {
      * @param environmentInfo 环境信息
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
     @PostMapping("/saveEnvironmentInfo")
     public ResponseEntity<Boolean> saveEnvironmentInfo(@RequestBody EnvironmentInfo environmentInfo){
@@ -66,7 +64,7 @@ public class EnvironmentInfoController {
      * @param environmentInfo 环境信息
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
     @PostMapping("/updateEnvironmentInfo")
     public ResponseEntity<Boolean> updateEnvironmentInfo(@RequestBody EnvironmentInfo environmentInfo){
@@ -79,7 +77,7 @@ public class EnvironmentInfoController {
      * @param idList id列表
      * @return {@link ResponseEntity<Boolean> }
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
     @PostMapping("/deleteEnvironmentInfo")
     public ResponseEntity<Boolean> deleteEnvironmentInfo(@RequestBody List<Integer> idList){

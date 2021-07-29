@@ -3,20 +3,20 @@ package com.example.demo.entity.bi;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.demo.util.entity.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+
 import java.io.Serializable;
 
 /**
- * <p>
  * 环境信息
- * </p>
  *
  * @author luox
- * @since 2021-07-26
+ * @since 2021-07-29
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName("bi_environment_info")
 @ToString(callSuper = true)

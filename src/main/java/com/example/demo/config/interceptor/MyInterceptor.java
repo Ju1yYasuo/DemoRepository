@@ -2,6 +2,8 @@ package com.example.demo.config.interceptor;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import com.example.demo.config.annotation.ControllerAnn;
 import com.example.demo.config.annotation.InterceptorAnn;
 import com.example.demo.util.entity.ResponseEntity;
@@ -27,9 +29,11 @@ import java.io.PrintWriter;
 @InterceptorAnn
 public class MyInterceptor implements HandlerInterceptor {
 
-    @Autowired
+    //@Autowired
+    //private LogService logService;
 
-    private static final Log sysLog = LogFactory.getLog(MyInterceptor.class);
+
+    //private static final Log sysLog = LogFactory.getLog(MyInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -46,7 +50,7 @@ public class MyInterceptor implements HandlerInterceptor {
         //需要进行权限认证
         if (ObjectUtil.isNull(controllerAnn) || controllerAnn.needLogin()) {
             if (!StpUtil.isLogin()) {
-                return flush(response, ResponseEntity.errorMessage("未登录").toString());
+                return flush(response, JSONUtil.parseObj(ResponseEntity.errorMessage("未登录")).toString());
             }
             //log.setUserId(Integer.parseInt(StpUtil.getLoginId().toString()));
         } else {

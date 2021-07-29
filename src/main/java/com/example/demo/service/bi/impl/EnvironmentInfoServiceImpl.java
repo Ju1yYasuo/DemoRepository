@@ -6,18 +6,17 @@ import com.example.demo.entity.bi.EnvironmentInfo;
 import com.example.demo.mapper.bi.EnvironmentInfoMapper;
 import com.example.demo.service.bi.EnvironmentInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * <p>
  * 环境信息 服务实现类
- * </p>
  *
  * @author luox
- * @since 2021-07-26
+ * @since 2021-07-29
  */
 @Service
 public class EnvironmentInfoServiceImpl extends ServiceImpl<EnvironmentInfoMapper, EnvironmentInfo> implements EnvironmentInfoService {
@@ -40,17 +39,17 @@ public class EnvironmentInfoServiceImpl extends ServiceImpl<EnvironmentInfoMappe
     }
     
     @Override
-    public Boolean saveEnvironmentInfo(EnvironmentInfo environmentInfo) {
+    public boolean saveEnvironmentInfo(EnvironmentInfo environmentInfo) {
         return save(environmentInfo);
     }
 
     @Override
-    public Boolean updateEnvironmentInfo(EnvironmentInfo environmentInfo) {
+    public boolean updateEnvironmentInfo(EnvironmentInfo environmentInfo) {
         return updateById(environmentInfo);
     }
 
     @Override
-    public Boolean deleteEnvironmentInfo(List<Integer> idList) {
+    public boolean deleteEnvironmentInfo(List<Integer> idList) {
         return removeByIds(idList);
     }
     

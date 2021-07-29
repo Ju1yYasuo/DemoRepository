@@ -1,26 +1,14 @@
 {
   "outPath": "J:\\smartDoc\\Demo",
-  "serverUrl": "http://localhost:7777/july",
+  "serverUrl": "http://localhost:8082",
   "allInOne": true,
   "projectName": "Demo",
-  "customResponseFields": [
-    {
-      "name": "resultCode",
-      "desc": "Response code",
-      "value": "200"
-    },
-    {
-      "name": "resultMsg",
-      "desc": "错误信息",
-      "value": null
-    }
-  ],
   "requestHeaders": [
     {
-      "name": "token",
+      "name": "satoken",
       "type": "string",
-      "desc": "存放于cookie的校验信息",
-      "required": false,
+      "desc": "sa-token,权限验证",
+      "required": true,
       "since": "-"
     }
   ],
@@ -29,5 +17,5 @@
   "secret": "fEsvFwAor%@YW%QRVFjYBL#&0,Htm-rj",
   "openUrl": "http://172.16.2.11:7700/api",
   "debugEnvName":"本地环境",
-  "debugEnvUrl":"http://localhost:7777/july"
+  "debugEnvUrl":"http://localhost:8082"
 }

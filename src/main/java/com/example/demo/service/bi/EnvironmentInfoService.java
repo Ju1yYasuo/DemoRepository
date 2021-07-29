@@ -7,12 +7,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 /**
- * <p>
  * 环境信息 服务类
- * </p>
  *
  * @author luox
- * @since 2021-07-26
+ * @since 2021-07-29
  */
 public interface EnvironmentInfoService extends IService<EnvironmentInfo> {
 
@@ -23,7 +21,7 @@ public interface EnvironmentInfoService extends IService<EnvironmentInfo> {
      * @param fuzzySearch 模糊搜索
      * @return {@link List<EnvironmentInfo> }
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
     List<EnvironmentInfo> getEnvironmentInfo(Page<EnvironmentInfo> page, String fuzzySearch);
 
@@ -31,30 +29,30 @@ public interface EnvironmentInfoService extends IService<EnvironmentInfo> {
      * 保存环境信息
      *
      * @param environmentInfo 环境信息
-     * @return {@link Boolean }
+     * @return boolean
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
-    Boolean saveEnvironmentInfo(EnvironmentInfo environmentInfo);
+    boolean saveEnvironmentInfo(EnvironmentInfo environmentInfo);
 
     /**
      * 更新环境信息
      *
      * @param environmentInfo 环境信息
-     * @return {@link Boolean }
+     * @return boolean
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
-    Boolean updateEnvironmentInfo(EnvironmentInfo environmentInfo);
+    boolean updateEnvironmentInfo(EnvironmentInfo environmentInfo);
 
     /**
      * 删除环境信息
      *
      * @param idList id列表
-     * @return {@link Boolean }
+     * @return boolean
      * @author luox
-     * @date 2021-07-26
+     * @date 2021-07-29
      */
-    Boolean deleteEnvironmentInfo(List<Integer> idList);
+    boolean deleteEnvironmentInfo(List<Integer> idList);
 
 }

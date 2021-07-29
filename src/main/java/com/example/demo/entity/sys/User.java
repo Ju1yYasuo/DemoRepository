@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.demo.util.entity.BaseEntity;
 import java.util.Date;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+
+import lombok.*;
+
 import java.io.Serializable;
 
 /**
@@ -19,6 +19,9 @@ import java.io.Serializable;
  * @since 2021-07-26
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_user")
 @ToString(callSuper = true)
