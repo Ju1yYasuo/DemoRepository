@@ -82,7 +82,7 @@ public class PoiUtil {
      */
     public static String getStringValue(Cell cell,boolean canBeEmpty) {
         Object value = getValue(cell,canBeEmpty);
-        return value.toString();
+        return stringNullDeal(value);
     }
 
     /**
@@ -107,8 +107,7 @@ public class PoiUtil {
      * @date 2021/07/26
      */
     public static Integer getIntegerValue(Cell cell,boolean canBeEmpty) {
-        Long value = (Long) getValue(cell,canBeEmpty);
-        return value.intValue();
+        return ((Long) getValue(cell,canBeEmpty)).intValue();
     }
 
     /**
@@ -163,6 +162,9 @@ public class PoiUtil {
      */
     public static Date getDateValue(Cell cell,boolean canBeEmpty) {
         Object value = getValue(cell,canBeEmpty);
+        if(canBeEmpty && isBlank(value)){
+            return null;
+        }
         return (Date) value;
     }
 
@@ -178,7 +180,7 @@ public class PoiUtil {
     public static Object getValue(Cell cell,boolean canBeEmpty){
         Object value = CellUtil.getCellValue(cell);
         if(!canBeEmpty && isBlank(value)){
-            throw new MyException("不能为空.");
+            throw new MyException("第" + (cell.getColumnIndex() + 1) + "列数据不能为空");
         }
         return value;
     }
@@ -197,6 +199,19 @@ public class PoiUtil {
             return true;
         }
         return StringUtils.isBlank(object.toString());
+    }
+
+    /**
+     * 字符串为空处理
+     * 有时excel读取不到单元格,cell = null
+     *
+     * @param str str
+     * @return {@link String }
+     * @author luox
+     * @date 2021/08/10
+     */
+    public static String stringNullDeal(Object str){
+        return str == null ? "" : str.toString();
     }
 
 }

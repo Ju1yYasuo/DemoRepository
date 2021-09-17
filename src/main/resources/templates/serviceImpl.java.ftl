@@ -1,11 +1,12 @@
 package com.example.demo.service.${package.ModuleName}.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.entity.${package.ModuleName}.${entity};
+import com.example.demo.${package.ModuleName}.${entity};
 import com.example.demo.mapper.${package.ModuleName}.${table.mapperName};
 import com.example.demo.service.${package.ModuleName}.${table.serviceName};
 import ${superServiceImplClassPackage};
+import com.example.demo.util.entity.QueryResultEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +30,20 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     private ${table.mapperName} ${table.mapperName?uncap_first};
 
     @Override
-    public List<${entity}> get${entity}(Page<${entity}> page, String fuzzySearch){
+    public QueryResultEntity<List<${entity}>> get${entity}(Page<${entity}> page, String fuzzySearch){
+        LambdaQueryWrapper<${entity}> queryWrapper = new LambdaQueryWrapper<>();
+
+        QueryResultEntity<List<${entity}>> queryResultEntity = new QueryResultEntity<>();
         List<${entity}> list;
-
-        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
-
         if(page != null){
             list = page(page,queryWrapper).getRecords();
+            int total = count(queryWrapper);
+            queryResultEntity.setTotal(total);
         }else{
             list = list(queryWrapper);
         }
-        return list;
+        queryResultEntity.setData(list);
+        return queryResultEntity;
     }
     
     @Override

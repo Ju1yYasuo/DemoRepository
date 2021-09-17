@@ -1,9 +1,11 @@
 package com.example.demo.controller.${package.ModuleName};
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.util.entity.ResponseEntity;
+import com.boot.core.json.JsonResult;
+import com.example.demo.util.entity.CommonQueryDto;
 import com.example.demo.entity.${package.ModuleName}.${entity};
 import com.example.demo.service.${package.ModuleName}.${table.serviceName};
+import com.example.demo.util.entity.QueryResultEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import ${superControllerClassPackage};
 </#if>
 import java.util.List;
-import java.util.Map;
 
 /**
  * ${table.comment!} 前端控制器
@@ -43,63 +44,59 @@ public class ${table.controllerName} {
     /**
      * 获取${table.comment}
      *
-     * @param map map
-     * @return {@link ResponseEntity<List<${entity}>> }
+     * @param commonQueryDto 通用查询dto
+     * @return {@link JsonResult<QueryResultEntity<List<${entity}>>> }
      * @author ${author}
      * @date ${date}
      */
     @PostMapping("/get${entity}")
-    public ResponseEntity<List<${entity}>> get${entity}(@RequestBody Map<String,Object> map) {
-            Page<${entity}> page = null;
-            String fuzzySearch = null;
-            if(map.containsKey("current") && map.containsKey("size")){
-                page = new Page<>();
-                page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
-                page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
-            }
-            if(map.containsKey("fuzzySearch")){
-                fuzzySearch = (String) map.get("fuzzySearch");
-            }
-            return ResponseEntity.success(${table.serviceName?uncap_first}.get${entity}(page,fuzzySearch));
+    public JsonResult<QueryResultEntity<List<${entity}>>> get${entity}(@RequestBody CommonQueryDto dto) {
+        Page<${entity}> page = null;
+        if(dto.getCurrent() != null && dto.getSize() != null){
+            page = new Page<>();
+            page.setCurrent(dto.getCurrent());
+            page.setSize(dto.getSize());
         }
+        return JsonResult.success(${table.serviceName?uncap_first}.get${entity}(page,dto.getFuzzySearch()));
+    }
 
     /**
      * 保存${table.comment}
      *
      * @param ${entity?uncap_first} ${table.comment}
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link JsonResult<Boolean> }
      * @author ${author}
      * @date ${date}
      */
     @PostMapping("/save${entity}")
-    public ResponseEntity<Boolean> save${entity}(@RequestBody ${entity} ${entity?uncap_first}){
-        return ResponseEntity.success(${table.serviceName?uncap_first}.save${entity}(${entity?uncap_first}));
+    public JsonResult<Boolean> save${entity}(@RequestBody ${entity} ${entity?uncap_first}){
+        return JsonResult.success(${table.serviceName?uncap_first}.save${entity}(${entity?uncap_first}));
     }
 
     /**
      * 更新${table.comment}
      *
      * @param ${entity?uncap_first} ${table.comment}
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link JsonResult<Boolean> }
      * @author ${author}
      * @date ${date}
      */
     @PostMapping("/update${entity}")
-    public ResponseEntity<Boolean> update${entity}(@RequestBody ${entity} ${entity?uncap_first}){
-        return ResponseEntity.success(${table.serviceName?uncap_first}.update${entity}(${entity?uncap_first}));
+    public JsonResult<Boolean> update${entity}(@RequestBody ${entity} ${entity?uncap_first}){
+        return JsonResult.success(${table.serviceName?uncap_first}.update${entity}(${entity?uncap_first}));
     }
 
     /**
      * 删除${table.comment}
      *
      * @param idList id列表
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link JsonResult<Boolean> }
      * @author ${author}
      * @date ${date}
      */
     @PostMapping("/delete${entity}")
-    public ResponseEntity<Boolean> delete${entity}(@RequestBody List<Integer> idList){
-        return ResponseEntity.success(${table.serviceName?uncap_first}.delete${entity}(idList));
+    public JsonResult<Boolean> delete${entity}(@RequestBody List<Integer> idList){
+        return JsonResult.success(${table.serviceName?uncap_first}.delete${entity}(idList));
     }
 
 }

@@ -25,11 +25,11 @@ public interface UserService extends IService<User> {
      *
      * @param page        页面
      * @param fuzzySearch 模糊搜索
-     * @return {@link List<User> }
+     * @return {@link Map<String,Object> }
      * @author luox
      * @date 2021-07-26
      */
-    List<User> getUser(Page<User> page, String fuzzySearch);
+    Map<String,Object> getUser(Page<User> page, String fuzzySearch);
 
     /**
      * 保存人员信息

@@ -36,12 +36,12 @@ public class UserController {
      * 获取人员信息
      *
      * @param map map
-     * @return {@link ResponseEntity<List<User>> }
+     * @return {@link ResponseEntity<Map<String,Object>> }
      * @author luox
      * @date 2021/07/26
      */
     @PostMapping("/getUser")
-    public ResponseEntity<List<User>> getUser(@RequestBody Map<String,Object> map) {
+    public ResponseEntity<Map<String,Object>> getUser(@RequestBody Map<String,Object> map) {
             Page<User> page = null;
             String fuzzySearch = null;
             if(map.containsKey("current") && map.containsKey("size")){
@@ -159,7 +159,7 @@ public class UserController {
      */
     @PostMapping("/exportExcel")
     public void exportExcel(@RequestBody Map<String,Object> map, HttpServletResponse response) throws IOException {
-        XSSFWorkbook workbook = userService.exportExcel(getUser(map).getData());
+        XSSFWorkbook workbook = userService.exportExcel((List<User>) getUser(map).getData().get("data"));
 
         String currentTimeString = DateUtil.now();
         response.setCharacterEncoding("UTF-8");

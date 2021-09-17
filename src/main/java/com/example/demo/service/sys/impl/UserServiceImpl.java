@@ -45,17 +45,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
 
     @Override
-    public List<User> getUser(Page<User> page, String fuzzySearch){
-        List<User> list;
-
+    public Map<String,Object> getUser(Page<User> page, String fuzzySearch){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 
+        Map<String,Object> map = new HashMap<>(2);
+        List<User> list;
         if(page != null){
             list = page(page,queryWrapper).getRecords();
+            int total = count(queryWrapper);
+            map.put("total",total);
         }else{
             list = list(queryWrapper);
         }
-        return list;
+        map.put("data",list);
+        return map;
     }
     
     @Override

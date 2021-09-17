@@ -2,6 +2,7 @@ package com.example.demo.service.${package.ModuleName};
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.${package.ModuleName}.${entity};
+import com.example.demo.util.entity.QueryResultEntity;
 import ${superServiceClassPackage};
 
 import java.util.List;
@@ -22,11 +23,11 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      *
      * @param page        页面
      * @param fuzzySearch 模糊搜索
-     * @return {@link List<${entity}> }
+     * @return {@link QueryResultEntity<List<${entity}>> }
      * @author ${author}
      * @date ${date}
      */
-    List<${entity}> get${entity}(Page<${entity}> page, String fuzzySearch);
+    QueryResultEntity<List<${entity}>> get${entity}(Page<${entity}> page, String fuzzySearch);
 
     /**
      * 保存${table.comment}
