@@ -66,14 +66,14 @@ public class User extends BaseEntity implements Serializable {
     private Integer department;
 
     /**
-     * 岗位id
+     * 岗位key
      */
-    private Integer position;
+    private String position;
 
     /**
-     * 工种
+     * 工种key
      */
-    private Integer workType;
+    private String workType;
 
     /**
      * 职业代码
@@ -81,14 +81,14 @@ public class User extends BaseEntity implements Serializable {
     private String jobCode;
 
     /**
-     * 职业等级
+     * 职业等级key
      */
-    private Integer jobLevel;
+    private String jobLevel;
 
     /**
-     * 安全帽类型
+     * 安全帽类型key
      */
-    private Integer helmetType;
+    private String helmetType;
 
     /**
      * 绑定安全帽
@@ -101,9 +101,9 @@ public class User extends BaseEntity implements Serializable {
     private String userNumber;
 
     /**
-     * 是否进入大屏id
+     * 是否进入大屏key
      */
-    private Integer whetherScreen;
+    private String whetherScreen;
 
     /**
      * 电话号码
@@ -126,9 +126,9 @@ public class User extends BaseEntity implements Serializable {
     private String emergencyContactPhone;
 
     /**
-     * 脸图文件名
+     * 脸图文件标识
      */
-    private String facePicture;
+    private String fileMark;
 
     /**
      * 账户有效期
@@ -138,19 +138,20 @@ public class User extends BaseEntity implements Serializable {
 
     /**
      * 登录状态（0未登录，1已登录，2锁定）
+     * @ignore
      */
     private Integer logStatus;
 
     /**
      * 上次登录时间
+     * @ignore
      */
     private Date logLastTime;
 
     /**
      * 登录错误次数
+     * @ignore
      */
     @TableField(fill = FieldFill.INSERT)
     private Integer logErrorNumber;
-
-
 }

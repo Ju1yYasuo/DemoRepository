@@ -2,47 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.sys.UserMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.demo.entity.sys.User">
-        <id column="id" property="id"/>
-        <result column="deleted" property="deleted"/>
-        <result column="remarks" property="remarks"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="user_name" property="userName"/>
-        <result column="password" property="password"/>
-        <result column="name" property="name"/>
-        <result column="sex" property="sex"/>
-        <result column="age" property="age"/>
-        <result column="card_number" property="cardNumber"/>
-        <result column="department" property="department"/>
-        <result column="position" property="position"/>
-        <result column="work_type" property="workType"/>
-        <result column="job_code" property="jobCode"/>
-        <result column="job_level" property="jobLevel"/>
-        <result column="helmet_type" property="helmetType"/>
-        <result column="bound_helmet" property="boundHelmet"/>
-        <result column="user_number" property="userNumber"/>
-        <result column="whether_screen" property="whetherScreen"/>
-        <result column="phone_number" property="phoneNumber"/>
-        <result column="id_number" property="idNumber"/>
-        <result column="emergency_contact" property="emergencyContact"/>
-        <result column="emergency_contact_phone" property="emergencyContactPhone"/>
-        <result column="face_picture" property="facePicture"/>
-        <result column="account_expiration_date" property="accountExpirationDate"/>
-        <result column="log_status" property="logStatus"/>
-        <result column="log_last_time" property="logLastTime"/>
-        <result column="log_error_number" property="logErrorNumber"/>
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id,
-        deleted,
-        remarks,
-        create_time,
-        update_time,
-        user_name, password, name, sex, age, card_number, department, position, work_type, job_code, job_level, helmet_type, bound_helmet, user_number, whether_screen, phone_number, email, id_number, birthday, emergency_contact, emergency_contact_phone, face_picture, account_expiration_date, log_status, log_last_time, log_error_number
-    </sql>
 
 </mapper>
