@@ -4,10 +4,23 @@ server:
 #数据库
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://172.16.2.11:3306/zhf-gkpt?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
-    username: root
-    password: 9Tg($<77x+N.
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        master:
+          url: jdbc:mysql://172.16.2.11:3306/zhf-gkpt?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+          username: root
+          password: 9Tg($<77x+N.
+#          driver: com.p6spy.engine.spy.P6SpyDriver
+          driver: com.mysql.cj.jdbc.Driver
+          #connectionInitSqls: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+        ds1:
+#          url: jdbc:p6spy:mysql://172.16.2.11:3306/egin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+          url: jdbc:mysql://172.16.2.11:3306/egin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+          username: root
+          password: 9Tg($<77x+N.
+          driver: com.mysql.cj.jdbc.Driver
 
 #打印sql
 mybatis-plus:

@@ -36,8 +36,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        //handler所有策略默认是有值则不替代
-        //this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
+        this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
     }
 
 }

@@ -130,6 +130,13 @@
 			<version>2.9.2</version>
 		</dependency>
 
+		<!--Multiple datasource-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

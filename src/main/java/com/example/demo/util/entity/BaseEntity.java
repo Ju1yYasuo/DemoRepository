@@ -42,6 +42,6 @@ public class BaseEntity {
      * 更新时间
      * @ignore
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 }
