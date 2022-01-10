@@ -47,7 +47,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-
 		<!--mysql-->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -137,6 +136,21 @@
 			<version>3.4.1</version>
 		</dependency>
 
+		<!--dm database-->
+<!--		<dependency>-->
+<!--			<groupId>com.dameng</groupId>-->
+<!--			<artifactId>dm-jdbc</artifactId>-->
+<!--			<version>1.8</version>-->
+<!--		</dependency>-->
+		<!--如果驱动包报错，可以添加本地驱动-->
+		  <dependency>
+		     <groupId>com.dameng</groupId>
+		     <artifactId>dm-jdbc</artifactId>
+			 <version>1.8</version>
+			 <scope>system</scope>
+			 <systemPath>${project.basedir}/libs/DmJdbcDriver18.jar</systemPath>
+		  </dependency>
+
 	</dependencies>
 
 	<build>
@@ -216,6 +230,17 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+
+		<!-- 使用 DM 的镜像仓库来下载驱动包-->
+<!--		<repository>-->
+<!--			<id>dc</id>-->
+<!--			<name>dc Repository</name>-->
+<!--			<url>http://119.96.100.222:8181/repository/maven-releases/</url>-->
+<!--			<snapshots>-->
+<!--				<enabled>false</enabled>-->
+<!--			</snapshots>-->
+<!--		</repository>-->
+
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>

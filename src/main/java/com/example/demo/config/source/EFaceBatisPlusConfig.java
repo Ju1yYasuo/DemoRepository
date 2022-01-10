@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.example.demo.util.common.BeanUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.core.env.Environment;
@@ -83,6 +84,7 @@ public class EFaceBatisPlusConfig {
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
         configuration.setJdbcTypeForNull(JdbcType.NULL);
+        configuration.setLogImpl(StdOutImpl.class);
         sqlSessionFactory.setConfiguration(configuration);
         try {
             sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().

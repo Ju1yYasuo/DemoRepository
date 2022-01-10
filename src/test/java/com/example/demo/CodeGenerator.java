@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * 代码生成器
+ *
  * @author luox
  * @date 2021/6/25
  */

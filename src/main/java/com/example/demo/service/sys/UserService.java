@@ -3,6 +3,7 @@ package com.example.demo.service.sys;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.sys.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.demo.util.entity.QueryResultEntity;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,11 +26,11 @@ public interface UserService extends IService<User> {
      *
      * @param page        页面
      * @param fuzzySearch 模糊搜索
-     * @return {@link Map<String,Object> }
+     * @return {@link QueryResultEntity<List<User>> }
      * @author luox
-     * @date 2021-07-26
+     * @date 2022/01/10
      */
-    Map<String,Object> getUser(Page<User> page, String fuzzySearch);
+    QueryResultEntity<List<User>> getUser(Page<User> page, String fuzzySearch);
 
     /**
      * 保存人员信息

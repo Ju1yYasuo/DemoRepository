@@ -3,6 +3,7 @@ package com.example.demo.controller.sys;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.annotation.ControllerAnn;
+import com.example.demo.util.entity.QueryResultEntity;
 import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.sys.User;
 import com.example.demo.service.sys.UserService;
@@ -36,24 +37,24 @@ public class UserController {
      * 获取人员信息
      *
      * @param map map
-     * @return {@link ResponseEntity<Map<String,Object>> }
+     * @return {@link ResponseEntity<QueryResultEntity<List<User>>> }
      * @author luox
-     * @date 2021/07/26
+     * @date 2022/01/10
      */
     @PostMapping("/getUser")
-    public ResponseEntity<Map<String,Object>> getUser(@RequestBody Map<String,Object> map) {
-            Page<User> page = null;
-            String fuzzySearch = null;
-            if(map.containsKey("current") && map.containsKey("size")){
-                page = new Page<>();
-                page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
-                page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
-            }
-            if(map.containsKey("fuzzySearch")){
-                fuzzySearch = (String) map.get("fuzzySearch");
-            }
-            return ResponseEntity.success(userService.getUser(page,fuzzySearch));
+    public ResponseEntity<QueryResultEntity<List<User>>> getUser(@RequestBody Map<String,Object> map) {
+        Page<User> page = null;
+        String fuzzySearch = null;
+        if(map.containsKey("current") && map.containsKey("size")){
+            page = new Page<>();
+            page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
+            page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
         }
+        if(map.containsKey("fuzzySearch")){
+            fuzzySearch = (String) map.get("fuzzySearch");
+        }
+        return ResponseEntity.success(userService.getUser(page,fuzzySearch));
+    }
 
     /**
      * 保存人员信息
@@ -159,7 +160,7 @@ public class UserController {
      */
     @PostMapping("/exportExcel")
     public void exportExcel(@RequestBody Map<String,Object> map, HttpServletResponse response) throws IOException {
-        XSSFWorkbook workbook = userService.exportExcel((List<User>) getUser(map).getData().get("data"));
+        XSSFWorkbook workbook = userService.exportExcel(getUser(map).getData().getData());
 
         String currentTimeString = DateUtil.now();
         response.setCharacterEncoding("UTF-8");

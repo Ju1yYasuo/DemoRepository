@@ -13,6 +13,7 @@ import com.example.demo.service.sys.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.util.common.Constant;
 import com.example.demo.util.document.PoiUtil;
+import com.example.demo.util.entity.QueryResultEntity;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -45,20 +46,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
 
     @Override
-    public Map<String,Object> getUser(Page<User> page, String fuzzySearch){
+    public QueryResultEntity<List<User>> getUser(Page<User> page, String fuzzySearch){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 
-        Map<String,Object> map = new HashMap<>(2);
+        QueryResultEntity<List<User>> queryResultEntity= new QueryResultEntity<>();
         List<User> list;
         if(page != null){
             list = page(page,queryWrapper).getRecords();
             int total = count(queryWrapper);
-            map.put("total",total);
+            queryResultEntity.setTotal(total);
         }else{
             list = list(queryWrapper);
         }
-        map.put("data",list);
-        return map;
+        queryResultEntity.setData(list);
+        return queryResultEntity;
     }
     
     @Override

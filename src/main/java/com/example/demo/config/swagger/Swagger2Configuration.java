@@ -13,9 +13,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author luox
  * @date 2021/6/25
  */
-@Configuration
+//@Configuration
 //EnableSwagger2注解只能加一处
-@EnableSwagger2
+//@EnableSwagger2
 public class Swagger2Configuration {
     //api接口包扫描路径
     public static final String SWAGGER_SCAN_BASE_PACKAGE = "com.example.demo";
