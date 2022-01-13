@@ -1,12 +1,11 @@
-package com.example.demo.controller.${package.ModuleName};
+package ${package.Controller};
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.boot.core.json.JsonResult;
-import com.example.demo.util.entity.CommonQueryDto;
-import com.example.demo.entity.${package.ModuleName}.${entity};
-import com.example.demo.service.${package.ModuleName}.${table.serviceName};
-import com.example.demo.util.entity.QueryResultEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+import com.example.demo.util.vo.BaseQueryVo;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.*;
 <#else>
@@ -28,10 +27,7 @@ import java.util.List;
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
-<#if kotlin>
-class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
-<#else>
+@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen?replace("-","_")}<#else>${table.entityPath}</#if>")
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
@@ -39,51 +35,60 @@ public class ${table.controllerName} {
 </#if>
 
     @Autowired
-    private ${table.serviceName} ${table.serviceName?uncap_first};
+    private ${table.serviceName} ${table.entityPath}Service;
 
     /**
-     * 获取${table.comment}
+     * 根据id查询${table.comment}详情
      *
-     * @param commonQueryDto 通用查询dto
-     * @return {@link JsonResult<QueryResultEntity<List<${entity}>>> }
+     * @param id id
+     * @return {@link JsonResult<${entity}> }
      * @author ${author}
      * @date ${date}
      */
-    @PostMapping("/get${entity}")
-    public JsonResult<QueryResultEntity<List<${entity}>>> get${entity}(@RequestBody CommonQueryDto dto) {
-        Page<${entity}> page = null;
-        if(dto.getCurrent() != null && dto.getSize() != null){
-            page = new Page<>();
-            page.setCurrent(dto.getCurrent());
-            page.setSize(dto.getSize());
-        }
-        return JsonResult.success(${table.serviceName?uncap_first}.get${entity}(page,dto.getFuzzySearch()));
+    @GetMapping("/get/{id}")
+    public JsonResult<${entity}> getById(@PathVariable("id") String id){
+        ${entity} ${table.entityPath} = ${table.entityPath}Service.getById(id);
+        return JsonResult.success(${table.entityPath});
+    }
+
+    /**
+     * 分页查询${table.comment}
+     *
+     * @param pageVo 分页vo
+     * @param ${table.entityPath} ${table.comment}
+     * @return {@link JsonResult<Page<${entity}>> }
+     * @author ${author}
+     * @date ${date}
+     */
+    @RequestMapping("/page")
+    public JsonResult<Page<${entity}>> page(BaseQueryVo<${entity}> pageVo, ${entity} ${table.entityPath}) {
+        return JsonResult.success(${table.entityPath}Service.page(pageVo, ${table.entityPath}));
     }
 
     /**
      * 保存${table.comment}
      *
-     * @param ${entity?uncap_first} ${table.comment}
+     * @param ${table.entityPath} ${table.comment}
      * @return {@link JsonResult<Boolean> }
      * @author ${author}
      * @date ${date}
      */
-    @PostMapping("/save${entity}")
-    public JsonResult<Boolean> save${entity}(@RequestBody ${entity} ${entity?uncap_first}){
-        return JsonResult.success(${table.serviceName?uncap_first}.save${entity}(${entity?uncap_first}));
+    @PostMapping("/save")
+    public JsonResult<Boolean> save(@RequestBody ${entity} ${table.entityPath}){
+        return JsonResult.info(${table.entityPath}Service.save(${table.entityPath}));
     }
 
     /**
      * 更新${table.comment}
      *
-     * @param ${entity?uncap_first} ${table.comment}
+     * @param ${table.entityPath} ${table.comment}
      * @return {@link JsonResult<Boolean> }
      * @author ${author}
      * @date ${date}
      */
-    @PostMapping("/update${entity}")
-    public JsonResult<Boolean> update${entity}(@RequestBody ${entity} ${entity?uncap_first}){
-        return JsonResult.success(${table.serviceName?uncap_first}.update${entity}(${entity?uncap_first}));
+    @PostMapping("/update")
+    public JsonResult<Boolean> update(@RequestBody ${entity} ${table.entityPath}){
+        return JsonResult.info(${table.entityPath}Service.updateById(${table.entityPath}));
     }
 
     /**
@@ -94,10 +99,9 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
-    @PostMapping("/delete${entity}")
-    public JsonResult<Boolean> delete${entity}(@RequestBody List<Integer> idList){
-        return JsonResult.success(${table.serviceName?uncap_first}.delete${entity}(idList));
+    @PostMapping("/delete")
+    public JsonResult<Boolean> delete(@RequestBody List<Long> idList){
+        return JsonResult.info(${table.entityPath}Service.removeByIds(idList));
     }
 
 }
-</#if>

@@ -1,9 +1,9 @@
 package com.example.demo;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
@@ -26,19 +26,17 @@ import java.util.Scanner;
 
 public class CodeGenerator {
 
-    private static final String url = "jdbc:mysql://172.16.2.11:3306/zhf-gkpt?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
-    private static final String username = "root";
-    private static final String password = "9Tg($<77x+N.";
-    private static final String driverClassName = "com.mysql.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://172.16.2.11:3306/admin_sys?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "9Tg($<77x+N.";
+    private static final String DRIVER_CLASSNAME = "com.mysql.cj.jdbc.Driver";
 
     public static void main(String[] args) {
         codeGenerator();
     }
 
     /**
-     * <p>
      * 读取控制台内容
-     * </p>
      */
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
@@ -47,7 +45,7 @@ public class CodeGenerator {
         System.out.println(help);
         if (scanner.hasNext()) {
             String ipt = scanner.next();
-            if (StringUtils.isNotBlank(ipt)) {
+            if (StrUtil.isNotBlank(ipt)) {
                 return ipt;
             }
         }
@@ -57,11 +55,12 @@ public class CodeGenerator {
     public static void codeGenerator() {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
-
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/src/main/java");
+        //生成代码到指定模块
+        String model="riie-admin";
+        gc.setOutputDir(projectPath +"/"+ model+"/src/main/java");
         gc.setAuthor("luox");
         gc.setOpen(false);
         // 重新生成文件时是否覆盖，false 表示不覆盖（可选）
@@ -78,12 +77,12 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(url);
-        dsc.setDriverName(driverClassName);
+        dsc.setUrl(URL);
+        dsc.setDriverName(DRIVER_CLASSNAME);
         // 配置数据库连接用户名
-        dsc.setUsername(username);
+        dsc.setUsername(USERNAME);
         // 配置数据库连接密码
-        dsc.setPassword(password);
+        dsc.setPassword(PASSWORD);
         // 配置字段生成风格
 //        暂用默认******
 //        dsc.setTypeConvert(new MySqlTypeConvertCustom());
@@ -91,17 +90,9 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.example.demo");
-        // 配置 entity 包名
-        //pc.setEntity("entity");
-        // 配置 mapper 包名
-        //pc.setMapper("mapper");
-        // 配置 service 包名
-        //pc.setService("service");
-        //pc.setServiceImpl("service");
-        // 配置 controller 包名
-        //pc.setController("controller");
+//        pc.setModuleName(scanner("模块名"));
+        pc.setModuleName("");
+        pc.setParent("org.riie.admin");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -114,56 +105,17 @@ public class CodeGenerator {
 
         // 如果模板引擎是 freemarker
         String xmlTemplatePath = "templates/mapper.xml.ftl";
-        String entityTemplatePath = "templates/entity.java.ftl";
-        String controllerTemplatePath = "templates/controller.java.ftl";
-        String mapperTemplatePath = "templates/mapper.java.ftl";
-        String serviceTemplatePath = "templates/service.java.ftl";
-        String serviceImplTemplatePath = "templates/serviceImpl.java.ftl";
 
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
+
         // 自定义配置会被优先输出
         focList.add(new FileOutConfig(xmlTemplatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
+                return projectPath +"/"+model+ "/src/main/resources/mapper/" + pc.getModuleName()
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-            }
-        });
-        focList.add(new FileOutConfig(entityTemplatePath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/src/main/java/com/example/demo/entity/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + StringPool.DOT_JAVA;
-            }
-        });
-        focList.add(new FileOutConfig(controllerTemplatePath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/src/main/java/com/example/demo/controller/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Controller" + StringPool.DOT_JAVA;
-            }
-        });
-        focList.add(new FileOutConfig(mapperTemplatePath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/src/main/java/com/example/demo/mapper/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_JAVA;
-            }
-        });
-        focList.add(new FileOutConfig(serviceTemplatePath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/src/main/java/com/example/demo/service/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Service" + StringPool.DOT_JAVA;
-            }
-        });
-        focList.add(new FileOutConfig(serviceImplTemplatePath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/src/main/java/com/example/demo/service/" + pc.getModuleName()
-                        + "/impl/" + tableInfo.getEntityName() + "ServiceImpl" + StringPool.DOT_JAVA;
             }
         });
 
@@ -175,15 +127,11 @@ public class CodeGenerator {
 
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        templateConfig.setEntity(null);
-        templateConfig.setController(null);
-        templateConfig.setService(null);
-        templateConfig.setServiceImpl(null);
-        templateConfig.setMapper(null);
-        //templateConfig.setEntity("templates/entity.java");
-        //templateConfig.setController("templates/controller.java");
-        //templateConfig.setService("templates/service.java");
-        //templateConfig.setServiceImpl("templates/serviceImpl.java");
+        templateConfig.setEntity("templates/entity.java");
+        templateConfig.setMapper("templates/mapper.java");
+        templateConfig.setService("templates/service.java");
+        templateConfig.setServiceImpl("templates/serviceImpl.java");
+        templateConfig.setController("templates/controller.java");
         //取消设置xml，上面已自定义配置xml自定义模板输出路径
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
@@ -196,15 +144,22 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(pc.getModuleName() + "_");
-
-        strategy.setSuperEntityClass("com.example.demo.util.entity.BaseEntity");
-        strategy.setSuperEntityColumns("id","deleted","remarks","create_time","update_time");
-        strategy.setLogicDeleteFieldName("delete");
+        strategy.setTablePrefix("t_");
         List<TableFill> tableFillList = new ArrayList<>();
+
+        //方式一
+        strategy.setSuperEntityClass("org.riie.common.entity.FullBaseEntity");
+        String[] baseColumns = {"id","deleted","remark","create_time","create_by","update_time","update_update"};
+        strategy.setLogicDeleteFieldName("deleted");
         tableFillList.add(new TableFill("deleted", FieldFill.INSERT));
+        tableFillList.add(new TableFill("create_by", FieldFill.INSERT));
         tableFillList.add(new TableFill("create_time", FieldFill.INSERT));
         tableFillList.add(new TableFill("update_time", FieldFill.INSERT_UPDATE));
+        //方式二
+        //strategy.setSuperEntityClass("org.riie.common.entity.IdEntity");
+        //String[] baseColumns = {"id"};
+
+        strategy.setSuperEntityColumns(baseColumns);
         strategy.setTableFillList(tableFillList);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
