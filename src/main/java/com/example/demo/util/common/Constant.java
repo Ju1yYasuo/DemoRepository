@@ -9,6 +9,31 @@ package com.example.demo.util.common;
 public class Constant {
 
     /**
+     * 用户管理员角色
+     */
+    public static final String USER_ADMIN_ROLE = "admin";
+
+    /**
+     * 用户权限缓存
+     */
+    public static final String USER_PERMISSION_CACHE = "userPermissionList";
+
+    /**
+     * 用户角色缓存
+     */
+    public static final String USER_ROLE_CACHE = "userRoleList";
+
+    /**
+     * 用户缓存
+     */
+    public static final String USER_CACHE = "user";
+
+    /**
+     * 用户登录错误次数
+     */
+    public static final String USER_LOGIN_ERROR_TIMES = "userLoginErrorTimes";
+
+    /**
      * excel默认文件类型,xlsx文件类型
      */
     public static final String XLSX_FILE_TYPE = "xlsx";

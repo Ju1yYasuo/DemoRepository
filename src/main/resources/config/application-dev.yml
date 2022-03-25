@@ -26,3 +26,31 @@ spring:
           username: SYSDBA
           password: 123456789
           driver: dm.jdbc.driver.DmDriver
+  rabbitmq:
+    host: 172.16.2.11
+    port: 5672
+    username: luoxin
+    password: luoxin
+    virtualHost: luoxin_test
+    #开启消息确认机制 confirm异步
+    publisher-confirm-type: correlated
+    #开启return机制
+    publisher-returns: true
+    #开启手动确认消息
+    listener:
+      direct:
+        acknowledge-mode: manual
+
+#    publisher-confirms: true
+#    template:
+#      retry:
+#        enabled: true
+#        initial-interval: 10000ms
+#        max-interval: 300000ms
+#        multiplier: 2
+#     retry：失败重试
+#        enabled：开启失败重试
+#        initial-interval：第一次重试的间隔时长
+#        max-interval：最长重试间隔，超过这个间隔将不再重试
+#        multiplier：下次重试间隔的倍数，此处是2即下次重试间隔是上次的2倍
+#     exchange：缺省的交换机名称，此处配置后，发送消息如果不指定交换机就会使用这个

@@ -60,7 +60,7 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
-    @RequestMapping("/page")
+    @GetMapping("/page")
     public JsonResult<Page<${entity}>> page(BaseQueryVo<${entity}> pageVo, ${entity} ${table.entityPath}) {
         return JsonResult.success(${table.entityPath}Service.page(pageVo, ${table.entityPath}));
     }

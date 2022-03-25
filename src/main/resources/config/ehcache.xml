@@ -1,0 +1,38 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+
+    <!-- timeToIdle  能空闲的时间 -->
+    <!-- timeToLive  能存活的时间 -->
+
+    <diskStore path="java.io.tmpdir"/>
+    <!--<diskStore path="c:\\cache\\echcahe" />-->
+    <!--    <diskStore path="${cachepath}"/>-->
+    <defaultCache maxElementsInMemory="1000" eternal="false"
+                  timeToIdleSeconds="7200" timeToLiveSeconds="43200" overflowToDisk="true"
+                  maxElementsOnDisk="10000000" diskPersistent="false"
+                  diskExpiryThreadIntervalSeconds="7200" memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+
+    <!-- 数据存储 cachekit 里的默认存储-->
+    <cache name="datacache" maxElementsInMemory="100000"
+           maxElementsOnDisk="500000" eternal="false" overflowToDisk="true"
+           diskSpoolBufferSizeMB="200" timeToIdleSeconds="7200" timeToLiveSeconds="43200"
+           memoryStoreEvictionPolicy="LRU">
+        <!--           <cacheEventListenerFactory class="com.boot.core.factory.DefaultCacheEventListenerFactory"/>-->
+    </cache>
+
+    <!-- 硬盘缓存-->
+    <cache name="disk"
+           maxElementsInMemory="500"
+           maxElementsOnDisk="0"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           clearOnFlush="true"
+           memoryStoreEvictionPolicy="LFU">
+        <!--<BootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=true" />-->
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+        <!--        <cacheEventListenerFactory class="com.boot.core.factory.DiskCacheEventListenerFactory"/>-->
+    </cache>
+
+</ehcache>

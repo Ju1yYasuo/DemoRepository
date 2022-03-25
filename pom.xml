@@ -27,6 +27,8 @@
 		<hutool>5.7.5</hutool>
 		<sa-token>1.24.0</sa-token>
 		<poi>4.1.2</poi>
+<!--		<rabbitmq>5.7.1</rabbitmq>-->
+		<ehcache>2.6.6</ehcache>
 	</properties>
 	<dependencies>
 
@@ -150,6 +152,39 @@
 			 <scope>system</scope>
 			 <systemPath>${project.basedir}/libs/DmJdbcDriver18.jar</systemPath>
 		  </dependency>
+
+		<!-- RabbitMq -->
+<!--		<dependency>-->
+<!--			<groupId>com.rabbitmq</groupId>-->
+<!--			<artifactId>amqp-client</artifactId>-->
+<!--			<version>${rabbitmq}</version>-->
+<!--		</dependency>-->
+
+		<!-- RabbitMq SpringBoot-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+			<version>2.6.4</version>
+		</dependency>
+
+		<!-- 引入这包，启动spring的ehcache统一管理 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>${ehcache}</version>
+<!--			<exclusions>-->
+<!--				<exclusion>-->
+<!--					<artifactId>*</artifactId>-->
+<!--					<groupId>*</groupId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
+		</dependency>
 
 	</dependencies>
 

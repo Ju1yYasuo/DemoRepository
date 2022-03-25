@@ -3,12 +3,13 @@ package com.example.demo.controller.sys;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.annotation.ControllerAnn;
-import com.example.demo.util.entity.QueryResultEntity;
 import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.entity.sys.User;
 import com.example.demo.service.sys.UserService;
+import com.example.demo.util.vo.BaseQueryVo;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,24 +37,25 @@ public class UserController {
     /**
      * 获取人员信息
      *
-     * @param map map
-     * @return {@link ResponseEntity<QueryResultEntity<List<User>>> }
+     * @param pageVo 页签证官
+     * @param user   用户
+     * @return {@link ResponseEntity<Page<User>> }
      * @author luox
-     * @date 2022/01/10
+     * @date 2022/03/24
      */
-    @PostMapping("/getUser")
-    public ResponseEntity<QueryResultEntity<List<User>>> getUser(@RequestBody Map<String,Object> map) {
-        Page<User> page = null;
-        String fuzzySearch = null;
-        if(map.containsKey("current") && map.containsKey("size")){
-            page = new Page<>();
-            page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
-            page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
-        }
-        if(map.containsKey("fuzzySearch")){
-            fuzzySearch = (String) map.get("fuzzySearch");
-        }
-        return ResponseEntity.success(userService.getUser(page,fuzzySearch));
+    @GetMapping("/getUser")
+    public ResponseEntity<Page<User>> getUser(@Validated BaseQueryVo<User> pageVo, User user) {
+        //Page<User> page = null;
+        //String fuzzySearch = null;
+        //if(map.containsKey("current") && map.containsKey("size")){
+        //    page = new Page<>();
+        //    page.setCurrent(Long.parseLong(String.valueOf(map.get("current"))));
+        //    page.setSize(Long.parseLong(String.valueOf(map.get("size"))));
+        //}
+        //if(map.containsKey("fuzzySearch")){
+        //    fuzzySearch = (String) map.get("fuzzySearch");
+        //}
+        return ResponseEntity.success(userService.getUser(pageVo,user));
     }
 
     /**
@@ -151,16 +153,15 @@ public class UserController {
     /**
      * 导出excel
      *
-     * @param map      map
+     * @param user     用户
      * @param response 响应
-     * @return
      * @throws IOException ioexception
      * @author luox
-     * @date 2021/07/26
+     * @date 2022/03/24
      */
     @PostMapping("/exportExcel")
-    public void exportExcel(@RequestBody Map<String,Object> map, HttpServletResponse response) throws IOException {
-        XSSFWorkbook workbook = userService.exportExcel(getUser(map).getData().getData());
+    public void exportExcel(@RequestBody User user, HttpServletResponse response) throws IOException {
+        XSSFWorkbook workbook = userService.exportExcel(userService.getUser(user));
 
         String currentTimeString = DateUtil.now();
         response.setCharacterEncoding("UTF-8");

@@ -13,6 +13,10 @@ spring:
     time-zone: GMT+8
     serialization:
       write-dates-as-timestamps: false
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:/config/ehcache.xml
 
 #打印sql
 mybatis-plus:

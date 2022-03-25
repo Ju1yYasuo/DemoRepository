@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 响应实体类
+ *
  * @author luox
  * @date 2021/7/9
  */

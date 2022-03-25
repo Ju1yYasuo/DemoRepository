@@ -4,7 +4,9 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.exception.MyException;
 import com.example.demo.entity.sys.User;
@@ -14,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.util.common.Constant;
 import com.example.demo.util.document.PoiUtil;
 import com.example.demo.util.entity.QueryResultEntity;
+import com.example.demo.util.vo.BaseQueryVo;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -46,22 +49,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
 
     @Override
-    public QueryResultEntity<List<User>> getUser(Page<User> page, String fuzzySearch){
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-
-        QueryResultEntity<List<User>> queryResultEntity= new QueryResultEntity<>();
-        List<User> list;
-        if(page != null){
-            list = page(page,queryWrapper).getRecords();
-            int total = count(queryWrapper);
-            queryResultEntity.setTotal(total);
-        }else{
-            list = list(queryWrapper);
-        }
-        queryResultEntity.setData(list);
-        return queryResultEntity;
+    public Page<User> getUser(BaseQueryVo<User> pageVo, User user){
+        LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery(User.class);
+        wrapper.setEntity(user);
+        return page(pageVo.toPage(),wrapper);
     }
-    
+
+    @Override
+    public List<User> getUser(User user) {
+        LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery(User.class);
+        wrapper.setEntity(user);
+        return list(wrapper);
+    }
+
     @Override
     public boolean saveUser(User user) {
         return save(user);

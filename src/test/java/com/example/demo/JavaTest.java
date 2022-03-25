@@ -1,10 +1,13 @@
 package com.example.demo;
 
+import com.rabbitmq.client.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /**
  * java测试
@@ -13,6 +16,89 @@ import java.util.List;
  * @date 2021/7/16
  */
 public class JavaTest {
+
+    @Test
+    public void testRabbitMqProducer() throws IOException, TimeoutException {
+        // 获取到连接
+        Connection connection = getConnection();
+        // 获取通道
+        Channel channel = connection.createChannel();
+        String exchangeName = "luoxin.test.fanout";
+        channel.exchangeDeclare(exchangeName, BuiltinExchangeType.FANOUT,true);
+        String message = "testRabbitMqProducer message！！";
+        channel.basicPublish(exchangeName, "", null, message.getBytes());
+
+        //String exchangeName = "luoxin.test.topic";
+        //channel.exchangeDeclare(exchangeName, "topic",true);
+        //channel.basicPublish(exchangeName, "sms", null, message.getBytes());
+        //channel.basicPublish(exchangeName, "email", null, message.getBytes());
+
+        print(" [Producer] Sent '" + message + "'");
+        channel.close();
+        connection.close();
+    }
+
+    @Test
+    public void testRabbitMqConsumer1() throws IOException, TimeoutException {
+        Connection connection = getConnection();
+        Channel channel = connection.createChannel();
+
+        String exchangeName = "luoxin.test.fanout";
+        String queueName = "luoxin.test.fanout.sms";
+        //队列 交换机 绑定关系应在配置类写好
+        channel.queueDeclare(queueName,true,false,false,null);
+        channel.queueBind(queueName,exchangeName,"");
+
+        DefaultConsumer consumer = new DefaultConsumer(channel){
+
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                print("sms received ：" + new String(body));
+                // 手动进行ACK
+                /*
+                 *  void basicAck(long deliveryTag, boolean multiple) throws IOException;
+                 *  deliveryTag:用来标识消息的id
+                 *  multiple：是否批量.true:将一次性ack所有小于deliveryTag的消息。
+                 */
+                channel.basicAck(envelope.getDeliveryTag(), false);
+            }
+        };
+
+        channel.basicConsume(queueName,false,consumer);
+    }
+
+    @Test
+    public void testRabbitMqConsumer2() throws IOException, TimeoutException {
+        Connection connection = getConnection();
+        Channel channel = connection.createChannel();
+
+        String exchangeName = "luoxin.test.fanout";
+        String queueName = "luoxin.test.fanout.email";
+        channel.queueDeclare(queueName,true,false,false,null);
+        channel.queueBind(queueName,exchangeName,"");
+        //channel.queueBind(queueName,exchangeName,"sms");
+
+        DefaultConsumer consumer = new DefaultConsumer(channel){
+
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                print("email received ：" + new String(body));
+            }
+        };
+
+        channel.basicConsume(queueName,true,consumer);
+    }
+
+    private Connection getConnection() throws IOException, TimeoutException {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("172.16.2.11");
+        factory.setPort(5672);
+        factory.setVirtualHost("luoxin_test");
+        factory.setUsername("luoxin");
+        factory.setPassword("luoxin");
+
+        return factory.newConnection();
+    }
 
     @Test
     public void test2(){
