@@ -13,10 +13,19 @@ spring:
     time-zone: GMT+8
     serialization:
       write-dates-as-timestamps: false
-  cache:
-    type: ehcache
-    ehcache:
-      config: classpath:/config/ehcache.xml
+#  cache:
+#    type: ehcache
+#    ehcache:
+#      config: classpath:/config/ehcache.xml
+#  type: ehcache
+#    ehcache:
+#      config: classpath:/config/ehcache.xml
+  redis:
+    database: 0
+    host: 172.16.2.21
+    password: admin
+    port: 18080
+    timeout: 5000
 
 #打印sql
 mybatis-plus:

@@ -11,14 +11,13 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 
 /**
- * 缓存配置
+ * ehcache缓存配置
  *
  * @author luox
  * @date 2022/03/25
  */
-@Configuration
-@EnableCaching
-public class CacheConfig {
+//@Configuration
+public class EhCacheConfig {
 
     @Autowired
     private CacheManager cacheManager;
