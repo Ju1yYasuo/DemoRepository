@@ -4,6 +4,7 @@ import com.example.demo.util.entity.ResponseEntity;
 import com.example.demo.util.redis.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,8 @@ public class RedisController {
 
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private CacheManager cacheManager;
 
     @GetMapping("/addRedisData")
     public ResponseEntity<Boolean> addRedisData(@RequestParam("cacheKey") String cacheKey,
@@ -37,9 +40,14 @@ public class RedisController {
         return ResponseEntity.success(redisUtil.get(cacheKey));
     }
 
-
-
-
+    /**
+     * 获取redis cache,cacheKey = $key,redisKey = $cacheName::$key
+     *
+     * @param cacheKey 缓存键
+     * @return {@link ResponseEntity<Object> }
+     * @author luox
+     * @date 2022/04/06
+     */
     @GetMapping("/getRedisCache")
     @Cacheable(value = "redisCache",key = "#cacheKey")
     public ResponseEntity<Object> getRedisCache(@RequestParam("cacheKey") String cacheKey){
