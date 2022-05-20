@@ -1,22 +1,55 @@
 package com.example.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Netty服务器类，用于接收请求
  */
 public class NettyServer {
 
+
+    public static void main(String[] args) throws InterruptedException {
+
+        NettyServer server = new NettyServer();
+        server.bind(7777);
+
+        //发送消息
+
+        List<String> mesList = new ArrayList<>();
+        mesList.add("消息1");
+        mesList.add("消息2");
+        mesList.add("消息3");
+        int i = 0;
+        while(true){
+            if(i > 3){
+                i = 0;
+            }
+            TimeUnit.SECONDS.sleep(2);
+            System.out.println("i===" + i);
+            if(NettyServerHandler.map.size() != 0){
+                for(Map.Entry<String, ChannelHandlerContext> entry : NettyServerHandler.map.entrySet()){
+                    entry.getValue().write(mesList.get(i));
+                }
+            }
+
+            i++;
+        }
+
+
+    }
+
+
     /**
      * 启动服务
-     * @param port 启动时绑定的端口
      */
     public void bind(int port){
         //Reactor线程组，一个用来处理连接，一个用来处理网络读写

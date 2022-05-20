@@ -17,10 +17,15 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class NettyClient {
 
+    public static void main(String[] args) {
+
+        NettyClient client = new NettyClient();
+        client.connect("localhost",7777);
+
+    }
+
     /**
      * 连接目标服务器
-     * @param host
-     * @param port
      */
     public void connect(String host,int port){
         //NIO线程组
@@ -29,9 +34,10 @@ public class NettyClient {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(group).channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY,true)
+                    //.option(ChannelOption.SO_KEEPALIVE,true)
                     .handler(new ChileHandler());
             ChannelFuture channelFuture = bootstrap.connect(host,port).sync();
-            System.out.println(Thread.currentThread().getName()+",发起连接请求");
+            System.out.println(Thread.currentThread().getName()+",客户端发起连接请求");
             //等待客户端链路关闭
             channelFuture.channel().closeFuture().sync();
         }catch (Exception e){

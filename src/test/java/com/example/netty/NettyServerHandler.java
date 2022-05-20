@@ -2,19 +2,35 @@ package com.example.netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelId;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Netty server 处理类
  */
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
+    // 保存id和容器的关系
+    public static Map<String, ChannelHandlerContext> map = new HashMap<>();
+
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+
+        Channel channel = ctx.channel();
+        ChannelId channelId = channel.id();
+        map.put(channelId.toString(), ctx);
+
+    }
+
     /**
      * 接收客户端消息，自动触发
-     * @param ctx
-     * @param msg
-     * @throws Exception
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -26,17 +42,27 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         //读取缓冲区的信息并转换成字符串
         buf.readBytes(reg);
         String mess = new String(reg,"UTF-8");
-        System.out.println("mess = " + mess);
+        System.out.println("服务端收到：" + mess);
         //回复消息
-        String respMess = "收到";
+        //Scanner scanner = new Scanner(System.in);
+        //String str = "";
+        //if(scanner.hasNext()){
+        //    str = scanner.next();
+        //}
+        //String respMess = "服务端回复收到,str:" + str;
+
+        String respMess = "服务端回复收到,str:";
+        //byte[] sendMesByte = sendMess.getBytes("UTF-8");
+        //ByteBuf sendByteBuf = Unpooled.buffer(sendMesByte.length);
+        //sendByteBuf.writeBytes(sendMesByte);
+
+        //String respMess = "服务端回复收到";
         ByteBuf respByteBuf = Unpooled.copiedBuffer(respMess.getBytes());
         ctx.write(respByteBuf);
     }
 
     /**
      * 最后一次读取信息时触发
-     * @param ctx
-     * @throws Exception
      */
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
