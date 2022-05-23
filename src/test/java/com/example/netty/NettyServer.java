@@ -1,6 +1,8 @@
 package com.example.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -19,25 +21,27 @@ public class NettyServer {
 
     public static void main(String[] args) throws InterruptedException {
 
-        NettyServer server = new NettyServer();
-        server.bind(7777);
+        new Thread(() -> {
+            NettyServer server = new NettyServer();
+            server.bind(7777);
+        }).start();
 
         //发送消息
-
         List<String> mesList = new ArrayList<>();
         mesList.add("消息1");
         mesList.add("消息2");
         mesList.add("消息3");
         int i = 0;
         while(true){
-            if(i > 3){
+            if(i >= 3){
                 i = 0;
             }
             TimeUnit.SECONDS.sleep(2);
-            System.out.println("i===" + i);
             if(NettyServerHandler.map.size() != 0){
                 for(Map.Entry<String, ChannelHandlerContext> entry : NettyServerHandler.map.entrySet()){
-                    entry.getValue().write(mesList.get(i));
+                    ByteBuf respByteBuf = Unpooled.copiedBuffer(mesList.get(i).getBytes());
+                    //entry.getValue().write(respByteBuf);
+                    entry.getValue().writeAndFlush(respByteBuf);
                 }
             }
 
@@ -64,6 +68,7 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class)
                     //设置通道的处理器
                     .option(ChannelOption.SO_BACKLOG,1024)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
                     //子通道
                     .childHandler(new ChildChannelHandler());
             //绑定并监听端口

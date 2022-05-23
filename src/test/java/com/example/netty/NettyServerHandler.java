@@ -7,9 +7,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Netty server 处理类
@@ -27,6 +26,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ChannelId channelId = channel.id();
         map.put(channelId.toString(), ctx);
 
+        ByteBuf respByteBuf = Unpooled.copiedBuffer("channelActive".getBytes());
+        ctx.writeAndFlush(respByteBuf);
+        //ctx.channel().writeAndFlush(respByteBuf);
     }
 
     /**
@@ -58,7 +60,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
         //String respMess = "服务端回复收到";
         ByteBuf respByteBuf = Unpooled.copiedBuffer(respMess.getBytes());
-        ctx.write(respByteBuf);
+        ctx.writeAndFlush(respByteBuf);
+        //ctx.write(respByteBuf);
     }
 
     /**

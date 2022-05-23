@@ -13,13 +13,32 @@ import java.util.Scanner;
  * @author luox
  * @date 2022/4/29
  */
-public class NettyClientHanlder extends ChannelInboundHandlerAdapter {
+public class NettyClientHandler extends ChannelInboundHandlerAdapter {
+
+    private ChannelHandlerContext ctx;
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void sendMsg(String str) {
+        byte[] data = str.getBytes();
+        ByteBuf firstMessage = Unpooled.buffer();
+        firstMessage.writeBytes(data);
+        ctx.writeAndFlush(firstMessage);
+    }
 
     /**
      * 连接成功之后执行
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        this.ctx = ctx;
         //Scanner scanner = new Scanner(System.in);
         //String str = "";
         //if(scanner.hasNext()){
@@ -27,11 +46,11 @@ public class NettyClientHanlder extends ChannelInboundHandlerAdapter {
         //}
         //String sendMess = "我是客户端："+Thread.currentThread().getName() + ",str:" + str;
 
-        String sendMess = "我是客户端："+Thread.currentThread().getName() + ",str:";
+        String sendMess = "我是客户端："+Thread.currentThread().getName() + userName;
         byte[] sendMesByte = sendMess.getBytes("UTF-8");
         ByteBuf sendByteBuf = Unpooled.buffer(sendMesByte.length);
         sendByteBuf.writeBytes(sendMesByte);
-        //ctx.writeAndFlush(sendByteBuf);
+        ctx.writeAndFlush(sendByteBuf);
     }
 
     /**
@@ -43,7 +62,7 @@ public class NettyClientHanlder extends ChannelInboundHandlerAdapter {
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
         String mess = new String(req,"UTF-8");
-        System.out.println(Thread.currentThread().getName() + "客户端接收到返回的消息："+mess);
+        System.out.println(Thread.currentThread().getName() + userName +"客户端接收到返回的消息："+mess);
 
         //String sendMess = "我是客户端："+Thread.currentThread().getName();
         //byte[] sendMesByte = sendMess.getBytes("UTF-8");
