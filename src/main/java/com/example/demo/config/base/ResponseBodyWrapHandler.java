@@ -11,13 +11,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 /**
  * 对结果集的包装
  *
- * @author cwz
- * @date 2021\4\1 0001 11:12
+ * @author luox
+ * @date 2022/05/23
  */
 @Slf4j
 public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {
 
-    private HandlerMethodReturnValueHandler delegate;
+    private final HandlerMethodReturnValueHandler delegate;
 
     public ResponseBodyWrapHandler(HandlerMethodReturnValueHandler delegate) {
         super();

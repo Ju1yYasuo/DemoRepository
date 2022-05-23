@@ -19,6 +19,7 @@ public class ResponseEntity<T> {
     public static final String FAIL = "fail";
 
     public static final int OK = 200;
+    public static final int ERROR = 300;
     public static final int REQUEST_ERROR = 404;
     public static final int SERVER_ERROR = 500;
     public static final int UNAUTHORIZED = 401;
@@ -47,6 +48,20 @@ public class ResponseEntity<T> {
         ResponseEntity<T> ret = new ResponseEntity<>();
         ret.setCode(OK);
         ret.setMessage(SUCCESS);
+        return ret;
+    }
+
+    public static <T> ResponseEntity<T> info(boolean b) {
+        ResponseEntity<T> ret = new ResponseEntity<>();
+        ret.setCode(b ? OK : ERROR);
+        ret.setMessage(b ? "操作成功" : "操作失败");
+        return ret;
+    }
+
+    public static <T> ResponseEntity<T> info(int b) {
+        ResponseEntity<T> ret = new ResponseEntity<>();
+        ret.setCode(b > 0 ? OK : ERROR);
+        ret.setMessage(b > 0 ? "操作成功" : "操作失败");
         return ret;
     }
 

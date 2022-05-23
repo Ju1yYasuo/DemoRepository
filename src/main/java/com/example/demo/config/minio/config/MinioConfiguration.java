@@ -1,6 +1,6 @@
 package com.example.demo.config.minio.config;
 
-
+import com.example.demo.config.minio.core.service.BucketPolicyService;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
 import com.example.demo.config.minio.core.service.BucketService;

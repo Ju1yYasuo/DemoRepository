@@ -1,5 +1,6 @@
 package com.example.demo.config.minio.core.service.impl;
 
+import com.example.demo.util.vo.PutObjectRespVo;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
@@ -8,7 +9,6 @@ import com.example.demo.config.minio.config.MinioOsProperties;
 import com.example.demo.config.minio.core.exceptions.MinioFileObjectException;
 import com.example.demo.config.minio.core.service.FileObjectService;
 import com.example.demo.config.minio.core.service.MinioAbstractService;
-import org.riie.admin.vo.PutObjectRespVo;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;

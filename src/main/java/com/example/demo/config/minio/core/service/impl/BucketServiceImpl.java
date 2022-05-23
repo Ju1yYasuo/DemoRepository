@@ -4,13 +4,12 @@ import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import com.example.demo.config.minio.config.MinioOsProperties;
 import com.example.demo.config.minio.core.exceptions.MinioBucketException;
 import com.example.demo.config.minio.core.service.BucketService;
 import com.example.demo.config.minio.core.service.MinioAbstractService;
+import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class BucketServiceImpl extends MinioAbstractService implements BucketSer
     }
 
     @Override
-    public boolean bucketExists(@NotNull String bucketName) throws MinioBucketException {
+    public boolean bucketExists(@NonNull String bucketName) throws MinioBucketException {
         boolean found;
         try {
             found = minioClient.bucketExists(BucketExistsArgs.builder()

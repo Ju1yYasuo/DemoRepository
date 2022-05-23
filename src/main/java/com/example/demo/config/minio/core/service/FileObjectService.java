@@ -1,9 +1,8 @@
 package com.example.demo.config.minio.core.service;
 
-
+import com.example.demo.util.vo.PutObjectRespVo;
 import io.minio.StatObjectResponse;
 import com.example.demo.config.minio.core.exceptions.MinioFileObjectException;
-import org.riie.admin.vo.PutObjectRespVo;
 
 import java.io.InputStream;
 
