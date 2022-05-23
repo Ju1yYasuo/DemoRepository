@@ -25,7 +25,7 @@
 		<velocity-engine-core>2.3</velocity-engine-core>
 		<mybatis-plus>3.0.6</mybatis-plus>
 		<hutool>5.7.5</hutool>
-		<sa-token>1.24.0</sa-token>
+		<sa-token>1.30.0</sa-token>
 		<poi>4.1.2</poi>
 <!--		<rabbitmq>5.7.1</rabbitmq>-->
 		<ehcache>2.6.6</ehcache>
@@ -119,6 +119,13 @@
 			<version>${poi}</version>
 		</dependency>
 
+		<!--读取project文件-->
+		<dependency>
+			<groupId>net.sf.mpxj</groupId>
+			<artifactId>mpxj</artifactId>
+			<version>10.0.0</version>
+		</dependency>
+
 		<!--swagger2-->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -191,6 +198,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 			<version>2.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>8.4.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>okhttp</artifactId>
+					<groupId>com.squareup.okhttp3</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 	</dependencies>

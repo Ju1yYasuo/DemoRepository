@@ -25,8 +25,8 @@ import java.io.PrintWriter;
  * @author luox
  * @date 2021/7/19
  */
-@Component
-@InterceptorAnn
+//@Component
+//@InterceptorAnn
 public class MyInterceptor implements HandlerInterceptor {
 
     //@Autowired

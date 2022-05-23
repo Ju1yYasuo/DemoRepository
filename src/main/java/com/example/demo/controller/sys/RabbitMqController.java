@@ -1,7 +1,7 @@
 package com.example.demo.controller.sys;
 
+import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.config.mq.RabbitConfig;
-import com.example.demo.util.entity.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.ExchangeTypes;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/rabbit")
 @Slf4j
+@ResponseEntity
 public class RabbitMqController {
 
     @Autowired
@@ -31,7 +32,7 @@ public class RabbitMqController {
     private AmqpTemplate amqpTemplate;
 
     @PostMapping("/sendMessage")
-    public ResponseEntity<Boolean> sendMessage(@RequestParam("message") String message){
+    public Boolean sendMessage(@RequestParam("message") String message){
         //手动确认消息接收
         rabbitTemplate.setConfirmCallback(confirmCallback);
         rabbitTemplate.setReturnsCallback(returnCallback);
@@ -41,7 +42,7 @@ public class RabbitMqController {
         //rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_TOPIC,"email",message,new CorrelationData("消息id3-zxc"));
         //测试不存在的路由，调用return方法，仅对topic类似类型交换机有效
         //rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_TOPIC,"july",message,new CorrelationData("消息id2-qwe"));
-        return ResponseEntity.success(true);
+        return true;
     }
 
     /**

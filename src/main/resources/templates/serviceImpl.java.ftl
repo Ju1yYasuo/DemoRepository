@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package.Entity}.${entity};
-import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${superServiceImplClassPackage};
 import com.example.demo.util.vo.BaseQueryVo;
@@ -19,9 +18,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
-
-    @Autowired
-    private ${table.mapperName} ${table.entityPath}Mapper;
 
     @Override
     public Page<${entity}> page(BaseQueryVo<${entity}> pageVo, ${entity} ${table.entityPath}){

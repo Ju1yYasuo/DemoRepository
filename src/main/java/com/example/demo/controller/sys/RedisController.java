@@ -1,6 +1,6 @@
 package com.example.demo.controller.sys;
 
-import com.example.demo.util.entity.ResponseEntity;
+import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.util.redis.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/redis")
 @Slf4j
+@ResponseEntity
 public class RedisController {
 
     @Autowired
@@ -29,39 +30,39 @@ public class RedisController {
     private CacheManager cacheManager;
 
     @GetMapping("/addRedisData")
-    public ResponseEntity<Boolean> addRedisData(@RequestParam("cacheKey") String cacheKey,
+    public Boolean addRedisData(@RequestParam("cacheKey") String cacheKey,
                                                 @RequestParam("cacheValue") String cacheValue){
         redisUtil.set(cacheKey,cacheValue);
-        return ResponseEntity.success(true);
+        return true;
     }
 
     @GetMapping("/getRedisData")
-    public ResponseEntity<Object> getRedisData(@RequestParam("cacheKey") String cacheKey){
-        return ResponseEntity.success(redisUtil.get(cacheKey));
+    public Object getRedisData(@RequestParam("cacheKey") String cacheKey){
+        return redisUtil.get(cacheKey);
     }
 
     /**
      * 获取redis cache,cacheKey = $key,redisKey = $cacheName::$key
      *
      * @param cacheKey 缓存键
-     * @return {@link ResponseEntity<Object> }
+     * @return {@link Object }
      * @author luox
      * @date 2022/04/06
      */
     @GetMapping("/getRedisCache")
     @Cacheable(value = "redisCache",key = "#cacheKey")
-    public ResponseEntity<Object> getRedisCache(@RequestParam("cacheKey") String cacheKey){
+    public Object getRedisCache(@RequestParam("cacheKey") String cacheKey){
         log.info("getRedisCache");
-        return ResponseEntity.success(redisUtil.get(cacheKey));
+        return redisUtil.get(cacheKey);
     }
 
     @GetMapping("/addRedisCache")
     @CacheEvict(value = "redisCache",key = "#cacheKey")
-    public ResponseEntity<Boolean> addRedisCache(@RequestParam("cacheKey") String cacheKey,
+    public Boolean addRedisCache(@RequestParam("cacheKey") String cacheKey,
                                                  @RequestParam("cacheValue") String cacheValue){
         log.info("addRedisCache");
         redisUtil.set(cacheKey,cacheValue);
-        return ResponseEntity.success(true);
+        return true;
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.controller.sys;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.mapper.sys.TestMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 @Slf4j
+@ResponseEntity
 public class TestController {
 
     @Autowired

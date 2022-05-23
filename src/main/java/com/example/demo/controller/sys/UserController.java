@@ -3,7 +3,7 @@ package com.example.demo.controller.sys;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.annotation.ControllerAnn;
-import com.example.demo.util.entity.ResponseEntity;
+import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.entity.sys.User;
 import com.example.demo.service.sys.UserService;
 import com.example.demo.util.vo.BaseQueryVo;
@@ -29,6 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/user")
+@ResponseEntity
 public class UserController {
 
     @Autowired
@@ -39,12 +40,12 @@ public class UserController {
      *
      * @param pageVo 页签证官
      * @param user   用户
-     * @return {@link ResponseEntity<Page<User>> }
+     * @return {@link Page<User> }
      * @author luox
      * @date 2022/03/24
      */
     @GetMapping("/getUser")
-    public ResponseEntity<Page<User>> getUser(@Validated BaseQueryVo<User> pageVo, User user) {
+    public Page<User> getUser(@Validated BaseQueryVo<User> pageVo, User user) {
         //Page<User> page = null;
         //String fuzzySearch = null;
         //if(map.containsKey("current") && map.containsKey("size")){
@@ -55,99 +56,99 @@ public class UserController {
         //if(map.containsKey("fuzzySearch")){
         //    fuzzySearch = (String) map.get("fuzzySearch");
         //}
-        return ResponseEntity.success(userService.getUser(pageVo,user));
+        return userService.getUser(pageVo,user);
     }
 
     /**
      * 保存人员信息
      *
      * @param user 人员信息
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
      * @date 2021-07-26
      */
     @PostMapping("/saveUser")
-    public ResponseEntity<Boolean> saveUser(@RequestBody User user){
-        return ResponseEntity.success(userService.saveUser(user));
+    public Boolean saveUser(@RequestBody User user){
+        return userService.saveUser(user);
     }
 
     /**
      * 更新人员信息
      *
      * @param user 人员信息
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
      * @date 2021-07-26
      */
     @PostMapping("/updateUser")
-    public ResponseEntity<Boolean> updateUser(@RequestBody User user){
-        return ResponseEntity.success(userService.updateUser(user));
+    public Boolean updateUser(@RequestBody User user){
+        return userService.updateUser(user);
     }
 
     /**
      * 删除人员信息
      *
      * @param idList id列表
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
      * @date 2021-07-26
      */
     @PostMapping("/deleteUser")
-    public ResponseEntity<Boolean> deleteUser(@RequestBody List<Integer> idList){
-        return ResponseEntity.success(userService.deleteUser(idList));
+    public Boolean deleteUser(@RequestBody List<Integer> idList){
+        return userService.deleteUser(idList);
     }
 
     /**
      * 登录
      *
      * @param loginMap 登录Map
-     * @return {@link ResponseEntity<User> }
+     * @return {@link User }
      * @author luox
      * @date 2021/07/14
      */
     @PostMapping("/login")
     @ControllerAnn(needLogin = false)
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginMap) {
-        return ResponseEntity.success(userService.login(loginMap.get("userName"),loginMap.get("password")));
+    public Map<String, Object> login(@RequestBody Map<String, String> loginMap) {
+        return userService.login(loginMap.get("userName"),loginMap.get("password"));
     }
 
     /**
      * 注销
      *
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
      * @date 2021/07/28
      */
     @GetMapping("/logOut")
-    public ResponseEntity<Boolean> logOut() {
-        return ResponseEntity.success(userService.logOut());
+    public Boolean logOut() {
+        return userService.logOut();
     }
 
     /**
      * 更改密码
      *
      * @param map map
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @author luox
      * @date 2021/07/23
      */
     @PostMapping("/changePassword")
-    public ResponseEntity<Boolean> changePassword(@RequestBody Map<String,Object> map){
-        return ResponseEntity.success(userService.changePassword(map.get("oldPassword").toString(),map.get("newPassword").toString()));
+    public Boolean changePassword(@RequestBody Map<String,Object> map){
+        return userService.changePassword(map.get("oldPassword").toString(),map.get("newPassword").toString());
     }
 
     /**
      * 导入excel
      *
      * @param file 文件
-     * @return {@link ResponseEntity<Boolean> }
+     * @return {@link Boolean }
      * @throws IOException ioexception
      * @author luox
      * @date 2021/07/23
      */
     @PostMapping("/importExcel")
-    public ResponseEntity<Boolean> importExcel(@RequestParam("file") MultipartFile file) throws IOException {
-        return ResponseEntity.success(userService.importExcel(file));
+    public Boolean importExcel(@RequestParam("file") MultipartFile file) throws IOException {
+        return userService.importExcel(file);
     }
 
     /**

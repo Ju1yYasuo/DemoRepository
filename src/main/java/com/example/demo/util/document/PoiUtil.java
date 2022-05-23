@@ -1,12 +1,15 @@
 package com.example.demo.util.document;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.cell.CellUtil;
 import com.example.demo.config.exception.MyException;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xwpf.usermodel.*;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Poi文档处理
@@ -17,6 +20,9 @@ import java.util.Date;
 public class PoiUtil {
 
     /**
+     *-------excel opt-----
+     * --------------------
+     *
      * 获得cell值
      *
      * @param cell  cell
@@ -25,7 +31,7 @@ public class PoiUtil {
      * @author luox
      * @date 2021/07/26
      */
-    public static Object getCellValue(Cell cell,Class clazz){
+    public static Object getCellValue(Cell cell,Class<Object> clazz){
         return getCellValue(cell,clazz,false);
     }
 
@@ -39,7 +45,7 @@ public class PoiUtil {
      * @author luox
      * @date 2021/07/26
      */
-    public static Object getCellValue(Cell cell,Class clazz,boolean canBeEmpty){
+    public static Object getCellValue(Cell cell,Class<Object> clazz,boolean canBeEmpty){
         Object cellValue = null;
         String className = clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1);
         switch (className){
@@ -198,7 +204,7 @@ public class PoiUtil {
         if(object == null){
             return true;
         }
-        return StringUtils.isBlank(object.toString());
+        return StrUtil.isBlank(object.toString());
     }
 
     /**
@@ -212,6 +218,115 @@ public class PoiUtil {
      */
     public static String stringNullDeal(Object str){
         return str == null ? "" : str.toString();
+    }
+
+    //  --------------------
+    //  -------word opt-----
+    //  --------------------
+
+    /**
+     * 横向合并单元格
+     *
+     * @param table    表格
+     * @param row      行
+     * @param fromCell 从细胞
+     * @param toCell   细胞
+     * @author luox
+     * @date 2022/04/12
+     */
+    public static void mergeCellsHorizontal(XWPFTable table, int row, int fromCell, int toCell) {
+        for (int cellIndex = fromCell; cellIndex <= toCell; cellIndex++) {
+            XWPFTableCell cell = table.getRow(row).getCell(cellIndex);
+            if ( cellIndex == fromCell ) {
+                // The first merged cell is set with RESTART merge value
+                cell.getCTTc().addNewTcPr().addNewHMerge().setVal(STMerge.RESTART);
+            } else {
+                // Cells which join (merge) the first one, are set with CONTINUE
+                cell.getCTTc().addNewTcPr().addNewHMerge().setVal(STMerge.CONTINUE);
+            }
+        }
+    }
+
+    /**
+     * 横向合并单元格
+     *
+     * @param row      行
+     * @param fromCell 从细胞
+     * @param toCell   细胞
+     * @author luox
+     * @date 2022/04/12
+     */
+    public static void mergeCellsHorizontal(XWPFTableRow row, int fromCell, int toCell) {
+        for (int cellIndex = fromCell; cellIndex <= toCell; cellIndex++) {
+            XWPFTableCell cell = row.getCell(cellIndex);
+            if ( cellIndex == fromCell ) {
+                // The first merged cell is set with RESTART merge value
+                cell.getCTTc().addNewTcPr().addNewHMerge().setVal(STMerge.RESTART);
+            } else {
+                // Cells which join (merge) the first one, are set with CONTINUE
+                cell.getCTTc().addNewTcPr().addNewHMerge().setVal(STMerge.CONTINUE);
+            }
+        }
+    }
+
+    /**
+     * 纵向合并单元格
+     *
+     * @param table   表格
+     * @param col     列
+     * @param fromRow 从行
+     * @param toRow   行
+     * @author luox
+     * @date 2022/04/12
+     */
+    public static void mergeCellsVertically(XWPFTable table, int col, int fromRow, int toRow) {
+        for (int rowIndex = fromRow; rowIndex <= toRow; rowIndex++) {
+            XWPFTableCell cell = table.getRow(rowIndex).getCell(col);
+            if ( rowIndex == fromRow ) {
+                // The first merged cell is set with RESTART merge value
+                cell.getCTTc().addNewTcPr().addNewVMerge().setVal(STMerge.RESTART);
+            } else {
+                // Cells which join (merge) the first one, are set with CONTINUE
+                cell.getCTTc().addNewTcPr().addNewVMerge().setVal(STMerge.CONTINUE);
+            }
+        }
+    }
+
+    /**
+     * 设置单元格内容垂直居中
+     *
+     * @param tables 表
+     * @author luox
+     * @date 2022/04/14
+     */
+    public static void setCellVertCenter(XWPFTable ...tables) {
+        for(XWPFTable table : tables){
+            List<XWPFTableRow> rows = table.getRows();
+            for (XWPFTableRow row : rows) {
+                List<XWPFTableCell> cells = row.getTableCells();
+                for (XWPFTableCell cell : cells) {
+                    cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+                }
+            }
+        }
+    }
+
+    /**
+     * 替换段落文本内容
+     *
+     * @param paragraph   段
+     * @param replaceText 替换文本
+     * @param resultText  结果文本
+     * @author luox
+     * @date 2022/04/18
+     */
+    public static void replaceParagraphText(XWPFParagraph paragraph, String replaceText, String resultText){
+        List<XWPFRun> runList = paragraph.getRuns();
+        for (XWPFRun run : runList) {
+            if(run.getText(0).contains(replaceText)){
+                run.setText(run.getText(0).replace(replaceText,resultText),0);
+            }
+        }
     }
 
 }

@@ -67,3 +67,11 @@ spring:
     port: 6379
     password: admin
     timeout: 5000
+
+  minio:
+    endpoint: http://172.16.2.86
+    port: 9000
+    accessKey: XEkVxlpj6MJgsMcV
+    secretKey: sKFb9wWxv9csBV4j2cOwpSRTX0neo2yb
+    secure: false
+    bucket: jlt
