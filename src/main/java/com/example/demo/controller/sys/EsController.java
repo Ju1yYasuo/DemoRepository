@@ -1,6 +1,7 @@
 package com.example.demo.controller.sys;
 
 import com.alibaba.fastjson.JSON;
+import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.config.es.entity.Products;
 import com.example.demo.dto.es.ProductsQueryDto;
 import org.elasticsearch.action.index.IndexRequest;
@@ -47,6 +48,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/es")
+@ResponseEntity
 public class EsController {
 
     @Autowired

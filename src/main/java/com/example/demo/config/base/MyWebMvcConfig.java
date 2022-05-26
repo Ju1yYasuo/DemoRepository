@@ -1,18 +1,26 @@
 package com.example.demo.config.base;
 
-import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.example.demo.config.annotation.InterceptorAnn;
-import com.example.demo.config.interceptor.MyInterceptor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * web配置
@@ -26,6 +34,45 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     ApplicationContext applicationContext;
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        try {
+            Class.forName("com.alibaba.fastjson.JSON");
+            FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+            FastJsonConfig fastJsonConfig = new FastJsonConfig();
+            fastJsonConfig.setCharset(StandardCharsets.UTF_8);
+            fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+            fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                    SerializerFeature.WriteNullListAsEmpty,
+                    //SerializerFeature.WriteNullNumberAsZero,
+                    SerializerFeature.WriteNullStringAsEmpty, SerializerFeature.DisableCircularReferenceDetect);
+            fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
+            boolean flag = false;
+            for(int i = 0,size = converters.size();i < size;i++) {
+                String className = converters.get(i).getClass().getName().toLowerCase();
+                boolean flagJson = className.indexOf("gson") > 0 || className.indexOf("jackson") > 0;
+                if (flagJson) {
+                    converters.add(i, fastJsonHttpMessageConverter);
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                converters.add(fastJsonHttpMessageConverter);
+            }
+        } catch (ClassNotFoundException var3) {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+            for(int i = 0,size = converters.size();i < size;i++) {
+                if (converters.get(i) instanceof MappingJackson2HttpMessageConverter) {
+                    ((MappingJackson2HttpMessageConverter)converters.get(i)).setObjectMapper(mapper);
+                }
+            }
+        }
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
