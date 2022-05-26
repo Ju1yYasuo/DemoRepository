@@ -1,9 +1,12 @@
 package com.example.demo.controller.sys;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.annotation.ControllerAnn;
 import com.example.demo.config.annotation.ResponseEntity;
+import com.example.demo.dto.sys.UserLoginDto;
+import com.example.demo.dto.sys.UserLoginResultDto;
 import com.example.demo.entity.sys.User;
 import com.example.demo.service.sys.UserService;
 import com.example.demo.util.vo.BaseQueryVo;
@@ -45,6 +48,7 @@ public class UserController {
      * @date 2022/03/24
      */
     @GetMapping("/getUser")
+    //@SaCheckPermission("sys:user:list")
     public Page<User> getUser(@Validated BaseQueryVo<User> pageVo, User user) {
         //Page<User> page = null;
         //String fuzzySearch = null;
@@ -101,15 +105,14 @@ public class UserController {
     /**
      * 登录
      *
-     * @param loginMap 登录Map
-     * @return {@link User }
+     * @param dto dto
+     * @return {@link UserLoginResultDto }
      * @author luox
-     * @date 2021/07/14
+     * @date 2022/05/26
      */
     @PostMapping("/login")
-    @ControllerAnn(needLogin = false)
-    public Map<String, Object> login(@RequestBody Map<String, String> loginMap) {
-        return userService.login(loginMap.get("userName"),loginMap.get("password"));
+    public UserLoginResultDto login(@RequestBody UserLoginDto dto) {
+        return userService.login(dto.getUserName(),dto.getPassword());
     }
 
     /**
@@ -122,19 +125,6 @@ public class UserController {
     @GetMapping("/logOut")
     public Boolean logOut() {
         return userService.logOut();
-    }
-
-    /**
-     * 更改密码
-     *
-     * @param map map
-     * @return {@link Boolean }
-     * @author luox
-     * @date 2021/07/23
-     */
-    @PostMapping("/changePassword")
-    public Boolean changePassword(@RequestBody Map<String,Object> map){
-        return userService.changePassword(map.get("oldPassword").toString(),map.get("newPassword").toString());
     }
 
     /**

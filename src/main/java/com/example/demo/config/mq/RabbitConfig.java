@@ -13,7 +13,7 @@ import java.util.Map;
  * @author luox
  * @date 2022/3/25
  */
-@Configuration
+//@Configuration
 public class RabbitConfig {
 
     public static final String EXCHANGE_FANOUT = "luoxin.test.fanout";

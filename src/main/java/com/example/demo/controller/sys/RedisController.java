@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author luox
  * @date 2022/4/2
  */
-@RestController
+//@RestController
 @RequestMapping("/redis")
 @Slf4j
 @ResponseEntity
@@ -59,7 +59,7 @@ public class RedisController {
     @GetMapping("/addRedisCache")
     @CacheEvict(value = "redisCache",key = "#cacheKey")
     public Boolean addRedisCache(@RequestParam("cacheKey") String cacheKey,
-                                                 @RequestParam("cacheValue") String cacheValue){
+                                 @RequestParam("cacheValue") String cacheValue){
         log.info("addRedisCache");
         redisUtil.set(cacheKey,cacheValue);
         return true;

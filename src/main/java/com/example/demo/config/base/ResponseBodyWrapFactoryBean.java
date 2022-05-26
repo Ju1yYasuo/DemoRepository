@@ -10,8 +10,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 import java.util.List;
 
 /**
- * @author cwz
- * @date 2021\4\1 0001 11:36
+ * 响应主体包装工厂bean
+ *
+ * @author luox
+ * @date 2022/05/26
  */
 public class ResponseBodyWrapFactoryBean implements InitializingBean {
 

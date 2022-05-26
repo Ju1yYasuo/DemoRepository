@@ -3,6 +3,8 @@ package com.example.demo.util.redis;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 过期枚举
+ *
  * @author luox
  * @date 2022/4/2
  */

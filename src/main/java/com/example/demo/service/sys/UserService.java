@@ -1,6 +1,7 @@
 package com.example.demo.service.sys;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.dto.sys.UserLoginResultDto;
 import com.example.demo.entity.sys.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.util.entity.QueryResultEntity;
@@ -73,17 +74,16 @@ public interface UserService extends IService<User> {
      */
     boolean deleteUser(List<Integer> idList);
 
-
     /**
      * 登录
      *
      * @param userName 用户名
      * @param password 密码
-     * @return {@link Map <String, Object> }
+     * @return {@link UserLoginResultDto }
      * @author luox
-     * @date 2021/07/28
+     * @date 2022/05/26
      */
-    Map<String,Object> login(String userName,String password);
+    UserLoginResultDto login(String userName, String password);
 
     /**
      * 注销

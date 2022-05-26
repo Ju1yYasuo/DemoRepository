@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.exception.MyException;
+import com.example.demo.dto.sys.UserLoginResultDto;
 import com.example.demo.entity.sys.User;
 import com.example.demo.mapper.sys.UserMapper;
 import com.example.demo.service.sys.UserService;
@@ -22,6 +23,9 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,8 +82,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    //@CachePut(value = Constant.USER_CACHE,key = "#result.getUser().getId().toString()")
     @Transactional(rollbackFor = RuntimeException.class)
-    public Map<String,Object> login(String userName, String password) {
+    public UserLoginResultDto login(String userName, String password) {
         //获取用户
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>().eq("user_name",userName);
         User user = userMapper.selectOne(queryWrapper);
@@ -138,19 +143,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //获取token
         SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
 
-        Map<String,Object> map = new HashMap<>(4);
-        map.put("user",user);
-        //map.put("roles",roles);
-        //map.put("permissions",permissions);
-        //前台传入参数名必须是 spring.application.name + session gkptsession
-        map.put(saTokenInfo.getTokenName(),saTokenInfo.getTokenValue());
-        if(whetherFirstLog){
-            map.put("whetherFirstLog", true);
-        }
-        return map;
+        UserLoginResultDto dto = new UserLoginResultDto();
+        dto.setUser(user);
+        dto.setWhetherFirstLog(whetherFirstLog);
+        dto.setGkptToken(saTokenInfo.getTokenValue());
+        return dto;
     }
 
     @Override
+    //@Caching(
+    //        evict = {
+    //                @CacheEvict(value = Constant.USER_PERMISSION_CACHE,key = "#result.toString()"),
+    //                @CacheEvict(value = Constant.USER_ROLE_CACHE,key = "#result.toString()"),
+    //                @CacheEvict(value = Constant.USER_CACHE,key = "#result.toString()")
+    //        }
+    //)
     public boolean logOut() {
         int id = StpUtil.getLoginIdAsInt();
         User user = getById(id);

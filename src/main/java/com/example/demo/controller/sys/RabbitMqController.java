@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * @author luox
  * @date 2022/3/24
  */
-@RestController
+//@RestController
 @RequestMapping("/rabbit")
 @Slf4j
 @ResponseEntity

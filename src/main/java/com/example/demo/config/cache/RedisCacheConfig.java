@@ -25,7 +25,7 @@ import java.util.Set;
  * @author luox
  * @date 2022/4/2
  */
-@Configuration
+//@Configuration
 public class RedisCacheConfig {
 
     @Value("${spring.redis.timeout}")

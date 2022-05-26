@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
  * @author luox
  * @date 2021/7/27
  */
-@Component
-@EnableScheduling
+//@Component
+//@EnableScheduling
 public class ScheduleService {
 
     //@Autowired

@@ -19,7 +19,7 @@ import java.util.Map;
  * @author luox
  * @date 2021/11/26
  */
-@RestController
+//@RestController
 @RequestMapping("/test")
 @Slf4j
 @ResponseEntity
