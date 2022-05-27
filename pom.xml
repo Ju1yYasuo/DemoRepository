@@ -218,12 +218,6 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 			<version>${ehcache}</version>
-<!--			<exclusions>-->
-<!--				<exclusion>-->
-<!--					<artifactId>*</artifactId>-->
-<!--					<groupId>*</groupId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
 		</dependency>
 
 		<!--springboot中的redis依赖-->

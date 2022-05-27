@@ -34,6 +34,7 @@ public class Products {
 
     /**
      * 标题
+     * 只有text类型才可以被分词
      */
     @Field(analyzer = FieldAnalyzer.IK_MAX_WORD, type = FieldType.Text)
     private String title;

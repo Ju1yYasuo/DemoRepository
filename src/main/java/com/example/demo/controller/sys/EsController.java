@@ -46,7 +46,7 @@ import java.util.List;
  * @author luox
  * @date 2022/5/26
  */
-@RestController
+//@RestController
 @RequestMapping("/es")
 @ResponseEntity
 public class EsController {

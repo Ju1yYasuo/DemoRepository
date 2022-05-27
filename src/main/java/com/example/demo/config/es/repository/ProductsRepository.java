@@ -9,7 +9,9 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @author luox
  * @date 2022/5/26
  */
-public interface ProductsRepository extends ElasticsearchRepository<Products,Integer> {
+public interface ProductsRepository
+        //extends ElasticsearchRepository<Products,Integer>
+ {
 
      //分页查询 根据名称like查询
     //Page<Products> findByUserNameLike(String name, PageRequest pageable);

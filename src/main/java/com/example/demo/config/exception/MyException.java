@@ -13,7 +13,7 @@ public class MyException extends RuntimeException {
     private static final long serialVersionUID = 8247610319171014183L;
 
     public MyException(Throwable e) {
-        super(StrUtil.format("{}: {}", new Object[]{e.getClass().getSimpleName(), e.getMessage()}), e);
+        super(StrUtil.format("{}: {}", e.getClass().getSimpleName(), e.getMessage()), e);
     }
 
     public MyException(String message) {

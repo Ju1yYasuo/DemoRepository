@@ -3,8 +3,8 @@ package com.example.demo.config.base;
 import cn.hutool.core.util.StrUtil;
 import com.example.demo.config.exception.MyException;
 import com.example.demo.util.common.MathUtil;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author luox
  * @date 2022/05/26
  */
-//@Component
+@Configuration
 public class DateConverterConfig implements Converter<String, Date> {
 
     private static final List<String> formatters = new ArrayList<>(MathUtil.getHashMapBestLength(4));
@@ -34,10 +34,6 @@ public class DateConverterConfig implements Converter<String, Date> {
     @Override
     public Date convert(String source) {
         if(StrUtil.isBlank(source)){
-            return null;
-        }
-        String value = source.trim();
-        if ("".equals(value)) {
             return null;
         }
         if (source.matches("^\\d{4}-\\d{1,2}$")) {

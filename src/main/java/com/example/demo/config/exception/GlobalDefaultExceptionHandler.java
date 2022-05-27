@@ -1,9 +1,9 @@
 package com.example.demo.config.exception;
 
 import com.example.demo.util.entity.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局异常默认处理
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author luox
  * @date 2021/6/24
  */
-@ControllerAdvice
+@RestControllerAdvice
 @ResponseBody
 public class GlobalDefaultExceptionHandler {
 

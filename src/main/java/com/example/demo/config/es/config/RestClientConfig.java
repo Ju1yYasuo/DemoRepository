@@ -12,6 +12,8 @@ import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 
 /**
+ * es client 配置类已被yml配置代替
+ *
  * @author luox
  * @date 2022/5/26
  */

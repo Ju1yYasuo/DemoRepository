@@ -12,11 +12,12 @@ import java.util.List;
 
 /**
  * 响应主体包装工厂bean
+ * 方式一
  *
  * @author luox
  * @date 2022/05/26
  */
-@Configuration
+//@Configuration
 public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     @Autowired
