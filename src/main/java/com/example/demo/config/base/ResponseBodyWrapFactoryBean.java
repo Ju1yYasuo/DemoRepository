@@ -3,6 +3,7 @@ package com.example.demo.config.base;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
@@ -15,6 +16,7 @@ import java.util.List;
  * @author luox
  * @date 2022/05/26
  */
+@Configuration
 public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     @Autowired

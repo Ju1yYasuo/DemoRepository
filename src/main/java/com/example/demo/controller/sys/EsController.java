@@ -54,16 +54,7 @@ public class EsController {
     @Autowired
     private RestHighLevelClient client;
 
-    private static final String INDEX_NAME = "products";
-
-    //@PostMapping("/createIndex")
-    //public CreateIndexResponse createIndex(){
-    //
-    //
-    //
-    //}
-
-
+    public static final String INDEX_NAME = "products2";
 
     @PostMapping("/saveProducts")
     public IndexResponse saveProducts(@RequestBody Products products) throws IOException {
@@ -74,11 +65,43 @@ public class EsController {
         return client.index(request, RequestOptions.DEFAULT);
     }
 
-
-
     @GetMapping("/getProducts")
     public List<Products> getProducts(ProductsQueryDto dto) throws IOException {
         SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
+        SearchSourceBuilder ssb = new SearchSourceBuilder();
+        QueryBuilder queryBuilder = new MatchQueryBuilder("title",dto.getTitle());
+        ssb.query(queryBuilder);
+
+        //高亮设置
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.field("title");
+        //highlightBuilder.preTags("<b>");
+        //highlightBuilder.postTags("</b>");
+        ssb.highlighter(highlightBuilder);
+
+        searchRequest.source(ssb);
+
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        SearchHit[] searchHits = searchResponse.getHits().getHits();
+        List<Products> list = new ArrayList<>();
+        for(SearchHit hit : searchHits){
+            list.add(JSON.parseObject(hit.getSourceAsString(),Products.class));
+
+            HighlightField highlightField = hit.getHighlightFields().get("title");
+            for (Text fragment : highlightField.getFragments()) {
+                System.out.println(fragment.string());
+            }
+            System.out.println("----------------");
+
+
+        }
+
+        return list;
+    }
+
+    @GetMapping("/getProducts0")
+    public List<Products> getProducts0(ProductsQueryDto dto) throws IOException {
+        SearchRequest searchRequest = new SearchRequest("Products");
         SearchSourceBuilder ssb = new SearchSourceBuilder();
         QueryBuilder queryBuilder = new MatchQueryBuilder("title",dto.getTitle());
         ssb.query(queryBuilder);

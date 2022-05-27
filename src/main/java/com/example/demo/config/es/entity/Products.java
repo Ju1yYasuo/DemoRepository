@@ -1,7 +1,7 @@
 package com.example.demo.config.es.entity;
 
-import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.example.demo.config.es.config.FieldAnalyzer;
+import com.example.demo.controller.sys.EsController;
 import lombok.Data;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -18,7 +18,7 @@ import java.util.Date;
  * @author luox
  * @date 2022/5/26
  */
-@Document(indexName = "products")
+@Document(indexName = EsController.INDEX_NAME)
 @Setting(
         shards = 1, // 默认索引分区数
         replicas = 0, // 每个分区的备份数
@@ -35,7 +35,7 @@ public class Products {
     /**
      * 标题
      */
-    @Field(analyzer = FieldAnalyzer.IK_MAX_WORD, type = FieldType.Keyword)
+    @Field(analyzer = FieldAnalyzer.IK_MAX_WORD, type = FieldType.Text)
     private String title;
 
     /**
@@ -60,7 +60,7 @@ public class Products {
     private Completion suggest;
 
     /**
-     * 位置
+     * 位置,GEO类型的字段是不能使用动态映射自动生成
      */
     private GeoPoint location;
 }
