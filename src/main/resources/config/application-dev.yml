@@ -81,6 +81,8 @@ spring:
 #    secure: false
 #    bucket: jlt
 
-#  elasticsearch:
-#    rest:
-#      uris: http://localhost:9200
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200
+      username: elastic
+      password: julyyasuo

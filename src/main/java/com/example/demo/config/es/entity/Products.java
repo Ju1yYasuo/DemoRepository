@@ -4,12 +4,10 @@ import com.example.demo.config.es.config.FieldAnalyzer;
 import com.example.demo.controller.sys.EsController;
 import lombok.Data;
 import org.elasticsearch.common.geo.GeoPoint;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Setting;
+import org.springframework.data.elasticsearch.annotations.*;
 import org.springframework.data.elasticsearch.core.completion.Completion;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -30,6 +28,7 @@ public class Products {
     /**
      * id
      */
+    @Field(type = FieldType.Integer)
     private Integer id;
 
     /**
@@ -42,12 +41,16 @@ public class Products {
     /**
      * 价格
      */
+    @Field(type = FieldType.Double)
     private Double price;
 
     /**
-     * 创建在
+     * 创建日期
+     * 转Date类型仅支持默认格式，否则使用LocalDate类型,而毫秒值不支持该类型
      */
-    private Date create_at;
+    @Field(type = FieldType.Date,name = "create_at")
+    private Date createAt;
+    //private LocalDate createAt;
 
     /**
      * 描述
@@ -56,7 +59,7 @@ public class Products {
     private String description;
 
     /**
-     * 建议
+     * 搜索建议
      */
     private Completion suggest;
 

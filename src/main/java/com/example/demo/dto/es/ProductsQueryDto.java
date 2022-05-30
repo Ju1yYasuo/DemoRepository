@@ -1,6 +1,9 @@
 package com.example.demo.dto.es;
 
+import com.example.demo.util.entity.QueryEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * 产品es查询dto
@@ -9,7 +12,9 @@ import lombok.Data;
  * @date 2022/5/26
  */
 @Data
-public class ProductsQueryDto {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class ProductsQueryDto extends QueryEntity {
 
     /**
      * 标题

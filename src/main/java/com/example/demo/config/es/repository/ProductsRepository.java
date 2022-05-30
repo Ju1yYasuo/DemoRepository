@@ -1,6 +1,8 @@
 package com.example.demo.config.es.repository;
 
 import com.example.demo.config.es.entity.Products;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -13,7 +15,7 @@ public interface ProductsRepository
         //extends ElasticsearchRepository<Products,Integer>
  {
 
-     //分页查询 根据名称like查询
-    //Page<Products> findByUserNameLike(String name, PageRequest pageable);
+     //分页查询
+    Page<Products> findByTitle(String title, PageRequest pageable);
 
 }

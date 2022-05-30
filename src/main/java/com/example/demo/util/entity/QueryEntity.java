@@ -9,21 +9,15 @@ import lombok.Data;
  * @date 2021/7/9
  */
 @Data
-public class QueryEntity<T> {
+public class QueryEntity {
 
     /**
      * 当前页码
      */
-    private int current;
+    private int current = 1;
 
     /**
      * 分页大小
      */
-    private int size;
-
-    /**
-     * 查询实体
-     */
-    private T entity;
-
+    private int size = 10;
 }

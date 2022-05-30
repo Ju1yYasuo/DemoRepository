@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -16,6 +17,11 @@ import java.util.concurrent.TimeoutException;
  * @date 2021/7/16
  */
 public class JavaTest {
+
+    @Test
+    public void test5(){
+
+    }
 
     @Test
     public void testRabbitMqProducer() throws IOException, TimeoutException {
