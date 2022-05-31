@@ -1,4 +1,4 @@
-package com.example.demo.mapper.sys;
+package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Select;

@@ -1,6 +1,6 @@
-package com.example.demo.dto.sys;
+package com.example.demo.dto;
 
-import com.example.demo.entity.sys.User;
+import com.example.demo.entity.User;
 import lombok.Data;
 
 /**

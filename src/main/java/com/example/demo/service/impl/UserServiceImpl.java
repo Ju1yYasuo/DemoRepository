@@ -1,4 +1,4 @@
-package com.example.demo.service.sys.impl;
+package com.example.demo.service.impl;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
@@ -9,23 +9,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.exception.MyException;
-import com.example.demo.dto.sys.UserLoginResultDto;
-import com.example.demo.entity.sys.User;
-import com.example.demo.mapper.sys.UserMapper;
-import com.example.demo.service.sys.UserService;
+import com.example.demo.dto.UserLoginResultDto;
+import com.example.demo.entity.User;
+import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.util.common.Constant;
 import com.example.demo.util.document.PoiUtil;
-import com.example.demo.util.entity.QueryResultEntity;
 import com.example.demo.util.vo.BaseQueryVo;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +32,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <p>

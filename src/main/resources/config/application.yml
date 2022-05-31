@@ -12,7 +12,7 @@ spring:
 #打印sql
 mybatis-plus:
   mapper-locations: classpath:mapper/*/*Mapper.xml
-  type-aliases-package: com.example.demo.modules.*.entity
+  type-aliases-package: com.example.demo.*.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 

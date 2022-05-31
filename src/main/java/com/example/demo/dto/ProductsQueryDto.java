@@ -1,4 +1,4 @@
-package com.example.demo.dto.es;
+package com.example.demo.dto;
 
 import com.example.demo.util.entity.QueryEntity;
 import lombok.Data;

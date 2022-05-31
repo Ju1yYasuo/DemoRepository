@@ -1,11 +1,11 @@
-package com.example.demo.entity.sys;
+package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.example.demo.util.entity.BaseEntity;
 import java.util.Date;
 
+import com.example.demo.util.entity.FullBaseEntity;
 import lombok.*;
 
 import java.io.Serializable;
@@ -25,7 +25,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_user")
 @ToString(callSuper = true)
-public class User extends BaseEntity implements Serializable {
+public class User extends FullBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

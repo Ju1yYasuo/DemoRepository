@@ -1,14 +1,13 @@
-package com.example.demo.controller.sys;
+package com.example.demo.controller;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.annotation.ResponseEntity;
-import com.example.demo.mapper.sys.TestMapper;
+import com.example.demo.mapper.TestMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;

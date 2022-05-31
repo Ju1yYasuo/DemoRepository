@@ -1,33 +1,41 @@
-package com.example.demo.controller.sys;
+package com.example.demo.controller;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.config.es.entity.Products;
 import com.example.demo.config.es.repository.ProductsRepository;
-import com.example.demo.dto.es.ProductsQueryDto;
+import com.example.demo.dto.ProductsQueryDto;
+import com.example.demo.util.json.JsonUtil;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.ClearScrollRequest;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.unit.DistanceUnit;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.analysis.AnalyzerComponents;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
+import org.elasticsearch.search.builder.PointInTimeBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.searchafter.SearchAfterBuilder;
 import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
@@ -36,14 +44,10 @@ import org.elasticsearch.search.suggest.SuggestBuilders;
 import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
 import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,16 +73,16 @@ public class EsController {
     public IndexResponse saveProducts(@RequestBody List<Products> productsList) throws IOException {
 
         IndexRequest request = new IndexRequest(INDEX_NAME)
-                .source(JSON.toJSONString(productsList), XContentType.JSON);
+                .source(JsonUtil.toJsonString(productsList), XContentType.JSON);
 
         return client.index(request, RequestOptions.DEFAULT);
     }
 
-    //@PostMapping("/saveAll")
-    //public Boolean saveAll(@RequestBody List<Products> productsList) {
-    //    repository.saveAll(productsList);
-    //    return true;
-    //}
+    @PostMapping("/saveAll")
+    public Boolean saveAll(@RequestBody List<Products> productsList) {
+        repository.saveAll(productsList);
+        return true;
+    }
 
     @GetMapping("/searchSuggest/{prefix}")
     public List<String> searchSuggest(@PathVariable("prefix") String prefix) throws IOException {
@@ -121,6 +125,45 @@ public class EsController {
     public List<Products> getProducts(ProductsQueryDto dto) throws IOException {
         SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
         SearchSourceBuilder ssb = new SearchSourceBuilder();
+
+        //searchAfter分页，视图原理，也可以手动工具类实现
+        //PointInTimeBuilder pointInTimeBuilder = new PointInTimeBuilder("");
+        //pointInTimeBuilder.setKeepAlive(TimeValue.timeValueMinutes(5L));
+        //ssb.pointInTimeBuilder(pointInTimeBuilder);
+        //ssb.searchAfter(new Object[]{4,3});
+        //scroll滚动分页,视图原理
+        /*Scroll scroll = new Scroll(TimeValue.timeValueMinutes(5L));
+        //searchRequest.scroll(scroll);
+        MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+        ssb.query(matchAllQueryBuilder);
+        //每次滚动两条文档
+        ssb.size(2);
+        searchRequest.source(ssb);
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+        String scrollId = response.getScrollId();
+        SearchHit[] searchHits = response.getHits().getHits();
+        System.out.println(response.getHits().getTotalHits());
+        for (SearchHit searchHit : searchHits) {
+            System.out.println(searchHit.getSourceAsString());
+        }
+        int i=1;
+        while (searchHits.length > 0) {
+            SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+            scrollRequest.scroll(scroll);
+            response = client.scroll(scrollRequest, RequestOptions.DEFAULT);
+            //scrollId不会变
+            //scrollId = response.getScrollId();
+            searchHits = response.getHits().getHits();
+            for (SearchHit searchHit : searchHits) {
+                i++;
+                System.out.println(searchHit.getSourceAsString());
+            }
+            if (i > dto.getSize()) {
+                break;
+            }
+        }*/
+
+        //from,size分页，数据量大，深度分页不适用
         ssb.from(dto.getCurrent() - 1);
         ssb.size(dto.getSize());
         if(StrUtil.isNotBlank(dto.getTitle())){
@@ -154,38 +197,20 @@ public class EsController {
         return list;
     }
 
-    @GetMapping("/getProducts0")
-    public List<Products> getProducts0(ProductsQueryDto dto) throws IOException {
-        SearchRequest searchRequest = new SearchRequest("products");
-        SearchSourceBuilder ssb = new SearchSourceBuilder();
-        QueryBuilder queryBuilder = new MatchQueryBuilder("title",dto.getTitle());
-        ssb.query(queryBuilder);
-
-        //高亮设置
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.field("title");
-        //highlightBuilder.preTags("<b>");
-        //highlightBuilder.postTags("</b>");
-        ssb.highlighter(highlightBuilder);
-
-        searchRequest.source(ssb);
-
-        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
-        SearchHit[] searchHits = searchResponse.getHits().getHits();
-        List<Products> list = new ArrayList<>();
-        for(SearchHit hit : searchHits){
-            list.add(JSON.parseObject(hit.getSourceAsString(),Products.class));
-
-            HighlightField highlightField = hit.getHighlightFields().get("title");
-            for (Text fragment : highlightField.getFragments()) {
-                System.out.println(fragment.string());
-            }
-            System.out.println("----------------");
-
-
+    //清除滚动id
+    public static boolean clearScrollIds(RestHighLevelClient client,List<String> scrollIds){
+        ClearScrollRequest clearScrollRequest = new ClearScrollRequest();
+        //添加单个id
+        //clearScrollRequest.addScrollId("滚动id");
+        //添加多个id
+        clearScrollRequest.setScrollIds(scrollIds);
+        try {
+            client.clearScroll(clearScrollRequest,RequestOptions.DEFAULT);
+            return true;
+        } catch (IOException e) {
+            return false;
         }
 
-        return list;
     }
 
     @GetMapping("/searchAggregation")

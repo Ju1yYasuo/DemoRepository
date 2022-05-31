@@ -1,4 +1,4 @@
-package com.example.demo.controller.sys;
+package com.example.demo.controller;
 
 import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.config.mq.RabbitConfig;

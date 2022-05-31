@@ -47,7 +47,7 @@ public class GlobalDefaultExceptionHandler {
             sb.append("\n");
         }
         log.error(sb.toString(),e);
-        return new ResponseEntity<>(ResponseEntity.SERVER_ERROR,e.getMessage(),false);
+        return new ResponseEntity<>(ResponseEntity.SERVER_ERROR,e.toString(),false);
     }
 
 //    /**

@@ -1,6 +1,6 @@
-package com.example.demo.vo.sys;
+package com.example.demo.vo;
 
-import com.example.demo.entity.sys.User;
+import com.example.demo.entity.User;
 import lombok.*;
 
 /**

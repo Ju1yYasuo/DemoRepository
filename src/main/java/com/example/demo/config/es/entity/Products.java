@@ -1,13 +1,11 @@
 package com.example.demo.config.es.entity;
 
 import com.example.demo.config.es.config.FieldAnalyzer;
-import com.example.demo.controller.sys.EsController;
+import com.example.demo.controller.EsController;
 import lombok.Data;
-import org.elasticsearch.common.geo.GeoPoint;
 import org.springframework.data.elasticsearch.annotations.*;
 import org.springframework.data.elasticsearch.core.completion.Completion;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -22,14 +20,17 @@ import java.util.Date;
         replicas = 0, // 每个分区的备份数
         refreshInterval = "-1" // 刷新间隔
 )
+@Mapping(mappingPath = "/es/mapping/products.json")
 @Data
 public class Products {
 
     /**
      * id
+     * settingMapper如果没有走外部文件配置
+     * 那么只要fieldName为id或document就判定为是id属性，然后将type设置为keyword并且可被索引
      */
-    @Field(type = FieldType.Integer)
-    private Integer id;
+    @Field(type = FieldType.Long)
+    private Long id;
 
     /**
      * 标题
@@ -47,10 +48,10 @@ public class Products {
     /**
      * 创建日期
      * 转Date类型仅支持默认格式，否则使用LocalDate类型,而毫秒值不支持该类型
+     * name = "create_time"
      */
-    @Field(type = FieldType.Date,name = "create_at")
-    private Date createAt;
-    //private LocalDate createAt;
+    @Field(type = FieldType.Date)
+    private Date createTime;
 
     /**
      * 描述
@@ -61,10 +62,11 @@ public class Products {
     /**
      * 搜索建议
      */
+    @Field(analyzer = FieldAnalyzer.IK_MAX_WORD)
     private Completion suggest;
 
-    /**
-     * 位置,GEO类型的字段是不能使用动态映射自动生成
-     */
-    private GeoPoint location;
+    ///**
+    // * 位置,GEO类型的字段是不能使用动态映射自动生成
+    // */
+    //private GeoPoint location;
 }

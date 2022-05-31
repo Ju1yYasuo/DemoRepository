@@ -3,7 +3,7 @@ package com.example.demo.config.mybatisplus;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.example.demo.entity.sys.User;
+import com.example.demo.entity.User;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 

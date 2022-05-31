@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 一般查询dto
+ * 一般查询entity
  *
  * @author luox
  * @date 2021/8/25
@@ -13,7 +13,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class CommonQueryDto extends QueryEntity {
+public class CommonQueryEntity extends QueryEntity {
 
     /**
      * 模糊搜索

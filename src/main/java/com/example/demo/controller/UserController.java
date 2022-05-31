@@ -1,14 +1,12 @@
-package com.example.demo.controller.sys;
+package com.example.demo.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.config.annotation.ControllerAnn;
 import com.example.demo.config.annotation.ResponseEntity;
-import com.example.demo.dto.sys.UserLoginDto;
-import com.example.demo.dto.sys.UserLoginResultDto;
-import com.example.demo.entity.sys.User;
-import com.example.demo.service.sys.UserService;
+import com.example.demo.dto.UserLoginDto;
+import com.example.demo.dto.UserLoginResultDto;
+import com.example.demo.entity.User;
+import com.example.demo.service.UserService;
 import com.example.demo.util.vo.BaseQueryVo;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

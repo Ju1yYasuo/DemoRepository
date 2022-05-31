@@ -1,6 +1,6 @@
-package com.example.demo.mapper.sys;
+package com.example.demo.mapper;
 
-import com.example.demo.entity.sys.User;
+import com.example.demo.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

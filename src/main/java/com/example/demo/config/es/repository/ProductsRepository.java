@@ -12,9 +12,8 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @date 2022/5/26
  */
 public interface ProductsRepository
-        //extends ElasticsearchRepository<Products,Integer>
+        extends ElasticsearchRepository<Products,String>
  {
-
      //分页查询
     Page<Products> findByTitle(String title, PageRequest pageable);
 

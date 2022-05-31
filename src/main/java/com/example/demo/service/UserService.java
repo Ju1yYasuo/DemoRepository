@@ -1,17 +1,15 @@
-package com.example.demo.service.sys;
+package com.example.demo.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.dto.sys.UserLoginResultDto;
-import com.example.demo.entity.sys.User;
+import com.example.demo.dto.UserLoginResultDto;
+import com.example.demo.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.demo.util.entity.QueryResultEntity;
 import com.example.demo.util.vo.BaseQueryVo;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

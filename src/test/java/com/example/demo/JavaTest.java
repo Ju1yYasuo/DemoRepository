@@ -1,10 +1,21 @@
 package com.example.demo;
 
+import com.example.demo.config.es.entity.Products;
+import com.example.demo.entity.BiProducts;
+import com.example.demo.util.json.JsonUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.rabbitmq.client.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +30,35 @@ import java.util.concurrent.TimeoutException;
 public class JavaTest {
 
     @Test
-    public void test5(){
+    public void test7() throws UnsupportedEncodingException {
+        //请求头Authorization鉴权
+        String encoding = DatatypeConverter.printBase64Binary("elastic:julyyasuo".getBytes(StandardCharsets.UTF_8));
+        //Basic后面有空格
+        //http.setHeader("Authorization", "Basic " + encoding);
+        print(encoding);
 
+    }
+
+    @Test
+    public void test6(){
+        BiProducts biProducts = new BiProducts();
+        biProducts.setSuggests("土豆,番茄");
+        Products products = new Products();
+        BeanUtils.copyProperties(biProducts,products);
+        products.setSuggest(new Completion(biProducts.getSuggests().split(",")));
+        print(JsonUtil.toJsonString(products));
+    }
+
+    @Test
+    public void test5() throws JsonProcessingException {
+        //ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //print(objectMapper.writeValueAsString(products));
+        BiProducts biProducts = new BiProducts();
+        biProducts.setId(2L);
+        Products products = new Products();
+        BeanUtils.copyProperties(biProducts,products);
+        print(products);
     }
 
     @Test

@@ -1,0 +1,34 @@
+{
+  "properties" : {
+    "_class" : {
+      "type" : "keyword",
+      "index" : false,
+      "doc_values" : false
+    },
+    "id" : {
+      "type" : "long"
+    },
+    "price" : {
+      "type" : "double"
+    },
+    "suggest" : {
+      "type" : "completion",
+      "analyzer" : "ik_max_word",
+      "preserve_separators" : true,
+      "preserve_position_increments" : true,
+      "max_input_length" : 50
+    },
+    "title" : {
+      "type" : "text",
+      "analyzer" : "ik_max_word"
+    },
+    "createTime" : {
+      "type" : "date",
+      "format" : "date_optional_time||epoch_millis"
+    },
+    "description" : {
+      "type" : "text",
+      "analyzer" : "ik_smart"
+    }
+  }
+}
