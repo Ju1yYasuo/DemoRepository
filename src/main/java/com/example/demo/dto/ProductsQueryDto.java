@@ -20,4 +20,9 @@ public class ProductsQueryDto extends QueryEntity {
      * 标题
      */
     private String title;
+
+    /**
+     * 描述
+     */
+    private String description;
 }

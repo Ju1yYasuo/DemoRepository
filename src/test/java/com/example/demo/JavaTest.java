@@ -6,10 +6,10 @@ import com.example.demo.util.json.JsonUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.alibaba.fastjson.*;
 import com.rabbitmq.client.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.elasticsearch.core.completion.Completion;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
@@ -32,21 +32,27 @@ public class JavaTest {
     @Test
     public void test7() throws UnsupportedEncodingException {
         //请求头Authorization鉴权
-        String encoding = DatatypeConverter.printBase64Binary("elastic:julyyasuo".getBytes(StandardCharsets.UTF_8));
+        //String encoding = DatatypeConverter.printBase64Binary("elastic:julyyasuo".getBytes(StandardCharsets.UTF_8));
         //Basic后面有空格
         //http.setHeader("Authorization", "Basic " + encoding);
-        print(encoding);
-
+        //print(encoding);
     }
 
     @Test
     public void test6(){
-        BiProducts biProducts = new BiProducts();
-        biProducts.setSuggests("土豆,番茄");
         Products products = new Products();
-        BeanUtils.copyProperties(biProducts,products);
-        products.setSuggest(new Completion(biProducts.getSuggests().split(",")));
-        print(JsonUtil.toJsonString(products));
+        products.setPrice(2.33d);
+        print(JsonUtil.parse(JsonUtil.toJsonString(products),BiProducts.class));
+
+        BiProducts biProducts = new BiProducts();
+        biProducts.setPrice(new BigDecimal("5.32"));
+        print(JsonUtil.parse(JsonUtil.toJsonString(biProducts),Products.class));
+        //BiProducts biProducts = new BiProducts();
+        //biProducts.setSuggest("土豆,番茄");
+        //Products products = new Products();
+        //BeanUtils.copyProperties(biProducts,products);
+        //products.setSuggest(new Completion(biProducts.getSuggest().split(",")));
+        //print(JsonUtil.toJsonString(products));
     }
 
     @Test

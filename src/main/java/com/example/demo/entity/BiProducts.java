@@ -43,10 +43,4 @@ public class BiProducts extends IdEntity implements Serializable {
      * 描述
      */
     private String description;
-
-    /**
-     * 搜索建议(es为字符数组,mysql逗号拼接)
-     */
-    private String suggests;
-
 }
