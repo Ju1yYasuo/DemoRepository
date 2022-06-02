@@ -13,6 +13,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.client.ElasticsearchClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -56,7 +57,7 @@ public class BiProductsController {
     private BiProductsService biProductsService;
 
     @Autowired
-    private RestHighLevelClient client;
+    private RestHighLevelClient client;//仅在8.x版本中被废弃
     //@Autowired
     //private ProductsRepository productsRepository;
 
@@ -73,9 +74,8 @@ public class BiProductsController {
         suggestBuilder.addSuggestion("s-title",suggest);
         sourceBuilder.suggest(suggestBuilder);
         //筛选指定字段
-        //sourceBuilder.fetchSource();
-        sourceBuilder.fetchField("id");
-        sourceBuilder.fetchField("title");
+        sourceBuilder.fetchSource(new String[]{"id","title"},new String[]{"description"});
+
         searchRequest.source(sourceBuilder);
 
         List<String> result = new ArrayList<>();

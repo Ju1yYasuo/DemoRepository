@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 
 import java.math.BigDecimal;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.demo.util.entity.IdEntity;
 import java.util.Date;
@@ -25,7 +28,7 @@ public class BiProducts extends IdEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 标题
+     * 标题h
      */
     private String title;
 
@@ -37,6 +40,7 @@ public class BiProducts extends IdEntity implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill= FieldFill.INSERT)
     private Date createTime;
 
     /**
