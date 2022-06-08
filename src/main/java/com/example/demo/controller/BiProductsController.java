@@ -115,9 +115,10 @@ public class BiProductsController {
 
         SearchRequest searchRequest = SearchRequest.of(request -> request.index(Constant.ES_INDEX_PRODUCTS)
                 .source(s -> s.filter(sf -> sf.includes("id","title").excludes("description")))
-                .suggest(s -> s.text(prefix).suggesters("s-title",
+                .suggest(s -> s.text("s-title").suggesters(prefix,
                         fs -> fs.completion(c -> c.field("title.suggest").skipDuplicates(true).size(10)))));
                         //fs -> fs.prefix(""))));
+        //field("title.suggest")
         //fs -> fs.completion(c -> c.field("title.suggest").skipDuplicates(true).size(10))
 
         List<String> result = new ArrayList<>();
@@ -135,14 +136,6 @@ public class BiProductsController {
         return result;
     }
 
-    /**
-     * 根据id查询es-产品信息详情
-     *
-     * @param id id
-     * @return {@link BiProducts }
-     * @author luox
-     * @date 2022-05-31
-     */
     @GetMapping("/get/{id}")
     public BiProducts getById(@PathVariable("id") Long id) throws IOException {
         //GetRequest getRequest = new GetRequest().index(Constant.ES_INDEX_PRODUCTS).id(id.toString());
@@ -172,6 +165,7 @@ public class BiProductsController {
                         .query(q -> q.bool(builder.build()))
                         .from((int) ((queryVo.getPageNum() - 1L) * queryVo.getPageSize()))
                         .size((int) queryVo.getPageSize())
+                        .highlight(h -> h.fields("title",hf -> hf))
                         //.highlight(h -> h.fields("h-test",hf -> hf.field("title")))
                 ,BiProducts.class);
 
@@ -224,14 +218,6 @@ public class BiProductsController {
         //return page;
     }
 
-    /**
-     * 保存es-产品信息
-     *
-     * @param biProducts es-产品信息
-     * @return {@link Boolean }
-     * @author luox
-     * @date 2022-05-31
-     */
     @PostMapping("/save")
     @Transactional
     public Boolean save(@RequestBody BiProducts biProducts) throws IOException {
@@ -254,14 +240,6 @@ public class BiProductsController {
         return indexResponse.result() == Result.Created;
     }
 
-    /**
-     * 更新es-产品信息
-     *
-     * @param biProducts es-产品信息
-     * @return {@link Boolean }
-     * @author luox
-     * @date 2022-05-31
-     */
     @PostMapping("/update")
     @Transactional
     public Boolean update(@RequestBody BiProducts biProducts) throws IOException {
@@ -281,14 +259,6 @@ public class BiProductsController {
         return updateResponse.result() == Result.Updated;
     }
 
-    /**
-     * 删除es-产品信息
-     *
-     * @param baseBodyVo 请求body基础vo
-     * @return {@link Boolean }
-     * @author luox
-     * @date 2022-05-31
-     */
     @PostMapping("/delete")
     @Transactional
     public Boolean delete(@RequestBody @Validated BaseBodyVo baseBodyVo) throws IOException {
