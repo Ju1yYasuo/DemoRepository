@@ -8,39 +8,39 @@ import com.example.demo.config.es.repository.ProductsRepository;
 import com.example.demo.dto.ProductsQueryDto;
 import com.example.demo.util.common.Constant;
 import com.example.demo.util.json.JsonUtil;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.ClearScrollRequest;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchScrollRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.text.Text;
-import org.elasticsearch.common.unit.DistanceUnit;
-import org.elasticsearch.index.analysis.AnalyzerComponents;
-import org.elasticsearch.index.query.MatchAllQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.Scroll;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
-import org.elasticsearch.search.builder.PointInTimeBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
-import org.elasticsearch.search.searchafter.SearchAfterBuilder;
-import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
-import org.elasticsearch.search.suggest.SuggestBuilder;
-import org.elasticsearch.search.suggest.SuggestBuilders;
-import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
-import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
+//import org.elasticsearch.action.index.IndexRequest;
+//import org.elasticsearch.action.index.IndexResponse;
+//import org.elasticsearch.action.search.ClearScrollRequest;
+//import org.elasticsearch.action.search.SearchRequest;
+//import org.elasticsearch.action.search.SearchResponse;
+//import org.elasticsearch.action.search.SearchScrollRequest;
+//import org.elasticsearch.client.RequestOptions;
+//import org.elasticsearch.client.RestHighLevelClient;
+//import org.elasticsearch.common.geo.GeoPoint;
+//import org.elasticsearch.common.text.Text;
+//import org.elasticsearch.common.unit.DistanceUnit;
+//import org.elasticsearch.index.analysis.AnalyzerComponents;
+//import org.elasticsearch.index.query.MatchAllQueryBuilder;
+//import org.elasticsearch.index.query.MatchQueryBuilder;
+//import org.elasticsearch.index.query.QueryBuilder;
+//import org.elasticsearch.index.query.QueryBuilders;
+//import org.elasticsearch.search.Scroll;
+//import org.elasticsearch.search.SearchHit;
+//import org.elasticsearch.search.aggregations.AggregationBuilders;
+//import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+//import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
+//import org.elasticsearch.search.builder.PointInTimeBuilder;
+//import org.elasticsearch.search.builder.SearchSourceBuilder;
+//import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+//import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+//import org.elasticsearch.search.searchafter.SearchAfterBuilder;
+//import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
+//import org.elasticsearch.search.sort.SortBuilders;
+//import org.elasticsearch.search.sort.SortOrder;
+//import org.elasticsearch.search.suggest.SuggestBuilder;
+//import org.elasticsearch.search.suggest.SuggestBuilders;
+//import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
+//import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,8 +59,8 @@ import java.util.List;
 @ResponseEntity
 public class EsController {
 
-    @Autowired
-    private RestHighLevelClient client;
+    //@Autowired
+    //private RestHighLevelClient client;
 
     //@Autowired
     //private ProductsRepository repository;

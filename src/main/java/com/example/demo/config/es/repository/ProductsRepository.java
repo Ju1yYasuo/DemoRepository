@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
  */
 public interface ProductsRepository
     //弃用
-        //extends ElasticsearchRepository<Products,String>
+    //    extends ElasticsearchRepository<Products,String>
  {
      //分页查询
     Page<Products> findByTitle(String title, PageRequest pageable);

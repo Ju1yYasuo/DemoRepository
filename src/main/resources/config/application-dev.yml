@@ -81,8 +81,11 @@ spring:
 #    secure: false
 #    bucket: jlt
 
+#  被es java api bean配置取代
   elasticsearch:
     rest:
-      uris: http://localhost:9200
+#      uris: http://localhost:9200
+      url: localhost
+      port: 9200
       username: elastic
       password: julyyasuo

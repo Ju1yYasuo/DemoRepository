@@ -4,6 +4,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.example.demo.config.annotation.InterceptorAnn;
+import com.example.demo.util.common.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -33,7 +35,7 @@ import java.util.List;
 public class MyWebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -115,6 +117,11 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .maxAge(3600);
         WebMvcConfigurer.super.addCorsMappings(registry);
+    }
+
+    @PostConstruct
+    public void initBeanUtil(){
+        BeanUtil.setCtx(applicationContext);
     }
 
 }
