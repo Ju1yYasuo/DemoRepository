@@ -99,23 +99,7 @@ public class RestClientConfig {
                 httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
         RestClient restClient = builder.build();
 
-        JacksonJsonpMapper jacksonJsonpMapper =  new JacksonJsonpMapper();
-        // 设置日期不转为时间戳
-        //ObjectMapper mapper = jacksonJsonpMapper.objectMapper();
-        //// 对于空的对象转json的时候不抛出错误
-        //mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        //// 允许属性名称没有引号
-        //mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-        //// 允许单引号
-        //mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-        //// 设置日期不转为时间戳
-        //mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        //// 设置输入时忽略在json字符串中存在但在java对象实际没有的属性
-        //mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        //// 设置输出时包含属性的风格
-        //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-        ElasticsearchTransport transport = new RestClientTransport(restClient,jacksonJsonpMapper);
+        ElasticsearchTransport transport = new RestClientTransport(restClient,new JacksonJsonpMapper());
 
         return new ElasticsearchClient(transport);
         //new ElasticsearchAsyncClient(transport);
@@ -135,8 +119,8 @@ public class RestClientConfig {
                             .fields("suggest",sp -> sp.completion(cp -> cp.analyzer(FieldAnalyzer.IK_MAX_WORD))))));
             
             documentMap.put("price",Property.of(p -> p.double_(xp -> xp.index(true))));
-            documentMap.put("create_time",Property.of(p -> p.date(
-                    xp -> xp.index(true).format("date_optional_time||epoch_millis"))));
+            documentMap.put("createTime",Property.of(p -> p.date(
+                    xp -> xp.index(true).format("epoch_millis"))));
 
             documentMap.put("description",Property.of(p -> p.text(xp -> xp.analyzer(FieldAnalyzer.IK_SMART))));
 

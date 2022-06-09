@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
  * @date 2022/5/26
  */
 public interface ProductsRepository
-    //弃用
+    //弃用spring-data-elasticsearch
     //    extends ElasticsearchRepository<Products,String>
  {
      //分页查询

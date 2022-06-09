@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.Result;
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
@@ -82,9 +85,7 @@ public class BiProductsController {
         List<String> keywordList = new ArrayList<>();
         AnalyzeResponse analyzeResponse = client.indices().analyze(
                 request -> request.analyzer(FieldAnalyzer.IK_SMART).text(searchKey));
-        analyzeResponse.tokens().forEach(analyzeToken -> {
-            keywordList.add(analyzeToken.token());
-        });
+        analyzeResponse.tokens().forEach(analyzeToken -> keywordList.add(analyzeToken.token()));
         //AnalyzeRequest analyzeRequest = AnalyzeRequest.withGlobalAnalyzer(FieldAnalyzer.IK_SMART,searchKey);
         //AnalyzeResponse analyzeResponse = client.indices().analyze(analyzeRequest, RequestOptions.DEFAULT);
         //analyzeResponse.getTokens().forEach(analyzeToken -> {
@@ -109,23 +110,16 @@ public class BiProductsController {
         //sourceBuilder.fetchSource(new String[]{"id","title"},new String[]{"description"});
 
         //searchRequest.source(sourceBuilder);
-
-
         //FieldSuggester fieldSuggester = FieldSuggester.of(s -> (ObjectBuilder<FieldSuggester>) s.prefix(""));
 
         SearchRequest searchRequest = SearchRequest.of(request -> request.index(Constant.ES_INDEX_PRODUCTS)
                 .source(s -> s.filter(sf -> sf.includes("id","title").excludes("description")))
-                .suggest(s -> s.text("s-title").suggesters(prefix,
+                .suggest(s -> s.text(prefix).suggesters("s-title",
                         fs -> fs.completion(c -> c.field("title.suggest").skipDuplicates(true).size(10)))));
-                        //fs -> fs.prefix(""))));
-        //field("title.suggest")
-        //fs -> fs.completion(c -> c.field("title.suggest").skipDuplicates(true).size(10))
 
         List<String> result = new ArrayList<>();
-        SearchResponse<Suggester> response = client.search(searchRequest,Suggester.class);
-        response.suggest().get("s-title").forEach(s -> {
-            result.add(s.term().text());
-        });
+        SearchResponse<BiProducts> response = client.search(searchRequest,BiProducts.class);
+        response.suggest().get("s-title").get(0).completion().options().forEach(option -> result.add(option.text()));
         //SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
         //CompletionSuggestion suggestion = response.getSuggest().getSuggestion("s-title");
         //for (CompletionSuggestion.Entry.Option option : suggestion.getOptions()) {
@@ -152,7 +146,6 @@ public class BiProductsController {
 
     @GetMapping("/page")
     public Page<BiProducts> page(BaseQueryVo<BiProducts> queryVo,BiProducts biProducts) throws IOException {
-
         BoolQuery.Builder builder = new BoolQuery.Builder();
         if(StrUtil.isNotBlank(biProducts.getTitle())){
             builder.should(bq -> bq.match(mq -> mq.field("title").query(biProducts.getTitle())));
@@ -160,23 +153,32 @@ public class BiProductsController {
         if(StrUtil.isNotBlank(biProducts.getDescription())){
             builder.should(bq -> bq.match(mq -> mq.field("description").query(biProducts.getDescription())));
         }
+        SortOptions.Builder sortBuilder = new SortOptions.Builder();
+        sortBuilder.field(fs -> fs.field("_score").order(SortOrder.Desc));
+        sortBuilder.field(fs -> fs.field("createTime").order(SortOrder.Desc));
         SearchResponse<BiProducts> searchResponse = client.search(s -> s.index(Constant.ES_INDEX_PRODUCTS)
                         .source(c -> c.filter(f -> f.excludes("description")))
                         .query(q -> q.bool(builder.build()))
                         .from((int) ((queryVo.getPageNum() - 1L) * queryVo.getPageSize()))
                         .size((int) queryVo.getPageSize())
                         .highlight(h -> h.fields("title",hf -> hf))
-                        //.highlight(h -> h.fields("h-test",hf -> hf.field("title")))
+                        .sort(sortBuilder.build())
                 ,BiProducts.class);
-
         //total
         Page<BiProducts> page = queryVo.toPage();
+        page.setCurrent(queryVo.getPageNum());
+        page.setSize(queryVo.getPageSize());
         page.setTotal(searchResponse.hits().total().value());
 
         List<Hit<BiProducts>> hitList = searchResponse.hits().hits();
         List<BiProducts> list = new ArrayList<>();
         for(Hit<BiProducts> hit : hitList){
-            list.add(hit.source());
+            //highlight
+            BiProducts products = hit.source();
+            if(CollUtil.isNotEmpty(hit.highlight())){
+                products.setTitle(hit.highlight().get("title").get(0));
+            }
+            list.add(products);
         }
         page.setRecords(list);
         return page;
@@ -262,7 +264,8 @@ public class BiProductsController {
     @PostMapping("/delete")
     @Transactional
     public Boolean delete(@RequestBody @Validated BaseBodyVo baseBodyVo) throws IOException {
-        biProductsService.removeByIds(baseBodyVo.getIds());
+        List<Long> idList = baseBodyVo.getIds();
+        biProductsService.removeByIds(idList);
         //BulkRequest bulkRequest = new BulkRequest();
         //for(Long id : baseBodyVo.getIds()){
             //bulkRequest.add(new DeleteRequest(Constant.ES_INDEX_PRODUCTS,id.toString()));
@@ -273,7 +276,7 @@ public class BiProductsController {
         //productsRepository.deleteAllById(ids);
 
         List<BulkOperation> bulkOperationList = new ArrayList<>();
-        for(Long id : baseBodyVo.getIds()){
+        for(Long id : idList){
             bulkOperationList.add(new BulkOperation.Builder().delete(d ->
                     d.index(Constant.ES_INDEX_PRODUCTS).id(id.toString())).build());
         }
