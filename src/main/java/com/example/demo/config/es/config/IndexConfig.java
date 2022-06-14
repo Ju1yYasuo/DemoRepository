@@ -51,8 +51,8 @@ public class IndexConfig {
                     .fields("suggest",sp -> sp.completion(cp -> cp.analyzer(FieldAnalyzer.IK_MAX_WORD))))));
             documentMap.put("content",Property.of(p -> p.text(xp -> xp.analyzer(FieldAnalyzer.IK_SMART))));
 
-            documentMap.put("createTime",Property.of(p -> p.date(xp -> xp.index(true).format("epoch_millis"))));
-            documentMap.put("updateTime",Property.of(p -> p.date(xp -> xp.index(true).format("epoch_millis"))));
+            documentMap.put("createTime",Property.of(p -> p.date(xp -> xp.index(true).format("date_optional_time||epoch_millis"))));
+            documentMap.put("updateTime",Property.of(p -> p.date(xp -> xp.index(true).format("date_optional_time||epoch_millis"))));
 
             documentMap.put("attachment",Property.of(p -> p.keyword(xp -> xp.index(false))));
             documentMap.put("attachmentType",Property.of(p -> p.keyword(xp -> xp.index(true))));

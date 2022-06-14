@@ -4,6 +4,9 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -69,7 +72,14 @@ public class RestClientConfig {
                 httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
         RestClient restClient = builder.build();
 
-        ElasticsearchTransport transport = new RestClientTransport(restClient,new JacksonJsonpMapper());
+        JacksonJsonpMapper jacksonJsonpMapper = new JacksonJsonpMapper();
+        ObjectMapper mapper = jacksonJsonpMapper.objectMapper();
+        //logstash同步数据会产生的type关键字字段
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        //日期不转为时间戳
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        ElasticsearchTransport transport = new RestClientTransport(restClient,jacksonJsonpMapper);
 
         return new ElasticsearchClient(transport);
         //new ElasticsearchAsyncClient(transport);
