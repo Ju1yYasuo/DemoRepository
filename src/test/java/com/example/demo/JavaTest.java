@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.alibaba.fastjson.*;
 import com.rabbitmq.client.*;
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 
@@ -16,10 +17,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 /**
  * java测试
@@ -28,6 +28,152 @@ import java.util.concurrent.TimeoutException;
  * @date 2021/7/16
  */
 public class JavaTest {
+
+    @Test
+    public void test8(){
+
+        List<Cost> costList = new ArrayList<>();
+
+        costList.add(Cost.builder().cost(new BigDecimal("34.6")).orgId(5001).timeType(0).totalMonth("2022-06").type(0).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.9")).orgId(5001).timeType(1).totalMonth("2022-06").type(0).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.3")).orgId(5001).timeType(2).totalMonth("2022-06").type(0).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.7")).orgId(5001).timeType(0).totalMonth("2022-06").type(1).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.1")).orgId(5001).timeType(1).totalMonth("2022-06").type(1).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.4")).orgId(5001).timeType(2).totalMonth("2022-06").type(1).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.2")).orgId(5001).timeType(1).totalMonth("2022-06").type(2).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.8")).orgId(5001).timeType(0).totalMonth("2022-06").type(2).build());
+        costList.add(Cost.builder().cost(new BigDecimal("34.5")).orgId(5001).timeType(2).totalMonth("2022-06").type(2).build());
+
+        costList.add(Cost.builder().cost(new BigDecimal("24.6")).orgId(5002).timeType(0).totalMonth("2022-06").type(0).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.7")).orgId(5002).timeType(0).totalMonth("2022-06").type(1).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.8")).orgId(5002).timeType(0).totalMonth("2022-06").type(2).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.9")).orgId(5002).timeType(1).totalMonth("2022-06").type(0).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.1")).orgId(5002).timeType(1).totalMonth("2022-06").type(1).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.2")).orgId(5002).timeType(1).totalMonth("2022-06").type(2).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.3")).orgId(5002).timeType(2).totalMonth("2022-06").type(0).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.4")).orgId(5002).timeType(2).totalMonth("2022-06").type(1).build());
+        costList.add(Cost.builder().cost(new BigDecimal("24.5")).orgId(5002).timeType(2).totalMonth("2022-06").type(2).build());
+
+        /*
+
+        print(costList.stream().collect(Collectors.groupingBy(Cost::getType,Collectors.groupingBy(Cost::getTimeType,
+                //会缺失精度
+                Collectors.summingDouble(c -> c.getCost().doubleValue())))));
+
+        print(costList.stream().collect(Collectors.groupingBy(Cost::getType,Collectors.groupingBy(Cost::getTimeType)))
+                .values().stream().map(tMap ->
+                        tMap.values().stream().map(m ->
+                                        //reduce第一个参数是初始值，第二个参数是累计值，第三个参数是Next Element
+                                        m.stream().map(Cost::getCost).reduce(BigDecimal.ZERO,BigDecimal::add))
+                                .collect(Collectors.toList()))
+                .collect(Collectors.toList()));
+
+        print(costList.stream().collect(Collectors.groupingBy(Cost::getType,Collectors.groupingBy(Cost::getTimeType)))
+                .entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                        entry1 -> getAsd(entry1.getValue())
+                ))
+        );
+
+        print(costList.stream().collect(Collectors.groupingBy(Cost::getType,Collectors.groupingBy(Cost::getTimeType)))
+                .entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                        e -> e.getValue().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                                entry -> entry.getValue().stream().map(Cost::getCost).reduce(BigDecimal.ZERO,BigDecimal::add)))
+                ))
+        );
+        */
+
+        List<CostVo> costVoList = new ArrayList<>();
+        costList.stream().collect(Collectors.groupingBy(Cost::getType, Collectors.groupingBy(Cost::getTimeType)))
+                .forEach((key, value) -> {
+                    CostVo costVo = new CostVo();
+                    costVo.setType(key);
+
+                    List<CostVo.TimeTypeVo> timeTypeVoList = new ArrayList<>();
+                    value.forEach((key1 , value2) -> {
+                        CostVo.TimeTypeVo timeTypeVo = new CostVo.TimeTypeVo();
+                        timeTypeVo.setTimeType(key1);
+                        timeTypeVo.setTotal(value2.stream().map(Cost::getCost).reduce(BigDecimal.ZERO,BigDecimal::add));
+                        timeTypeVoList.add(timeTypeVo);
+
+                    });
+                    costVo.setTimeTypeVoList(timeTypeVoList);
+                    costVoList.add(costVo);
+                });
+        print(JsonUtil.toJsonString(costVoList));
+
+
+        List<CostVo> costVoList1 = new ArrayList<>();
+        costList.stream().collect(Collectors.groupingBy(Cost::getType,
+                Collectors.groupingBy(Cost::getOrgId)))
+                .forEach((key,value) -> {
+                    CostVo costVo = new CostVo();
+                    costVo.setType(key);
+
+                    List<CostVo.OrgVo> orgVoList = new ArrayList<>();
+                    value.forEach((key1,value1) -> {
+                        CostVo.OrgVo orgVo = new CostVo.OrgVo();
+                        orgVo.setOrgId(key1);
+
+                        List<CostVo.OrgVo.orgTimeTypeVo> orgTimeTypeVoList = new ArrayList<>();
+                        value1.forEach(cost -> {
+                            CostVo.OrgVo.orgTimeTypeVo orgTimeTypeVo = new CostVo.OrgVo.orgTimeTypeVo();
+                            orgTimeTypeVo.setTimeType(cost.getTimeType());
+                            orgTimeTypeVo.setCost(cost.getCost());
+                            orgTimeTypeVoList.add(orgTimeTypeVo);
+                        });
+                        orgVo.setOrgTimeTypeVoList(orgTimeTypeVoList);
+                        orgVoList.add(orgVo);
+                    });
+                    costVo.setOrgVoList(orgVoList);
+                    costVoList1.add(costVo);
+                });
+
+        print(JsonUtil.toJsonString(costVoList1));
+        costVoList.forEach(costVo -> {
+            costVoList1.forEach(costVo1 -> {
+                if(costVo.getType().equals(costVo1.getType())){
+                    costVo.setOrgVoList(costVo1.getOrgVoList());
+                }
+            });
+        });
+        print(JsonUtil.toJsonString(costVoList));
+    }
+
+    @Data
+    public static class CostVo{
+        private Integer type;
+        private List<TimeTypeVo> timeTypeVoList;
+        private List<OrgVo> orgVoList;
+        @Data
+        public static class TimeTypeVo{
+            private Integer timeType;
+            private BigDecimal total;
+        }
+        @Data
+        public static class OrgVo{
+            private Integer orgId;
+            private List<orgTimeTypeVo> orgTimeTypeVoList;
+            @Data
+            public static class orgTimeTypeVo{
+                private Integer timeType;
+                private BigDecimal cost;
+            }
+        }
+
+    }
+
+    private Map<Integer,BigDecimal> getAsd(Map<Integer,List<Cost>> costMap){
+        Map<Integer,BigDecimal> valMap2 = new HashMap<>();
+        for(Map.Entry<Integer,List<Cost>> entry2 : costMap.entrySet()){
+            valMap2.put(entry2.getKey(),
+                    entry2.getValue().stream().map(Cost::getCost).reduce(BigDecimal.ZERO,BigDecimal::add));
+        }
+        //在流中修改外部变量无效
+        //costMap.entrySet().stream().map(entry2 -> valMap2.put(entry2.getKey(),
+        //        entry2.getValue().stream().map(Cost::getCost).reduce(BigDecimal.ZERO,BigDecimal::add)));
+
+        return valMap2;
+    }
 
     @Test
     public void test7() throws UnsupportedEncodingException {
