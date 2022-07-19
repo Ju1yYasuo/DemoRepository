@@ -18,7 +18,7 @@ import java.util.Date;
 //@Document(indexName = Constant.ES_INDEX_PRODUCTS)
 //@Setting(
 //        shards = 1, // 默认索引分区数
-//        replicas = 1, // 每个分区的备份数
+//        replicas = 0, // 每个分区的备份数
 //        refreshInterval = "-1" // 刷新间隔
 //)
 //@Mapping(mappingPath = "/es/mapping/products.json")

@@ -17,7 +17,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<lombok>1.18.8</lombok>
 		<mysql>8.0.11</mysql>
 		<fastjson>1.2.41</fastjson>

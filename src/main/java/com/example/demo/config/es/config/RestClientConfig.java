@@ -71,7 +71,7 @@ public class RestClientConfig {
         RestClientBuilder builder = RestClient.builder(new HttpHost(url, port)).setHttpClientConfigCallback(
                 httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
         RestClient restClient = builder.build();
-
+        //配置JacksonJson
         JacksonJsonpMapper jacksonJsonpMapper = new JacksonJsonpMapper();
         ObjectMapper mapper = jacksonJsonpMapper.objectMapper();
         //logstash同步数据会产生的type关键字字段

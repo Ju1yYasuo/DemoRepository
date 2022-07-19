@@ -125,41 +125,38 @@ public class EsController {
     //    SearchSourceBuilder ssb = new SearchSourceBuilder();
     //
     //    //searchAfter分页，视图原理，也可以手动工具类实现
-    //    //PointInTimeBuilder pointInTimeBuilder = new PointInTimeBuilder("");
-    //    //pointInTimeBuilder.setKeepAlive(TimeValue.timeValueMinutes(5L));
-    //    //ssb.pointInTimeBuilder(pointInTimeBuilder);
-    //    //ssb.searchAfter(new Object[]{4,3});
+        //ssb.searchAfter(new Object[]{4,3});
     //    //scroll滚动分页,视图原理
-    //    /*Scroll scroll = new Scroll(TimeValue.timeValueMinutes(5L));
-    //    //searchRequest.scroll(scroll);
-    //    MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
-    //    ssb.query(matchAllQueryBuilder);
-    //    //每次滚动两条文档
-    //    ssb.size(2);
-    //    searchRequest.source(ssb);
-    //    SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
-    //    String scrollId = response.getScrollId();
-    //    SearchHit[] searchHits = response.getHits().getHits();
-    //    System.out.println(response.getHits().getTotalHits());
-    //    for (SearchHit searchHit : searchHits) {
-    //        System.out.println(searchHit.getSourceAsString());
-    //    }
-    //    int i=1;
-    //    while (searchHits.length > 0) {
-    //        SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-    //        scrollRequest.scroll(scroll);
-    //        response = client.scroll(scrollRequest, RequestOptions.DEFAULT);
-    //        //scrollId不会变
-    //        //scrollId = response.getScrollId();
-    //        searchHits = response.getHits().getHits();
-    //        for (SearchHit searchHit : searchHits) {
-    //            i++;
-    //            System.out.println(searchHit.getSourceAsString());
-    //        }
-    //        if (i > dto.getSize()) {
-    //            break;
-    //        }
-    //    }*/
+        /*Scroll scroll = new Scroll(TimeValue.timeValueMinutes(5L));
+        //searchRequest.scroll(scroll);
+        MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+        ssb.query(matchAllQueryBuilder);
+        //每次滚动两条文档
+        ssb.size(2);
+        searchRequest.source(ssb);
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+        String scrollId = response.getScrollId();
+        SearchHit[] searchHits = response.getHits().getHits();
+        System.out.println(response.getHits().getTotalHits());
+        for (SearchHit searchHit : searchHits) {
+            System.out.println(searchHit.getSourceAsString());
+        }
+        int i=1;
+        while (searchHits.length > 0) {
+            SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+            scrollRequest.scroll(scroll);
+            response = client.scroll(scrollRequest, RequestOptions.DEFAULT);
+            //scrollId不会变
+            //scrollId = response.getScrollId();
+            searchHits = response.getHits().getHits();
+            for (SearchHit searchHit : searchHits) {
+                i++;
+                System.out.println(searchHit.getSourceAsString());
+            }
+            if (i > dto.getSize()) {
+                break;
+            }
+        }*/
     //
     //    //from,size分页，数据量大，深度分页不适用
     //    ssb.from(dto.getCurrent() - 1);

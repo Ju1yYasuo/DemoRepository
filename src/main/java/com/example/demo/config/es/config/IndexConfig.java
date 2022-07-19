@@ -45,7 +45,7 @@ public class IndexConfig {
             documentMap.put("orgId",Property.of(p -> p.keyword(xp -> xp.index(false))));
             documentMap.put("orgName",Property.of(p -> p.keyword(xp -> xp.index(false))));
 
-            documentMap.put("type",Property.of(p -> p.keyword(xp -> xp.index(true))));
+            documentMap.put("kType",Property.of(p -> p.keyword(xp -> xp.index(true))));
 
             documentMap.put("title",Property.of(p -> p.text(xp -> xp.analyzer(FieldAnalyzer.IK_MAX_WORD)
                     .fields("suggest",sp -> sp.completion(cp -> cp.analyzer(FieldAnalyzer.IK_MAX_WORD))))));
@@ -58,7 +58,7 @@ public class IndexConfig {
             documentMap.put("attachmentType",Property.of(p -> p.keyword(xp -> xp.index(true))));
 
             CreateIndexResponse createIndexResponse = client.indices().create(builder -> builder.index(Constant.ES_INDEX_PRODUCTS)
-                    .settings(s -> s.numberOfShards("1").numberOfReplicas("1"))
+                    .settings(s -> s.numberOfShards("1").numberOfReplicas("0"))
                     .mappings(m -> m.properties(documentMap)));
             if(Boolean.TRUE.equals(createIndexResponse.acknowledged())){
                 log.info(Constant.ES_INDEX_PRODUCTS + "索引创建成功。");
