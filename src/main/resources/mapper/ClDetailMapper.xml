@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ClDetailMapper">
+
+    <select id="getRepeatDetail" resultType="com.example.demo.entity.ClDetail">
+        SELECT
+        cd1.*
+        FROM
+        cl_detail cd1
+        INNER JOIN (
+        SELECT
+        费用项目编码,报销人,出发日期,到达日期,
+        count( 0 )
+        FROM
+        cl_detail
+        WHERE
+        审批状态描述 = '审批通过'
+        AND 利润中心 = '6530001000'
+        AND 出发日期 IS NOT NULL
+        AND 到达日期 IS NOT NULL
+        GROUP BY
+        费用项目编码,报销人,出发日期,到达日期
+        HAVING
+        count( 0 ) > 1
+        ) cdg ON cd1.费用项目编码 = cdg.费用项目编码
+        AND cd1.报销人 = cdg.报销人
+        AND cd1.出发日期 = cdg.出发日期
+        AND cd1.到达日期 = cdg.到达日期
+        WHERE
+        cd1.审批状态描述 = '审批通过'
+        AND cd1.利润中心 = '6530001000'
+        AND cd1.出发日期 IS NOT NULL
+        AND cd1.到达日期 IS NOT NULL
+        ORDER BY
+        费用项目编码,报销人,出发日期,到达日期
+    </select>
+</mapper>

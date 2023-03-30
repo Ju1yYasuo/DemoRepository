@@ -1,0 +1,28 @@
+{
+  "properties" : {
+    "id" : {
+      "type" : "long"
+    },
+    "price" : {
+      "type" : "double"
+    },
+    "title" : {
+      "type" : "text",
+      "analyzer" : "ik_max_word",
+      "fields": {
+        "suggest" : {
+          "type" : "completion",
+          "analyzer": "ik_max_word"
+        }
+      }
+    },
+    "createTime" : {
+      "type" : "date",
+      "format" : "date_optional_time||epoch_millis"
+    },
+    "description" : {
+      "type" : "text",
+      "analyzer" : "ik_smart"
+    }
+  }
+}

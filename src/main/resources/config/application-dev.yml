@@ -1,0 +1,92 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+          username: root
+          password: julyyasuo
+          driver: com.mysql.cj.jdbc.Driver
+#
+#          url: jdbc:mysql://172.16.2.11:3306/zhf-gkpt?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+#          username: root
+#          password: 9Tg($<77x+N.
+#          driver: com.mysql.cj.jdbc.Driver
+#          driver: com.p6spy.engine.spy.P6SpyDriver
+          #connectionInitSqls: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+#        ds1:
+#          url: jdbc:p6spy:mysql://172.16.2.11:3306/egin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+#          url: jdbc:mysql://172.16.2.11:3306/egin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+#          username: root
+#          password: 9Tg($<77x+N.
+#          driver: com.mysql.cj.jdbc.Driver
+#        dm1:
+#          url: jdbc:dm://172.16.2.23:5236/DMHR
+#          username: SYSDBA
+#          password: 123456789
+#          driver: dm.jdbc.driver.DmDriver
+
+#  rabbitmq:
+#    host: 172.16.2.11
+#    port: 5672
+#    username: luoxin
+#    password: luoxin
+#    virtualHost: luoxin_test
+#    #开启消息确认机制 confirm异步
+#    publisher-confirm-type: correlated
+#    #开启return机制
+#    publisher-returns: true
+#    #开启手动确认消息
+#    listener:
+#      direct:
+#        acknowledge-mode: manual
+
+#    publisher-confirms: true
+#    template:
+#      retry:
+#        enabled: true
+#        initial-interval: 10000ms
+#        max-interval: 300000ms
+#        multiplier: 2
+#     retry：失败重试
+#        enabled：开启失败重试
+#        initial-interval：第一次重试的间隔时长
+#        max-interval：最长重试间隔，超过这个间隔将不再重试
+#        multiplier：下次重试间隔的倍数，此处是2即下次重试间隔是上次的2倍
+#     exchange：缺省的交换机名称，此处配置后，发送消息如果不指定交换机就会使用这个
+
+  #  cache:
+  #    type: ehcache
+  #    ehcache:
+  #      config: classpath:/config/ehcache.xml
+  #  type: ehcache
+  #    ehcache:
+  #      config: classpath:/config/ehcache.xml
+#  redis:
+#    host: 172.16.2.21
+#    port: 6379
+#    password: admin
+#    timeout: 5000
+
+#  minio:
+#    endpoint: http://172.16.2.86
+#    port: 9000
+#    accessKey: XEkVxlpj6MJgsMcV
+#    secretKey: sKFb9wWxv9csBV4j2cOwpSRTX0neo2yb
+#    secure: false
+#    bucket: jlt
+
+#  被es java api bean配置取代
+  elasticsearch:
+    enabled: false
+    rest:
+#      uris: http://localhost:9200
+      url: localhost
+      port: 9200
+      username: elastic
+      password: julyyasuo

@@ -1,0 +1,21 @@
+{
+  "outPath": "J:\\smartDoc\\Demo",
+  "serverUrl": "http://localhost:8082",
+  "allInOne": true,
+  "projectName": "Demo",
+  "requestHeaders": [
+    {
+      "name": "satoken",
+      "type": "string",
+      "desc": "sa-token,权限验证",
+      "required": true,
+      "since": "-"
+    }
+  ],
+  "appToken": "deb01f2b49764f779857fe20bae76995",
+  "appKey": "20210625858039573882601472",
+  "secret": "fEsvFwAor%@YW%QRVFjYBL#&0,Htm-rj",
+  "openUrl": "http://172.16.2.11:7700/api",
+  "debugEnvName":"本地环境",
+  "debugEnvUrl":"http://localhost:8082"
+}
