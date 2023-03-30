@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: base,dev
   application:
       name: demo
   http:
@@ -9,12 +9,11 @@ spring:
       enabled: true
       force: true
 
-#打印sql
 mybatis-plus:
-  mapper-locations: classpath:mapper/*/*Mapper.xml
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
   type-aliases-package: com.example.demo.*.entity
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #线程池
 threadPool:
@@ -46,7 +45,6 @@ sa-token:
   # 是否输出操作日志
   is-log: false
 
-
 #用于解码URI的字符编码。
 server:
   tomcat:
@@ -55,3 +53,6 @@ log:
   path: ./logs
 logging:
   config: classpath:config/logback-spring.xml
+  # 仅打印sql
+  level:
+    com.example.demo: debug

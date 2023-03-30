@@ -6,6 +6,7 @@ import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import com.example.demo.util.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author luox
  * @date 2022/6/9
  */
+@ConditionalOnProperty(value = "spring.elasticsearch.enabled",havingValue = "true")
 @Component
 @Slf4j
 public class IndexConfig {

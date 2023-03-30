@@ -83,6 +83,7 @@ spring:
 
 #  被es java api bean配置取代
   elasticsearch:
+    enabled: false
     rest:
 #      uris: http://localhost:9200
       url: localhost

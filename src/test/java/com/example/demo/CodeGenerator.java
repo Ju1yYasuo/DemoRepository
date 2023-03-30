@@ -58,8 +58,8 @@ public class CodeGenerator {
         //generator.setModuleName("bi");
         //generator.setTablePrefix("bi_");
         generator.setTopPackage("com.example.demo");
-        generator.setTables(new String[]{"bi_products"});
-        generator.codeGenerator(Strategy.ID);
+        generator.setTables(new String[]{"cl_detail"});
+        generator.codeGenerator(Strategy.NORMAL);
     }
 
     public void codeGenerator(Strategy fullStrategy) {

@@ -7,52 +7,22 @@ import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
-import co.elastic.clients.elasticsearch.core.search.*;
-import co.elastic.clients.elasticsearch.indices.AnalyzeRequest;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.AnalyzeResponse;
-import co.elastic.clients.util.ObjectBuilder;
-import com.example.demo.config.annotation.ResponseEntity;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.config.annotation.ResponseEntity;
 import com.example.demo.config.es.config.FieldAnalyzer;
-import com.example.demo.util.common.Constant;
-import com.example.demo.util.json.JsonUtil;
-//import org.elasticsearch.action.bulk.BulkRequest;
-//import org.elasticsearch.action.delete.DeleteRequest;
-//import org.elasticsearch.action.get.GetRequest;
-//import org.elasticsearch.action.get.GetResponse;
-//import org.elasticsearch.action.index.IndexRequest;
-//import org.elasticsearch.action.search.SearchRequest;
-//import org.elasticsearch.action.search.SearchResponse;
-//import org.elasticsearch.action.update.UpdateRequest;
-//import org.elasticsearch.client.ElasticsearchClient;
-import org.elasticsearch.client.RequestOptions;
-//import org.elasticsearch.client.RestClient;
-//import org.elasticsearch.client.RestHighLevelClient;
-//import org.elasticsearch.client.indices.AnalyzeRequest;
-//import org.elasticsearch.client.indices.AnalyzeResponse;
-//import org.elasticsearch.index.query.BoolQueryBuilder;
-//import org.elasticsearch.index.query.QueryBuilders;
-//import org.elasticsearch.rest.RestStatus;
-//import org.elasticsearch.search.SearchHit;
-//import org.elasticsearch.search.SearchHits;
-//import org.elasticsearch.search.builder.SearchSourceBuilder;
-//import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-//import org.elasticsearch.search.suggest.SuggestBuilder;
-//import org.elasticsearch.search.suggest.SuggestBuilders;
-//import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
-//import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
-//import org.elasticsearch.xcontent.XContentType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-import com.example.demo.service.BiProductsService;
 import com.example.demo.entity.BiProducts;
+import com.example.demo.service.BiProductsService;
+import com.example.demo.util.common.Constant;
 import com.example.demo.util.vo.BaseBodyVo;
 import com.example.demo.util.vo.BaseQueryVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -65,6 +35,7 @@ import java.util.List;
  * @author luox
  * @since 2022-05-31
  */
+@ConditionalOnProperty(value = "spring.elasticsearch.enabled",havingValue = "true")
 @RestController
 @RequestMapping("/bi_products")
 @ResponseEntity

@@ -46,7 +46,7 @@ public class UserController {
      */
     @GetMapping("/getUser")
     //@SaCheckPermission("sys:user:list")
-    public Page<User> getUser(@Validated BaseQueryVo<User> pageVo, User user) {
+    public Page<User> getUser(@Validated BaseQueryVo<User> pageVo,@Validated User user) {
         //Page<User> page = null;
         //String fuzzySearch = null;
         //if(map.containsKey("current") && map.containsKey("size")){

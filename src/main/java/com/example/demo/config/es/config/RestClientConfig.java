@@ -13,14 +13,9 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
-//import org.elasticsearch.client.RestHighLevelClient;
-//import org.elasticsearch.client.indices.CreateIndexRequest;
-//import org.elasticsearch.client.indices.GetIndexRequest;
-//import org.elasticsearch.common.settings.Settings;
-//import org.elasticsearch.xcontent.XContentBuilder;
-//import org.elasticsearch.xcontent.XContentFactory;
 import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 //import org.springframework.data.elasticsearch.client.ClientConfiguration;
@@ -32,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
  * @author luox
  * @date 2022/5/26
  */
+@ConditionalOnProperty(value = "spring.elasticsearch.enabled",havingValue = "true")
 @Configuration
 public class RestClientConfig {
 
